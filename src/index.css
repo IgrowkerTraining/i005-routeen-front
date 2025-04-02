@@ -1,16 +1,12 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import 'tailwindcss';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@theme {
+  --font-sans: 'Roboto', sans-serif;
+  --color-primary-400: #172b4d;
+  --color-secondary-400: #6d798e;
+  --color-notwhite-400: #f6fffc;
+  --color-notblack-400: #121f33;
+  --color-accent-400: #d8fa02;
 }
 
 a {
@@ -28,6 +24,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #acacac;
 }
 
 h1 {
@@ -42,7 +39,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #cfcece;
   cursor: pointer;
   transition: border-color 0.25s;
 }
