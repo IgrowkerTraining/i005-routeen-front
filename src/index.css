@@ -2,12 +2,28 @@
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @theme {
   --font-sans: 'Roboto', sans-serif;
+  --font-bebas: 'Bebas Neue', sans-serif;
+  --font-conthrax: 'Conthrax', sans-serif;
   --color-primary-400: #172b4d;
   --color-secondary-400: #6d798e;
   --color-notwhite-400: #f6fffc;
   --color-notblack-400: #121f33;
   --color-accent-400: #d8fa02;
 }
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('/fonts/BebasNeue-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Conthrax';
+  src: url('/fonts/Conthrax-SemiBold.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 a {
   font-weight: 500;
