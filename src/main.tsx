@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { AppProvider } from './store/AppContext.tsx'
-import App from './App.tsx'
 import './index.css'
+import { AppRouter } from './router.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AppProvider>
-      <App />
+      <AppRouter />
     </AppProvider>
   </React.StrictMode>
 )
