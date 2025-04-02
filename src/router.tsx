@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Welcome from "./views/Welcome/Welcome";
+// import App from "./App";
 import { Layout } from "./layout/Layout";
 
 export function AppRouter() {
@@ -6,7 +8,7 @@ export function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          {/* <Route path="/" element={<Home/>} index /> */}
+          <Route path="/welcome" element={<Welcome/>} index />
           {/* <Route path="/login" element={} index /> */}
           {/* <Route path="/singup" element={} index /> */}
         </Route>

@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+
 @theme {
   --font-sans: 'Roboto', sans-serif;
   --color-primary-400: #172b4d;
@@ -25,6 +26,10 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: #acacac;
+}
+
+#root{
+  width: 100%;
 }
 
 h1 {
