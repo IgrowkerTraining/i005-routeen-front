@@ -1,5 +1,3 @@
-import Card from './components/Card/Card'
-import './App.css'
 
 function App() {
   return (
@@ -9,7 +7,6 @@ function App() {
       <h1 className="text-3xl underline text-notwhite-400 mb-5">No blanco</h1>
       <h1 className="text-3xl underline text-notblack-400 mb-5">No negro</h1>
       <h1 className="text-3xl underline text-accent-400 mb-5">Acento</h1>
-      <Card />
     </>
   )
 }
