@@ -1,5 +1,6 @@
 import LoginLayout from "./LoginLayout"
 import { Link } from "react-router-dom"
+import Input from "../../components/Input/Input"
 
 export default function LoginTrainer() {
     return (
@@ -7,22 +8,20 @@ export default function LoginTrainer() {
         className="mt-22">
             <div className="flex flex-col items-center gap-3">
                 <div className="flex flex-col items-center w-[370px]">
-                    <input
+                   
+                    <Input
+                        id="email"
                         type="email"
                         placeholder="Ingrese el email"
-                        className="bg-transparent border border-secondary-400 w-full  px-4 py-2 rounded-md text-black placeholder-gray-400"
-                        style={{
-                            boxShadow: 'inset 0 5px 8px -2px rgba(0, 0, 0, 0.2)'
-                        }}
+                        
                     />
                     {/* Hay que crear un custom input para el password*/}
-                    <input
+        
+                    <Input
+                        id="password"
                         type="password"
+                        className="mt-4"
                         placeholder="Ingrese la contraseña"
-                        className="bg-transparent border border-secondary-400 w-full shadow-inner shadow-gray-400 px-4 py-2 rounded-md text-black placeholder-gray-400 mt-4"
-                        style={{
-                            boxShadow: 'inset 0 5px 8px -2px rgba(0, 0, 0, 0.2)'
-                        }}
                     />
                 </div>
                 <button

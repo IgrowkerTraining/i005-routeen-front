@@ -1,11 +1,10 @@
 type LoginLayoutProps = {
-    children: React.ReactNode;
-    className?: string;
-};
+    children: React.ReactNode
+    className?: string
+}
 
 const LoginLayout = ({ children, className }: LoginLayoutProps) => (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center bg-notwhite-400 ">
-
         <img
             src="/images/logo-clear.png"
             alt="Logo decorativo"
@@ -30,8 +29,6 @@ const LoginLayout = ({ children, className }: LoginLayoutProps) => (
             {children}
         </div>
     </div>
-);
+)
 
-
-
-export default LoginLayout;
+export default LoginLayout
