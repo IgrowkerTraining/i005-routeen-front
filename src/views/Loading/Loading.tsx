@@ -1,7 +1,7 @@
-import "./Welcome.css"
-import logo from "../../assets/animacion.gif"
+import "./Loading.css"
+import logo from "../../../public/images/animacion.gif"
 
-const Welcome = () => {
+export const Loading = () => {
   return (
     <div className="welcome_container">
       <div className="logo_container">
@@ -10,5 +10,3 @@ const Welcome = () => {
     </div>
   )
 }
-
-export default Welcome;
