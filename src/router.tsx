@@ -3,6 +3,7 @@ import { Loading } from "./views/Loading/Loading";
 import { Layout } from "./layout/Layout";
 import { LandingPage } from "./views/LandingPage/LandingPage";
 import { LoginAthlete, LoginTrainer } from "./views/Login";
+import Home from "./views/Home/Home";
 
 
 export function AppRouter() {
@@ -15,7 +16,7 @@ export function AppRouter() {
           <Route path="/welcome" element={<Loading />} />
           <Route path="/login/trainer" element={<LoginTrainer />} />
           <Route path="/login/athlete" element={<LoginAthlete />} />
-  
+          <Route path="/home" element={<Home />} />
           {/* <Route path="/singup" element={} index /> */}
         </Route>
       </Routes>
