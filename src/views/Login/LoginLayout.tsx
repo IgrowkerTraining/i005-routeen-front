@@ -14,19 +14,22 @@ const LoginLayout = ({ children, className }: LoginLayoutProps) => (
         <img
             src="/images/logo-black.png"
             alt="Logo decorativo inferior"
-            className="fixed bottom-0 left-10 opacity-10  origin-top-right scale-[1.2] pointer-events-none select-none"
+            className="fixed bottom-0 left-10 opacity-10  origin-top-right scale-[1.2]"
         />
 
-        <img
-            src="/images/logo-clear.png"
-            alt="Logo decorativo central"
-            className="fixed top-[280px] left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[0.4]"
-        />
-
-        <div className={`z-10 flex flex-col items-center text-center ${className}`}>
-            <h2 className="text-6xl font-conthrax w-max">ROUTEEN</h2>
-            <h2 className="text-[19px] font-bebas tracking-[0.45em] mb-5 ransform scale-y-125">-FITNESS MANAGER-</h2>
-            {children}
+        <div className="flex flex-col items-center justify-center w-full gap-2 ">
+            <div className="flex flex-col justify-end">
+                <img
+                    src="/images/logo-clear.png"
+                    alt="Logo decorativo central"
+                    className="w-[160px]"
+                />
+            </div>
+            <div className={`z-10 flex flex-col items-center text-center ${className}`}>
+                <h2 className="text-6xl font-conthrax w-max">ROUTEEN</h2>
+                <h2 className="text-[19px] font-bebas tracking-[0.45em] mb-5 ransform scale-y-125">-FITNESS MANAGER-</h2>
+                {children}
+            </div>
         </div>
     </div>
 )
