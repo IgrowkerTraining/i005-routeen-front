@@ -1,7 +1,27 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
+import { useState } from "react";
 
 export function Singup() {
+    const navigate = useNavigate()
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [passwordRepeat, setPasswordRepeat] = useState("")
+
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault()
+        if (password === passwordRepeat) {
+            console.log("Creando cuenta...")
+        } else{
+            console.log('Las contraseñas no coinciden')
+            return
+        }
+
+        setTimeout(() => {
+            navigate("/home")
+        }, 500)
+    }
     
     return (
         <>
@@ -14,18 +34,21 @@ export function Singup() {
                 <p className="mb-4 text-gray-700">
                     Antes de comenzar completa las siguientes informaciones:
                 </p>
-                <form className="flex flex-col gap-4">
+                <form className="flex flex-col gap-4" onSubmit={handleLogin}>
                     <Input
                         type="text"
                         placeholder="Ingrese e-mail"
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <Input
                         type="password"
                         placeholder="Ingrese contraseña"
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                     <Input
                         type="password"
                         placeholder="Confirmar contraseña"
+                        onChange={(e) => setPasswordRepeat(e.target.value)}
                     />
 
                     <div className="flex justify-center">
