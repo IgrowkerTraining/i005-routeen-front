@@ -4,8 +4,8 @@ import HomeAthlete from "./HomeAthlete"
 import HomeTrainer from "./HomeTrainer"
 
 const user = {
-    rol: "atleta",
-     //rol: "entrenador",
+    //rol: "atleta",
+     rol: "entrenador",
 }
 export default function Home() {
     return (
