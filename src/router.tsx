@@ -11,8 +11,8 @@ export function AppRouter() {
       <Routes>
 
         <Route element={<Layout />}>
-          <Route path="/" element={<LandingPage />} index />
-          <Route path="/welcome" element={<Loading />} />
+          <Route path="/welcome" element={<LandingPage />} index />
+          <Route path="/" element={<Loading />} />
           <Route path="/login/trainer" element={<LoginTrainer />} />
           <Route path="/login/athlete" element={<LoginAthlete />} />
   
