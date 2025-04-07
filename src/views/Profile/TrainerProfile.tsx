@@ -6,12 +6,13 @@ import { useNavigate } from "react-router-dom"
 export default function TrainerProfile() {
     const navigate = useNavigate()
     const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [birthday, setBirthday] = useState("")
+    const [phone, setPhone] = useState("")
+    const [profession, setProfession] = useState("")
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleContinue = (e: React.FormEvent) => {
         e.preventDefault()
-        console.log("Loggin in...")
+        console.log("...")
 
         setTimeout(() => {
             navigate("/home")
@@ -19,8 +20,9 @@ export default function TrainerProfile() {
 
     }
     return (
-        <form className="flex h-screen justify-between flex-col px-4 pb-4">
-
+        <form
+            onSubmit={handleContinue}
+            className="flex h-screen justify-between flex-col px-4 pb-4">
             <section className="flex  items-center w-full gap-5">
 
                 <h2 className="text-[30px] text-notblack-400 ">
@@ -36,25 +38,25 @@ export default function TrainerProfile() {
                     onChange={(e) => setName(e.target.value)}
                 />
                 <Input
-                    id="email"
-                    type="email"
-                    placeholder="Ingrese el e-mail"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    id="birthday"
+                    type="date"
+                    placeholder="Fecha de nacimiento"
+                    value={birthday}
+                    onChange={(e) => setBirthday(e.target.value)}
                 />
                 <Input
                     id="phone"
-                    type="number"
+                    type="tel"
                     placeholder="Teléfono"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
                 />
                 <Input
                     id="profession"
                     type="text"
                     placeholder="Profesión"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={profession}
+                    onChange={(e) => setProfession(e.target.value)}
                 />
             </div>
             <section className="flex justify-between items-center w-full gap-5 p-3">
