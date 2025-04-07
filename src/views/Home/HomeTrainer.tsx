@@ -6,14 +6,15 @@ export default function HomeTrainer() {
     return (
         <main className="flex flex-col px-4 pb-2 gap-6">
 
-            <section className="flex justify-start items-center w-full gap-5 undefined">
+            <section className="flex justify-start items-center w-full gap-5">
 
-                <h2 className="text-[40px] text-center  font-title">
+                <h2 className="text-[30px] text-notblack-400 ">
                     Lista de Alumnos
                 </h2>
             </section>
             <div className="flex justify-center items-center gap-2 w-full">
                 <div className="relative w-full">
+                    {/* Añadir logica del buscador */}
                     <Input
                         type="text"
                         placeholder="Buscar Alumno..."

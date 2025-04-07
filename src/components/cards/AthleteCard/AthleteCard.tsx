@@ -1,6 +1,9 @@
 import { athletes } from '../../../mock-data/athletes';
 
 export default function AthleteCard() {
+    const handleGearClick = (id: number) => {
+        console.log(`Gear clicked for athlete with id: ${id}`);
+    }
     return (
         <div className="flex flex-col w-full gap-4">
             {athletes.map((athlete) => (
@@ -24,8 +27,13 @@ export default function AthleteCard() {
                         </div>
                     </div>
 
-                    {/* Icono Bootstrap con clases Tailwind */}
-                    <i className="bi bi-gear text-primary-400 text-2xl"></i>
+                    <button
+                        onClick={() => handleGearClick(Number(athlete.id))}
+                        className="cursor-pointer w-[40px] h-[40px] hover:bg-secondary-400 hover:opacity-50 rounded-full transition duration-300 ease-in-out transform"
+                        aria-label="Opciones"
+                    >
+                        <i className="bi bi-gear text-primary-400 text-2xl"></i>
+                    </button>
                 </div>
             ))}
         </div>
