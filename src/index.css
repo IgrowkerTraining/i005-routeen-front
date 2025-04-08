@@ -30,8 +30,9 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+
   background-color: #f6fffc;
+  /* background-color: #acacac; */
 }
 
 #root{
@@ -46,7 +47,7 @@ h1 {
 /* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #ffffff; 
   }
   a:hover {
     color: #747bff;
