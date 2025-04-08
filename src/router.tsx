@@ -22,7 +22,7 @@ export function AppRouter() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/welcome" element={<LandingPage />} index />
           <Route path="/" element={<Loading />} />
-          <Route path="/singup" element={<Singup />} 
+          <Route path="/singup" element={<Singup />} />
         </Route>
       </Routes>
     </BrowserRouter>
