@@ -8,14 +8,13 @@ import Profile from "./views/Profile/Profile";
 import { Singup } from "./views/SingUp/Singup";
 
 
+
 export function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-
         <Route element={<Layout />}>
           <Route path="/" element={<LandingPage />} index />
-          <Route path="/welcome" element={<Loading />} />
           {/* habrá que manejar el login de otra manera */}
           <Route path="/login/trainer" element={<LoginTrainer />} />
           <Route path="/login/athlete" element={<LoginAthlete />} />
@@ -23,9 +22,7 @@ export function AppRouter() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/welcome" element={<LandingPage />} index />
           <Route path="/" element={<Loading />} />
-          <Route path="/login/trainer" element={<LoginTrainer />} />
-          <Route path="/login/athlete" element={<LoginAthlete />} />
-          <Route path="/singup" element={<Singup />} />
+          <Route path="/singup" element={<Singup />} 
         </Route>
       </Routes>
     </BrowserRouter>
