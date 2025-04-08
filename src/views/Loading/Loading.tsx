@@ -9,7 +9,7 @@ export const Loading = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/welcome")
-    }, 4000)
+    }, 2000)
 
     return () => clearTimeout(timer)
   }, [navigate])

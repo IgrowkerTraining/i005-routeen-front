@@ -6,7 +6,7 @@ export const MiComponente = () => {
   const { store, actions } = useAppContext()
 
   const handleClick = () => {
-    actions.showToast(1) 
+    actions.showToast(3) 
   }
 
   return (
