@@ -26,9 +26,9 @@ export const Button = ({
     }
     const content = (
         <span
-            className={`rounded-lg px-4 py-2 flex items-center justify-center ${buttonVariants[variant]} ${className}`}
+            className={`rounded-lg px-4 py-2  flex items-center justify-center ${buttonVariants[variant]} ${className}`}
         >
-            {icon && <span className="mr-2">{icon}</span>}
+            {icon && <span className="text-lg mr-2">{icon}</span>}
             {text}
         </span>
     );
@@ -38,7 +38,7 @@ export const Button = ({
             {content}
         </Link>
     ) : (
-        <button onClick={onClick} type={submit ? 'submit' : 'button'} className="inline-block">{content}</button>
+        <button onClick={onClick} type={submit ? 'submit' : 'button'} className="w-full">{content}</button>
     );
 }
 
