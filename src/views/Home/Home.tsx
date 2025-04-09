@@ -1,19 +1,19 @@
-// import { useContext } from "react"  
-//import { AuthContext } from "../context/AuthContext"
+import { useAuth } from '../../store/AuthContext';
 import HomeAthlete from "./HomeAthlete"
 import HomeTrainer from "./HomeTrainer"
+import { Navigate } from 'react-router-dom';
 
-const user = {
-    rol: "atleta",
-     //rol: "entrenador",
-}
 export default function Home() {
+    const { user } = useAuth();
+
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
+
     return (
         <div>
-            {user.rol === "entrenador" ? <HomeTrainer /> : <HomeAthlete />}
+            {user.role === "trainer" ? <HomeTrainer /> : <HomeAthlete />}
         </div>
-    )
-    //const { user } = useContext(AuthContext)
-
+    );
 }
 
