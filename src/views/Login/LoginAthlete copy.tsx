@@ -1,15 +1,18 @@
 import LoginLayout from "./LoginLayout"
-import { useNavigate } from "react-router-dom"
 import Input from "../../components/Input/Input"
 import { Button } from "../../components/Button/Button"
+import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { useAuth } from "../../store/AuthContext"
 import authAthlete from "../../logic/auth/authAthlete"
 import { AuthAthleteInput } from "../../logic/interfaces/auth"
 
-export default function LoginAthlete() {
+export default function LoginAthlete2() {
     const navigate = useNavigate()
+    const { login } = useAuth()
     const [otpCode, setOtpCode] = useState("")
     const [error, setError] = useState("")
+
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -21,7 +24,12 @@ export default function LoginAthlete() {
 
         try {
             const res = await authAthlete(data)
-            localStorage.setItem("token", res.token)
+
+            login({
+                role: 'athlete',
+                token: res.token
+            })
+
             navigate("/home")
         } catch (err: any) {
             console.error(err)
@@ -30,26 +38,26 @@ export default function LoginAthlete() {
     }
 
     return (
-        <LoginLayout className="">
-            <form onSubmit={handleLogin} className="flex flex-col items-center gap-3 ">
+        <LoginLayout>
+            <form onSubmit={handleLogin} className="flex flex-col items-center mt-2">
                 <div className="flex flex-col items-center w-[370px]">
                     <Input
-                        id="otpCode"
+                        id="code"
                         type="text"
-                        placeholder="Ingrese su código OTP"
+                        placeholder="Ingrese el código brindado por el entrenador"
                         value={otpCode}
                         onChange={(e) => setOtpCode(e.target.value)}
                     />
                 </div>
-
                 {error && (
                     <p className="text-red-500 text-sm">{error}</p>
                 )}
 
-                <div className="flex flex-col gap-4 w-full">
+
+                <div className="flex flex-col gap-4 w-full mt-4">
                     <Button
                         submit
-                        text="Ingresar"
+                        text="Iniciar sesión"
                         variant="primary"
                     />
                 </div>
