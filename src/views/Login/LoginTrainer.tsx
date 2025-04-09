@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import Input from "../../components/Input/Input"
 import { Button } from "../../components/Button/Button"
 import { useState } from "react"
-import authTrainer from "../../logic/auth/authTrainer" // 👈 importa tu lógica
+import authTrainer from "../../logic/auth/authTrainer"
 import { AuthTrainerInput } from "../../logic/interfaces/auth"
 
 export default function LoginTrainer() {
@@ -13,23 +13,23 @@ export default function LoginTrainer() {
     const [error, setError] = useState("")
 
     const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setError("") // Limpiar errores previos
+        e.preventDefault();
+        setError("");
 
         const data: AuthTrainerInput = {
             email,
             password,
-        }
-        console.log(data)
+        };
+
         try {
-            const res = await authTrainer(data)
-            localStorage.setItem("token", res.token)
-            navigate("/home")
+            await authTrainer(data);
+            navigate("/home");
         } catch (err: any) {
-            console.error(err)
-            setError("Credenciales inválidas o error de conexión")
+            console.error(err);
+            setError("Credenciales inválidas o error de conexión");
         }
-    }
+    };
+
 
     return (
         <LoginLayout className="">

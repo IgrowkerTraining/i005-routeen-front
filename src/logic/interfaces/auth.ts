@@ -6,7 +6,6 @@ export interface AuthTrainerInput {
 }
 
 export interface AuthTrainerResponse {
-    token: string
     trainer: Trainer
 }
 
