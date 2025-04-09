@@ -14,7 +14,7 @@ export function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Loading />} />
+          <Route path="/" element={<Loading />} index />
           <Route path="/login/trainer" element={<LoginTrainer />} />
           <Route path="/login/athlete" element={<LoginAthlete />} />
           <Route path="/home" element={<Home />} />

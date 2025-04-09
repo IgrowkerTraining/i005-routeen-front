@@ -1,10 +1,10 @@
-@import 'tailwindcss';
-@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import "tailwindcss";
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
 @theme {
-  --font-sans: 'Roboto', sans-serif;
-  --font-bebas: 'Bebas Neue', sans-serif;
-  --font-conthrax: 'Conthrax', sans-serif;
+  --font-sans: "Roboto", sans-serif;
+  --font-bebas: "Bebas Neue", sans-serif;
+  --font-conthrax: "Conthrax", sans-serif;
   --color-primary-400: #172b4d;
   --color-secondary-400: #6d798e;
   --color-notwhite-400: #f6fffc;
@@ -12,15 +12,15 @@
   --color-accent-400: #d8fa02;
 }
 @font-face {
-  font-family: 'Bebas Neue';
-  src: url('/fonts/BebasNeue-Regular.ttf') format('truetype');
+  font-family: "Bebas Neue";
+  src: url("/fonts/BebasNeue-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Conthrax';
-  src: url('/fonts/Conthrax-SemiBold.otf') format('truetype');
+  font-family: "Conthrax";
+  src: url("/fonts/Conthrax-SemiBold.otf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -35,7 +35,7 @@ body {
   /* min-height: 100vh; */
 }
 
-#root{
+#root {
   width: 100%;
 }
 
