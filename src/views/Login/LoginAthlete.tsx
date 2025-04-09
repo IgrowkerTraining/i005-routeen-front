@@ -20,9 +20,8 @@ export default function LoginAthlete() {
         }
 
         try {
-            const res = await authAthlete(data)
-            localStorage.setItem("token", res.token)
-            navigate("/home")
+            await authAthlete(data);
+            navigate("/home");
         } catch (err: any) {
             console.error(err)
             setError("Código inválido o error de conexión")

@@ -1,6 +1,5 @@
 import logo from "../../../public/images/logo-clear.png";
 import styles from "./LandingPage.module.css"
-import { MiComponente } from "../../components/NotificationExample/componente";
 
 export const LandingPage = () => {
     return (
@@ -28,7 +27,6 @@ export const LandingPage = () => {
                     Alumno
                 </button>
             </div>
-            <MiComponente/>
         </div>
     )
 }
