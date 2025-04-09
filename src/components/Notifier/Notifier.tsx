@@ -1,6 +1,6 @@
 import { Toast, ToastContainer } from "react-bootstrap"
-
-export type ToastType = "success" | "error" | "info"
+import { ToastType } from "../../types"
+import { FC } from "react"
 
 interface ToastMessage {
   id: number
@@ -9,9 +9,9 @@ interface ToastMessage {
   isVisible: boolean 
 }
 
-interface Props {
-  toasts: ToastMessage[]
-  removeToast: (id: number) => void
+interface ToastNotifierProps {
+  toasts: ToastMessage[];
+  removeToast: (id: number) => void;
 }
 
 const bgColorMap: Record<ToastType, string> = {
@@ -20,7 +20,7 @@ const bgColorMap: Record<ToastType, string> = {
   info: "info",
 }
 
-export const ToastNotifier: React.FC<Props> = ({ toasts, removeToast }) => {
+export const ToastNotifier: FC<ToastNotifierProps> = ({ toasts, removeToast }) => {
   return (
     <ToastContainer position="top-center" className="p-3">
       {toasts

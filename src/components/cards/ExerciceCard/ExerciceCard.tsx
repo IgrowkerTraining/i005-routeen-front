@@ -1,4 +1,4 @@
-import { routines } from '../../../mock-data/exercices';
+import { routines } from '../../../mocks/exercices';
 
 export default function ExerciceCard() {
     return (

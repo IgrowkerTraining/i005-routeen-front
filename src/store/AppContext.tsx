@@ -1,20 +1,16 @@
 import { useContext, createContext, useState, ReactNode, useCallback } from "react"
-import { ToastType } from "../components/Notifier/Notifier"
-
-interface ToastMessage {
-  id: number
-  type: ToastType
-  message: string
-  isVisible: boolean 
-}
+import { athletesMock } from "../mocks/athletes"
+import { Athlete, ToastMessage } from "../types"
 
 interface AppContextType {
   store: {
-    toasts: ToastMessage[]
+    toasts: ToastMessage[],
+    athletes: Athlete[]
   }
   actions: {
-    showToast: (id: number) => void 
-    removeToast: (id: number) => void
+    showToast: (id: number) => void;
+    removeToast: (id: number) => void;
+    searchStudents: (term: string) => void;
   }
 }
 
@@ -25,7 +21,6 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-
 
   const [toasts, setToasts] = useState<ToastMessage[]>([
     {
@@ -47,7 +42,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       isVisible: false
     },
   ])
-
+  const [athletes, setAthletes] = useState<Athlete[]>(athletesMock)
 
   const showToast = useCallback((id: number) => {
     setToasts((prev) =>
@@ -56,8 +51,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       )
     )
   }, [])
-  
-
 
   const removeToast = useCallback((id: number) => {
     setToasts((prev) =>
@@ -67,8 +60,15 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     )
   }, [])
 
-  const store = { toasts } 
-  const actions = { showToast, removeToast }
+  const searchStudents = useCallback((term: string) => {
+    const filteredStudents = athletesMock.filter(athlete => 
+      athlete.name.toLocaleLowerCase().includes(term.toLocaleLowerCase())
+    )
+    setAthletes(filteredStudents)
+  }, [])
+
+  const store = { toasts, athletes } 
+  const actions = { showToast, removeToast, searchStudents }
 
   return (
     <AppContext.Provider value={{ store, actions }}>

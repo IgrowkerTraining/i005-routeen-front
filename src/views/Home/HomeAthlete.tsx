@@ -29,8 +29,7 @@ export default function HomeAthlete() {
                 text="Agregar"
                 variant="primary"
                 onClick={() => console.log("Agregar Alumno")}
-                icon={<i className="bi bi-person-fill-add "></i>
-                }
+                icon={<i className="bi bi-person-fill-add "></i>}
             />
         </main>
 

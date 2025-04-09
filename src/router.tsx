@@ -7,8 +7,6 @@ import Home from "./views/Home/Home";
 import Profile from "./views/Profile/Profile";
 import { Singup } from "./views/SingUp/Singup";
 
-
-
 export function AppRouter() {
   return (
     <BrowserRouter>
