@@ -1,27 +1,38 @@
 import LoginLayout from "./LoginLayout"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Input from "../../components/Input/Input"
 import { Button } from "../../components/Button/Button"
-import { useNavigate } from "react-router-dom"
-import {useState} from "react"
+import { useState } from "react"
+import authTrainer from "../../logic/auth/authTrainer"
+import { AuthTrainerInput } from "../../logic/interfaces/auth"
 
 export default function LoginTrainer() {
     const navigate = useNavigate()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault()
-        console.log("Loggin in...")
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError("");
 
-        setTimeout(() => {
-            navigate("/home")
-        }, 500)
+        const data: AuthTrainerInput = {
+            email,
+            password,
+        };
 
-    }
+        try {
+            await authTrainer(data);
+            navigate("/home");
+        } catch (err: any) {
+            console.error(err);
+            setError("Credenciales inválidas o error de conexión");
+        }
+    };
+
+
     return (
-        <LoginLayout
-            className="">
+        <LoginLayout className="">
             <form onSubmit={handleLogin} className="flex flex-col items-center gap-3 ">
                 <div className="flex flex-col items-center w-[370px]">
 
@@ -32,7 +43,6 @@ export default function LoginTrainer() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    {/* Hay que crear un custom input para el password*/}
 
                     <Input
                         id="password"
@@ -44,20 +54,21 @@ export default function LoginTrainer() {
                     />
                 </div>
 
+                {error && (
+                    <p className="text-red-500 text-sm">{error}</p>
+                )}
+
                 <div className="flex flex-col gap-4 w-full">
                     <Button
                         submit
                         text="Iniciar sesión"
                         variant="primary"
                     />
-                    <Link to="/register"
-                        className="text-primary-400 font-[600] underline underline-offset-1"
-                    >
+                    <Link to="/register" className="text-primary-400 font-[600] underline underline-offset-1">
                         Registrarse
                     </Link>
                 </div>
             </form>
         </LoginLayout>
     )
-
 }

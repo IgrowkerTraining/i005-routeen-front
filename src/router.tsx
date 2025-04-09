@@ -17,7 +17,7 @@ export function AppRouter() {
           <Route path="/login/athlete" element={<LoginAthlete />} />
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/welcome" element={<LandingPage />} />
+          <Route path="/welcome" element={<LandingPage />} index />
           <Route path="/singup" element={<Singup />} />
         </Route>
       </Routes>
