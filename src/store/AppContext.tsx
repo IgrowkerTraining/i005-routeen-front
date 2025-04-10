@@ -25,29 +25,11 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-
-
   const [toasts, setToasts] = useState<ToastMessage[]>([
-    {
-      id: 1,
-      type: "success",
-      message: "Sesión iniciada correctamente.",
-      isVisible: false
-    },
-    {
-      id: 2,
-      type: "error",
-      message: "Ocurrió un error al cargar los datos.",
-      isVisible: false
-    },
-    {
-      id: 3,
-      type: "info",
-      message: "Tu progreso fue actualizado.",
-      isVisible: false
-    },
+    { id: 1, type: "success", message: "Sesión iniciada correctamente.", isVisible: false },
+    { id: 2, type: "error", message: "Ocurrió un error al cargar los datos.", isVisible: false },
+    { id: 3, type: "info", message: "Tu progreso fue actualizado.", isVisible: false },
   ])
-
 
   const showToast = useCallback((id: number) => {
     setToasts((prev) =>
@@ -56,8 +38,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       )
     )
   }, [])
-  
-
 
   const removeToast = useCallback((id: number) => {
     setToasts((prev) =>
@@ -67,7 +47,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     )
   }, [])
 
-  const store = { toasts } 
+  const store = { toasts }
   const actions = { showToast, removeToast }
 
   return (

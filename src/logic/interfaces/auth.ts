@@ -6,10 +6,21 @@ export interface AuthTrainerInput {
 }
 
 export interface AuthTrainerResponse {
-    token: string
     trainer: Trainer
 }
 
 export interface AuthAthleteInput {
     otp_code: string
 }
+
+export interface AuthAthleteResponse {
+    athlete: {
+        role: string;
+        _id: string;
+        name: string;
+        email: string;
+        phone: string;
+        [key: string]: any;
+    }
+}
+

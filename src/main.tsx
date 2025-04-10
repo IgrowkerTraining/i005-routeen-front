@@ -8,10 +8,10 @@ import { AuthProvider } from './store/AuthContext.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-      <AppProvider>
-        <AuthProvider>
-          <AppRouter />
-        </AuthProvider>
-      </AppProvider>
+    <AppProvider>
+      <AuthProvider>
+        <AppRouter />
+      </AuthProvider>
+    </AppProvider>
   </React.StrictMode>
 )

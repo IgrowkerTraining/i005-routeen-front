@@ -1,18 +1,15 @@
 import LoginLayout from "./LoginLayout"
+import { useNavigate } from "react-router-dom"
 import Input from "../../components/Input/Input"
 import { Button } from "../../components/Button/Button"
-import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { useAuth } from "../../store/AuthContext"
 import authAthlete from "../../logic/auth/authAthlete"
 import { AuthAthleteInput } from "../../logic/interfaces/auth"
 
-export default function LoginAthlete2() {
+export default function LoginAthlete() {
     const navigate = useNavigate()
-    const { login } = useAuth()
     const [otpCode, setOtpCode] = useState("")
     const [error, setError] = useState("")
-
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -23,41 +20,48 @@ export default function LoginAthlete2() {
         }
 
         try {
-            const res = await authAthlete(data)
+            console.log('Iniciando autenticación...');
+            const response = await authAthlete(data);
+            console.log('Respuesta de autenticación:', response);
 
-            login({
-                role: 'athlete',
-                token: res.token
-            })
+            if (!response || !response.athlete) {
+                throw new Error('No se pudo obtener los datos del atleta');
+            }
 
-            navigate("/home")
+            console.log('Autenticación exitosa, navegando a home...');
+            navigate("/home", { state: { role: 'athlete' } });
         } catch (err: any) {
-            console.error(err)
+            console.error('Error completo:', {
+                message: err.message,
+                status: err.response?.status,
+                data: err.response?.data,
+                config: err.config
+            });
             setError("Código inválido o error de conexión")
         }
     }
 
     return (
-        <LoginLayout>
-            <form onSubmit={handleLogin} className="flex flex-col items-center mt-2">
+        <LoginLayout className="">
+            <form onSubmit={handleLogin} className="flex flex-col items-center gap-3 ">
                 <div className="flex flex-col items-center w-[370px]">
                     <Input
-                        id="code"
+                        id="otpCode"
                         type="text"
-                        placeholder="Ingrese el código brindado por el entrenador"
+                        placeholder="Ingrese su código OTP"
                         value={otpCode}
                         onChange={(e) => setOtpCode(e.target.value)}
                     />
                 </div>
+
                 {error && (
                     <p className="text-red-500 text-sm">{error}</p>
                 )}
 
-
-                <div className="flex flex-col gap-4 w-full mt-4">
+                <div className="flex flex-col gap-4 w-full">
                     <Button
                         submit
-                        text="Iniciar sesión"
+                        text="Ingresar"
                         variant="primary"
                     />
                 </div>

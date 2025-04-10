@@ -1,25 +1,21 @@
-import { useLocation, Navigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { LoginLayout } from './';
-import LoginAthlete2 from './LoginAthlete copy';
-import LoginTrainer2 from './LoginTrainer copy';
-// import LoginTrainer from './LoginTrainer';
-// import LoginAthlete from './LoginAthlete';
+import LoginTrainer from './LoginTrainer';
+import LoginAthlete from './LoginAthlete';
+// import LoginAthlete from './LoginAthlete-sincontext';
+// import LoginTrainer from './LoginTrainer-sincontext';
 
 interface LocationState {
-    role?: 'trainer' | 'athlete';
+    rol?: 'trainer' | 'athlete';
 }
 
 const Login = () => {
     const location = useLocation();
-    const { role } = (location.state as LocationState) || {};
-
-    if (!role) {
-        return <Navigate to="/" replace />;
-    }
+    const { rol } = (location.state as LocationState) || {};
 
     return (
         <LoginLayout>
-            {role === 'trainer' ? <LoginTrainer2 /> : <LoginAthlete2 />}
+            {rol === 'trainer' ? <LoginTrainer /> : <LoginAthlete/>}
         </LoginLayout>
     );
 };

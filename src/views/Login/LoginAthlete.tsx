@@ -5,9 +5,12 @@ import { Button } from "../../components/Button/Button"
 import { useState } from "react"
 import authAthlete from "../../logic/auth/authAthlete"
 import { AuthAthleteInput } from "../../logic/interfaces/auth"
+import { useAuth } from "../../store/AuthContext"
 
 export default function LoginAthlete() {
     const navigate = useNavigate()
+    const { login } = useAuth()
+
     const [otpCode, setOtpCode] = useState("")
     const [error, setError] = useState("")
 
@@ -20,11 +23,16 @@ export default function LoginAthlete() {
         }
 
         try {
-            const res = await authAthlete(data)
-            localStorage.setItem("token", res.token)
-            navigate("/home")
+            await authAthlete(data);      // Backend auth
+            login('athlete');
+            navigate("/home");
         } catch (err: any) {
-            console.error(err)
+            console.error('Error completo:', {
+                message: err.message,
+                status: err.response?.status,
+                data: err.response?.data,
+                config: err.config
+            });
             setError("Código inválido o error de conexión")
         }
     }

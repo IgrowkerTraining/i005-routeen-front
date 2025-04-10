@@ -1,13 +1,13 @@
 import logo from "../../../public/images/logo-clear.png";
 import styles from "./LandingPage.module.css"
-import { MiComponente } from "../../components/NotificationExample/componente";
 import { useNavigate } from "react-router-dom";
+
 
 export const LandingPage = () => {
     const navigate = useNavigate();
 
-    const handleRoleSelection = (role: 'trainer' | 'athlete') => {
-        navigate('/login', { state: { role } });
+    const handleRoleSelection = (rol: 'trainer' | 'athlete') => {
+        navigate('/login', { state: { rol } });
     };
 
     return (
@@ -37,7 +37,6 @@ export const LandingPage = () => {
                     Alumno
                 </button>
             </div>
-            <MiComponente />
         </div>
     )
 }

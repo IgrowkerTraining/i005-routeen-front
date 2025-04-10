@@ -1,49 +1,46 @@
 import LoginLayout from "./LoginLayout"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Input from "../../components/Input/Input"
 import { Button } from "../../components/Button/Button"
-import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { useAuth } from "../../store/AuthContext"
 import authTrainer from "../../logic/auth/authTrainer"
 import { AuthTrainerInput } from "../../logic/interfaces/auth"
 
-export default function LoginTrainer2() {
+export default function LoginTrainer() {
     const navigate = useNavigate()
-    const { login } = useAuth()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
 
-
     const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setError("")
+        e.preventDefault();
+        setError("");
+
         const data: AuthTrainerInput = {
             email,
             password,
-        }
+        };
+
         try {
-            const res = await authTrainer(data)
-
-            login({
-                role: 'trainer',
-                token: res.token,
-            })
-
-            navigate("/home")
+            console.log('Iniciando autenticación...');
+            await authTrainer(data);
+            console.log('Autenticación exitosa, navegando a home...');
+            navigate("/home", { state: { role: 'trainer' } });
         } catch (err: any) {
-            console.error(err)
+            console.error('Error completo:', {
+                message: err.message,
+                status: err.response?.status,
+                data: err.response?.data,
+                config: err.config
+            });
             setError("Credenciales inválidas o error de conexión")
         }
-    }
+    };
 
     return (
-        <LoginLayout
-            className="">
+        <LoginLayout className="">
             <form onSubmit={handleLogin} className="flex flex-col items-center gap-3 ">
                 <div className="flex flex-col items-center w-[370px]">
-
                     <Input
                         id="email"
                         type="email"
@@ -61,6 +58,7 @@ export default function LoginTrainer2() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+
                 {error && (
                     <p className="text-red-500 text-sm">{error}</p>
                 )}
@@ -71,14 +69,11 @@ export default function LoginTrainer2() {
                         text="Iniciar sesión"
                         variant="primary"
                     />
-                    <Link to="/register"
-                        className="text-primary-400 font-[600] underline underline-offset-1"
-                    >
+                    <Link to="/register" className="text-primary-400 font-[600] underline underline-offset-1">
                         Registrarse
                     </Link>
                 </div>
             </form>
         </LoginLayout>
     )
-
 }

@@ -2,11 +2,11 @@ import useAppContext from "../../store/AppContext"
 import { ToastNotifier } from "../Notifier/Notifier"
 
 
-export const MiComponente = () => {
+export const NotifierExample = () => {
   const { store, actions } = useAppContext()
 
   const handleClick = () => {
-    actions.showToast(1) 
+    actions.showToast(3) 
   }
 
   return (

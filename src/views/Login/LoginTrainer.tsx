@@ -3,39 +3,46 @@ import { Link, useNavigate } from "react-router-dom"
 import Input from "../../components/Input/Input"
 import { Button } from "../../components/Button/Button"
 import { useState } from "react"
-import authTrainer from "../../logic/auth/authTrainer" // 👈 importa tu lógica
+import authTrainer from "../../logic/auth/authTrainer"
 import { AuthTrainerInput } from "../../logic/interfaces/auth"
+import { useAuth } from "../../store/AuthContext"
 
 export default function LoginTrainer() {
     const navigate = useNavigate()
+    const { login } = useAuth()
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
 
     const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setError("") 
+        e.preventDefault();
+        setError("");
 
         const data: AuthTrainerInput = {
             email,
             password,
-        }
-        console.log(data)
+        };
+
         try {
-            const res = await authTrainer(data)
-            localStorage.setItem("token", res.token)
-            navigate("/home")
+            await authTrainer(data);      // Llama al backend
+            login('trainer');
+            navigate("/home"); 
         } catch (err: any) {
-            console.error(err)
+            console.error('Error completo:', {
+                message: err.message,
+                status: err.response?.status,
+                data: err.response?.data,
+                config: err.config
+            });
             setError("Credenciales inválidas o error de conexión")
         }
-    }
+    };
 
     return (
         <LoginLayout className="">
             <form onSubmit={handleLogin} className="flex flex-col items-center gap-3 ">
                 <div className="flex flex-col items-center w-[370px]">
-
                     <Input
                         id="email"
                         type="email"
