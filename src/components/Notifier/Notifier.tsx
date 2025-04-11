@@ -1,3 +1,6 @@
+import { Toast, ToastContainer } from "react-bootstrap"
+import { ToastType } from "../../types"
+import { FC } from "react"
 import React, { useEffect } from "react";
 
 export type ToastType = "success" | "error" | "info";
@@ -9,7 +12,7 @@ interface ToastMessage {
   isVisible: boolean;
 }
 
-interface Props {
+interface ToastNotifierProps {
   toasts: ToastMessage[];
   removeToast: (id: number) => void;
 }
@@ -20,7 +23,7 @@ const bgColorMap: Record<ToastType, string> = {
   info: "bg-blue-500",
 };
 
-export const ToastNotifier: React.FC<Props> = ({ toasts, removeToast }) => {
+export const ToastNotifier: FC<ToastNotifierProps> = ({ toasts, removeToast }) => {
   useEffect(() => {
     const timers: number[] = [];
 

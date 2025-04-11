@@ -1,4 +1,6 @@
-export const athletes = [
+import { Athlete } from "../types";
+
+export const athletesMock: Athlete[] = [
     {
         id: "1",
         name: "Joana Smith",
