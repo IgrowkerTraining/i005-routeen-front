@@ -1,14 +1,13 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Loading } from "./views/Loading/Loading";
-import { Layout } from "./layout/Layout";
-import { LandingPage } from "./views/LandingPage/LandingPage";
-import Home from "./views/Home/Home";
-import Profile from "./views/Profile/Profile";
-import { SignUp } from "./views/SingUp/Singup";
-import { AddAthlete } from "./views/AddAthlete/AddAthlete";
-import { AddAthleteSuccess } from "./views/AddAthleteSuccess/AddAthleteSuccess";
-import { Login } from "./views/Login/";
-
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Loading } from './views/Loading/Loading'
+import { Layout } from './layout/Layout'
+import { LandingPage } from './views/LandingPage/LandingPage'
+import Home from './views/Home/Home'
+import Profile from './views/Profile/Profile'
+import { SignUp } from './views/SingUp/Singup'
+import { AddAthlete } from './views/AddAthlete/AddAthlete'
+import { AddAthleteSuccess } from './views/AddAthleteSuccess/AddAthleteSuccess'
+import { Login } from './views/Login/'
 
 export function AppRouter() {
   return (
@@ -26,5 +25,5 @@ export function AppRouter() {
         </Route>
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
