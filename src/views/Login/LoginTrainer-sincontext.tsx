@@ -5,12 +5,9 @@ import { Button } from "../../components/Button/Button"
 import { useState } from "react"
 import authTrainer from "../../logic/auth/authTrainer"
 import { AuthTrainerInput } from "../../logic/interfaces/auth"
-import { useAuth } from "../../store/AuthContext"
 
 export default function LoginTrainer() {
     const navigate = useNavigate()
-    const { login } = useAuth()
-
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
@@ -25,9 +22,10 @@ export default function LoginTrainer() {
         };
 
         try {
-            await authTrainer(data);      // Llama al backend
-            login('trainer');
-            navigate("/home"); 
+            console.log('Iniciando autenticación...');
+            await authTrainer(data);
+            console.log('Autenticación exitosa, navegando a home...');
+            navigate("/home", { state: { role: 'trainer' } });
         } catch (err: any) {
             console.error('Error completo:', {
                 message: err.message,

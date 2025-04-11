@@ -5,12 +5,9 @@ import { Button } from "../../components/Button/Button"
 import { useState } from "react"
 import authAthlete from "../../logic/auth/authAthlete"
 import { AuthAthleteInput } from "../../logic/interfaces/auth"
-import { useAuth } from "../../store/AuthContext"
 
 export default function LoginAthlete() {
     const navigate = useNavigate()
-    const { login } = useAuth()
-
     const [otpCode, setOtpCode] = useState("")
     const [error, setError] = useState("")
 
@@ -23,9 +20,16 @@ export default function LoginAthlete() {
         }
 
         try {
-            await authAthlete(data);      // Backend auth
-            login('athlete');
-            navigate("/home");
+            console.log('Iniciando autenticación...');
+            const response = await authAthlete(data);
+            console.log('Respuesta de autenticación:', response);
+
+            if (!response || !response.athlete) {
+                throw new Error('No se pudo obtener los datos del atleta');
+            }
+
+            console.log('Autenticación exitosa, navegando a home...');
+            navigate("/home", { state: { role: 'athlete' } });
         } catch (err: any) {
             console.error('Error completo:', {
                 message: err.message,

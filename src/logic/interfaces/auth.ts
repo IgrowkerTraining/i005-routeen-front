@@ -12,3 +12,15 @@ export interface AuthTrainerResponse {
 export interface AuthAthleteInput {
     otp_code: string
 }
+
+export interface AuthAthleteResponse {
+    athlete: {
+        role: string;
+        _id: string;
+        name: string;
+        email: string;
+        phone: string;
+        [key: string]: any;
+    }
+}
+

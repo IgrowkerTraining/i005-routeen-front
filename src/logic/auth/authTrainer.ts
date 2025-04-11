@@ -2,11 +2,18 @@ import axios from '../../api/axiosInstance'
 import { AuthTrainerInput, AuthTrainerResponse } from '../interfaces/auth'
 
 const authTrainer = async (data: AuthTrainerInput): Promise<AuthTrainerResponse> => {
-    const res = await axios.post<AuthTrainerResponse>('/auth/trainer', data, {
-        withCredentials: true,
-    });
+    try {
+        const res = await axios.post<AuthTrainerResponse>('/auth/trainer', data, {
+            withCredentials: true,
+        })
+        
+        console.log('Login correcto:', res.data)
 
-    return res.data;
-};
+        return res.data
+    } catch (error: any) {
+        console.error(' Error al autenticar entrenador:', error.message)
+        throw error
+    }
+}
 
-export default authTrainer;
+export default authTrainer

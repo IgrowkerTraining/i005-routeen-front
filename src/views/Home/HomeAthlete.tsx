@@ -23,7 +23,7 @@ export default function HomeAthlete() {
                         Progreso
                     </Link>
                 </div>
-                <ExerciceCard />
+                    <ExerciceCard />
             </section>
             <Button
                 text="Agregar"

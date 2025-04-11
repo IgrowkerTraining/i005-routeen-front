@@ -4,7 +4,7 @@ type LoginLayoutProps = {
 }
 
 const LoginLayout = ({ children, className }: LoginLayoutProps) => (
-    <div className="relative w-screen h-screen flex flex-col items-center justify-center bg-notwhite-400 ">
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-notwhite-400 overflow-hidden">
         <img
             src="/images/logo-clear.png"
             alt="Logo decorativo"
@@ -14,10 +14,10 @@ const LoginLayout = ({ children, className }: LoginLayoutProps) => (
         <img
             src="/images/logo-black.png"
             alt="Logo decorativo inferior"
-            className="fixed bottom-0 left-10 opacity-10  origin-top-right scale-[1.2]"
+            className="fixed bottom-0 left-10 opacity-10 origin-top-right scale-[1.2]"
         />
 
-        <div className="flex flex-col items-center justify-center w-full gap-2 ">
+        <div className="flex flex-col items-center justify-center w-full gap-2">
             <div className="flex flex-col justify-end">
                 <img
                     src="/images/logo-clear.png"

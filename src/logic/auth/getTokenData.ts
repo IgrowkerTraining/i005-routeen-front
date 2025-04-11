@@ -1,10 +1,27 @@
 import axios from '../../api/axiosInstance'
 
-const authToken = async () => {
-    const res = await axios.get('/auth/me', {
-        withCredentials: true,
-    })
-    return res.data
+interface TokenData {
+  role: 'trainer' | 'athlete'
 }
 
-export default authToken
+const getTokenData = async (): Promise<TokenData | null> => {
+  try {
+    const res = await axios.get('/auth/me', {
+      withCredentials: true,
+    })
+
+    const role = res.data?.user?.role
+
+    if (!role) {
+      console.log('No se recibió un rol válido del servidor')
+      return null
+    }
+
+    return { role }
+  } catch (error: any) {
+      console.error('No hay sesión activa')
+    return null
+  }
+}
+
+export default getTokenData
