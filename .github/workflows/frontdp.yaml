@@ -56,35 +56,17 @@ jobs:
         run: gsutil -m cp -r dist/* gs://routeen-front/
 
 
-      - name: Install Tailwind CSS
-        run: npm install -D tailwindcss postcss autoprefixer
-
-      - name: Initialize Tailwind CSS
-        run: npx tailwindcss init -p
-
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: dist/
-
-
-
-
-    #   - name: Upload to GCS with correct MIME types
-    #     run: |
-    #       # Sube HTML
-    #       gcloud storage cp
-    #         --content-type="text/html"
-    #         ./dist/index.html gs://TU_BUCKET/
+    
+      - name: Upload to GCS with correct MIME types
+        run: |
+          gcloud storage cp
+            --content-type="text/html"
+            ./dist/index.html gs://TU_BUCKET/
       
-    #       # Sube assets (JS, CSS, imágenes)
-    #       gcloud storage cp
-    #         --recursive
-    #         --content-type="auto 
-    #         ./dist/assets/ gs://TU_BUCKET/assets/
+          gcloud storage cp
+            --recursive
+            --content-type="auto 
+            ./dist/assets/ gs://TU_BUCKET/assets/
       
-    #       # Habilita la página de inicio
-    #       gcloud storage buckets update gs://routeen-front
-    #         --web-main-page-suffix=index.html
+          gcloud storage buckets update gs://routeen-front
+            --web-main-page-suffix=index.html
