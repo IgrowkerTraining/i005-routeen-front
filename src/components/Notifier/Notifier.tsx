@@ -1,7 +1,6 @@
-// import { Toast, ToastContainer } from "react-bootstrap"
-// import { ToastType } from "../../types"
+import { goatToastType } from "../../types"
 import { FC } from "react"
-import  {useEffect } from "react";
+import  {useEffect} from "react";
 
 export type ToastType = "success" | "error" | "info";
 
@@ -17,7 +16,7 @@ interface ToastNotifierProps {
   removeToast: (id: number) => void;
 }
 
-const bgColorMap: Record<ToastType, string> = {
+const bgColorMap: Record<goatToastType, string> = {
   success: "bg-green-500",
   error: "bg-red-500",
   info: "bg-blue-500",

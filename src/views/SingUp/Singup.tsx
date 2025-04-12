@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export function SignUp() {
     const navigate = useNavigate()
-    // const [email, setEmail] = useState("")
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordRepeat, setPasswordRepeat] = useState("")
 
@@ -37,8 +37,9 @@ export function SignUp() {
                 <form className="flex flex-col gap-4" onSubmit={handleLogin}>
                     <Input
                         type="text"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
                         placeholder="Ingrese e-mail"
-                        // onChange={(e) => setEmail(e.target.value)}
                     />
                     <Input
                         type="password"
