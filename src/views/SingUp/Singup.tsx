@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export function SignUp() {
     const navigate = useNavigate()
-    const [email, setEmail] = useState("")
+    // const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordRepeat, setPasswordRepeat] = useState("")
 
@@ -38,7 +38,7 @@ export function SignUp() {
                     <Input
                         type="text"
                         placeholder="Ingrese e-mail"
-                        onChange={(e) => setEmail(e.target.value)}
+                        // onChange={(e) => setEmail(e.target.value)}
                     />
                     <Input
                         type="password"

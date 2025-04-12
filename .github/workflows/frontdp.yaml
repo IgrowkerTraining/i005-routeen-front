@@ -10,15 +10,56 @@ on:
       - cicd/deploy
   workflow_dispatch:
 
-env:
-  NODE_VERSION: '20.x'
-  PROJECT_ID: 'training-batch-05'
-  GCS_BUCKET: 'gs://yana-front'
-
 jobs:
   build:
     name: Build Vite React App
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          check-latest: true
+
+      - name: Cache Dependencies
+        id: npm-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+            credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+            project_id: training-batch-05
+
+      - name: Upload to GCS
+        run: gsutil -m cp -r dist/* gs://routeen-front/
+
+
+
+
+    #   - name: Upload Build Artifacts
+    #     uses: actions/upload-artifact@v3
+    #     with:
+    #       name: dist
+    #       path: ./dist
