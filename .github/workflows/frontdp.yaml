@@ -54,19 +54,3 @@ jobs:
 
       - name: Upload to GCS
         run: gsutil -m cp -r dist/* gs://routeen-front/
-
-
-    
-      - name: Upload to GCS with correct MIME types
-        run: |
-          gcloud storage cp
-            --content-type="text/html"
-            ./dist/index.html gs://TU_BUCKET/
-      
-          gcloud storage cp
-            --recursive
-            --content-type="auto 
-            ./dist/assets/ gs://TU_BUCKET/assets/
-      
-          gcloud storage buckets update gs://routeen-front
-            --web-main-page-suffix=index.html
