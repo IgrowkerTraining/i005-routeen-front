@@ -11,7 +11,6 @@ import { Login } from './views/Login/'
 import CompleteProfile from "./views/SingUp/CompleteProfile";
 
 
-
 export function AppRouter() {
   return (
     <BrowserRouter>
