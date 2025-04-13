@@ -1,9 +1,7 @@
-import { Toast, ToastContainer } from "react-bootstrap"
 import { ToastType } from "../../types"
 import { FC } from "react"
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
-export type ToastType = "success" | "error" | "info";
 
 interface ToastMessage {
   id: number;

@@ -2,6 +2,7 @@ import axios from '../../api/axiosInstance'
 
 interface TokenData {
   role: 'trainer' | 'athlete'
+  name: string
 }
 
 const getTokenData = async (): Promise<TokenData | null> => {
@@ -11,15 +12,16 @@ const getTokenData = async (): Promise<TokenData | null> => {
     })
 
     const role = res.data?.user?.role
+    const name = res.data?.user?.name
 
     if (!role) {
       console.log('No se recibió un rol válido del servidor')
       return null
     }
 
-    return { role }
+    return { role, name }
   } catch (error: any) {
-      console.error('No hay sesión activa')
+    console.error('No hay sesión activa')
     return null
   }
 }
