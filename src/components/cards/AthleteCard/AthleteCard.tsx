@@ -1,13 +1,15 @@
 import { useMemo } from 'react';
 import useAppContext from '../../../store/AppContext';
-
+import { useNavigate } from 'react-router-dom';
 export default function AthleteCard() {
     const { store: { athletes } } = useAppContext()
+    const navigate = useNavigate()
 
     const isEmpty = useMemo(() => athletes.length <=0 ,[athletes])
     
     const handleGearClick = (id: number) => {
         console.log(`Gear clicked for athlete with id: ${id}`);
+        navigate(`/athlete/${id}/athlete-overview`)
     }
     return (
         <div className="flex flex-col w-full gap-4">
