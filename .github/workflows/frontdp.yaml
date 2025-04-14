@@ -7,7 +7,7 @@ concurrency:
 on:
   push:
     branches:
-      - cicd/deploy
+      - main
   workflow_dispatch:
 
 jobs:
