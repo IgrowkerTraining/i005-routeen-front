@@ -8,6 +8,8 @@ import { SignUp } from './views/SingUp/Singup'
 import { AddAthlete } from './views/AddAthlete/AddAthlete'
 import { AddAthleteSuccess } from './views/AddAthleteSuccess/AddAthleteSuccess'
 import { Login } from './views/Login/'
+import CompleteProfile from "./views/SingUp/CompleteProfile";
+
 
 export function AppRouter() {
   return (
@@ -19,6 +21,7 @@ export function AppRouter() {
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/welcome" element={<LandingPage />} index />
+          <Route path="/complete-profile" element={<CompleteProfile />} />
           <Route path="/register" element={<SignUp />} />
           <Route path="/add-athlete" element={<AddAthlete />} />
           <Route path="/add-athlete-success" element={<AddAthleteSuccess />} />
