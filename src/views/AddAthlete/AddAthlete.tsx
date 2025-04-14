@@ -1,6 +1,8 @@
 import styles from "./AddAthlete.module.css";
 import Input from "../../components/Input/Input";
 import { useState } from "react";
+import InputCalendar from "../../components/Calendar/InputCalendar";
+import { Button } from "../../components/Button/Button";
 
 export const AddAthlete = () => {
     const [name, setName] = useState("");
@@ -27,6 +29,7 @@ export const AddAthlete = () => {
                         placeholder="Nombre"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        label
                     />
                     <Input
                         id="email"
@@ -34,6 +37,7 @@ export const AddAthlete = () => {
                         placeholder="Ingrese e-mail"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        label
                     />
                     <Input
                         id="phone"
@@ -41,13 +45,14 @@ export const AddAthlete = () => {
                         placeholder="Teléfono"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        label
                     />
-                    <Input
+                    <InputCalendar
                         id="birthday"
-                        type="date"
-                        placeholder="Fecha de nacimiento"
-                        value={birthday}
+                        label="Fecha de nacimiento"
                         onChange={(e) => setBirthday(e.target.value)}
+                        value={birthday}
+                        isRequired
                     />
                     <Input
                         id="profession"
@@ -55,12 +60,12 @@ export const AddAthlete = () => {
                         placeholder="Profesión"
                         value={objective}
                         onChange={(e) => setObjective(e.target.value)}
+                        label
                     />
-                    <button
-                        className="bg-primary-400 w-full text-notwhite-400 px-5 py-2.5 rounded-md mt-5 shadow-md shadow-gray-400 "
-                    >
-                        Siguiente
-                    </button>
+                    <Button
+                        text="Siguiente"
+                        href="/add-athlete-success"
+                    />
                 </div>
             </div>
         </div>
