@@ -15,7 +15,7 @@ interface ToastNotifierProps {
   removeToast: (id: number) => void;
 }
 
-const bgColorMap: Record<goatToastType, string> = {
+const bgColorMap: Record<ToastType, string> = {
   success: "bg-green-500",
   error: "bg-red-500",
   info: "bg-blue-500",

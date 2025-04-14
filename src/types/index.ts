@@ -4,11 +4,11 @@ export type Athlete = {
   avatar: string
 }
 
-export type goatToastType = "success" | "error" | "info"
+export type ToastType = "success" | "error" | "info"
 
 export type ToastMessage = {
   id: number
-  type: goatToastType
+  type: ToastType
   message: string
   isVisible: boolean 
 }
