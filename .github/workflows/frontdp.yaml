@@ -37,6 +37,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+      
+      - name: Install Lucide-React
+        run: npm install lucide-react
 
       - name: Build project
         run: npm run build
