@@ -1,8 +1,7 @@
-import { goatToastType } from "../../types"
+import { ToastType } from "../../types"
 import { FC } from "react"
-import  {useEffect} from "react";
+import { useEffect } from "react";
 
-export type ToastType = "success" | "error" | "info";
 
 interface ToastMessage {
   id: number;
