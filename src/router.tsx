@@ -8,6 +8,7 @@ import { SignUp } from "./views/SingUp/Singup";
 import { AddAthlete } from "./views/AddAthlete/AddAthlete";
 import { AddAthleteSuccess } from "./views/AddAthleteSuccess/AddAthleteSuccess";
 import { Login } from "./views/Login/";
+import { ExcerciseDetail } from "./views/ExcerciseDetail/ExcerciseDetail";
 
 
 export function AppRouter() {
@@ -23,6 +24,7 @@ export function AppRouter() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/add-athlete" element={<AddAthlete />} />
           <Route path="/add-athlete-success" element={<AddAthleteSuccess />} />
+          <Route path="/excercise-detail/:id" element={<ExcerciseDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

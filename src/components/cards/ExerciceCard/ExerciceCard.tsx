@@ -1,4 +1,5 @@
 import { routines } from '../../../mocks/exercices';
+import { Link } from 'react-router-dom';
 
 export default function ExerciceCard() {
     return (
@@ -7,6 +8,7 @@ export default function ExerciceCard() {
                 <div key={routine.name} className="flex flex-col gap-4">
                     <p className="text-xl font-bold text-primary-400">{routine.name}</p>
                     {routine.exercises.map((exercise) => (
+                        <Link to={`/excercise-detail/${exercise.id}`}>
                         <div
                             key={exercise.id}
                             style={{
@@ -29,6 +31,7 @@ export default function ExerciceCard() {
                                 />
                             </div>
                         </div>
+                            </Link>
                     ))}
                 </div>
             ))}

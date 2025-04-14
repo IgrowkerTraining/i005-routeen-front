@@ -1,16 +1,5 @@
-import { Toast, ToastContainer } from "react-bootstrap"
-import { ToastType } from "../../types"
-import { FC } from "react"
-import React, { useEffect } from "react";
-
-export type ToastType = "success" | "error" | "info";
-
-interface ToastMessage {
-  id: number;
-  type: ToastType;
-  message: string;
-  isVisible: boolean;
-}
+import { FC, useEffect } from "react";
+import { ToastType, ToastMessage } from "../../types";
 
 interface ToastNotifierProps {
   toasts: ToastMessage[];
@@ -29,7 +18,7 @@ export const ToastNotifier: FC<ToastNotifierProps> = ({ toasts, removeToast }) =
 
     toasts.forEach((toast) => {
       if (toast.isVisible) {
-        const timer = setTimeout(() => removeToast(toast.id), 3000);
+        const timer = window.setTimeout(() => removeToast(toast.id), 3000);
         timers.push(timer);
       }
     });
@@ -53,6 +42,7 @@ export const ToastNotifier: FC<ToastNotifierProps> = ({ toasts, removeToast }) =
               onClick={() => removeToast(toast.id)}
               className="ml-4 text-white hover:text-gray-300"
             >
+              ×
             </button>
           </div>
         ))}
