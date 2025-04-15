@@ -35,12 +35,9 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: ${{ runner.os }}-node-
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install Dependencies
+        run: npm ci
       
-      - name: Install Lucide-React
-        run: npm install lucide-react
-
       - name: Build project
         run: npm run build
 
