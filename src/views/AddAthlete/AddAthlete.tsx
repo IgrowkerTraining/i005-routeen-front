@@ -22,7 +22,7 @@ export const AddAthlete = () => {
                 <div className={styles.form_container}>
                     <Input
                         id="name"
-                        type="text"
+                        type="text" 
                         placeholder="Nombre"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
