@@ -2,48 +2,47 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import { useState } from "react"
-//import { useAuth } from "../../store/AuthContext";
+import { useAuth } from "../../store/AuthContext";
 
 export function SignUp() {
     const navigate = useNavigate()
-    //const { login } = useAuth();
+    const { saveRegisterCredentials } = useAuth()
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordRepeat, setPasswordRepeat] = useState("")
-    //const [error, setError] = useState("");
+    const [error, setError] = useState("");
 
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (password === passwordRepeat) {
-            console.log("Creando cuenta...")
-        } else {
-            console.log('Las contraseñas no coinciden')
-            return
+        setError("");
+
+        if (!validateEmail(email)) {
+            setError("Por favor, ingresa un email válido");
+            return;
         }
 
-        // try {
-        //     const data = await registerUser({ email, password })
-        //     login(data.role)
-        //     navigate("/complete-profile")
-        //     console.error("Error en el registro:", err)
-        //     setError("Error al registrar el usuario")
-        // }
+        if (password.length < 6) {
+            setError("La contraseña debe tener al menos 6 caracteres");
+            return;
+        }
+
+        if (password !== passwordRepeat) {
+            setError("Las contraseñas no coinciden");
+            return;
+        }
 
         try {
-            // const data = await new Promise<{ role: "trainer" | "athlete" }>((resolve) => {
-            //   setTimeout(() => {
-
-            //     resolve({ role: "trainer" })
-            //   }, 1000)
-            // })
-
-            //login(data.role)
-            navigate("/complete-profile");
+            saveRegisterCredentials({ email, password, repeat_password: passwordRepeat })
+            navigate("/complete-profile")
         } catch (err) {
             console.error("Error en el registro:", err)
-            //setError("Error al registrar el usuario")
+            setError("Error al registrar el usuario")
         }
     }
 
@@ -85,12 +84,15 @@ export function SignUp() {
                             label
                         />
 
+                        {error && (
+                            <p className="text-red-500 text-sm">{error}</p>
+                        )}
+
                         <div className="flex justify-center w-full">
                             <Button
                                 submit
                                 text="Siguiente"
                                 variant="primary"
-
                             />
                         </div>
                     </form>
@@ -98,4 +100,4 @@ export function SignUp() {
             </div>
         </div>
     )
-}
+}   
