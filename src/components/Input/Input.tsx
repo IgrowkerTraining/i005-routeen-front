@@ -5,7 +5,7 @@ interface InputProps {
   className?: string
   style?: React.CSSProperties
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  value?: string
+  value?: string | number
 }
 
 export default function Input({

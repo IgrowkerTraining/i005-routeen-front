@@ -21,12 +21,12 @@ export function AppRouter() {
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/welcome" element={<LandingPage />} index />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/register" element={<SignUp />} />
           <Route path="/add-athlete" element={<AddAthlete />} />
           <Route path="/add-athlete-success" element={<AddAthleteSuccess />} />
           <Route path="/excercise-detail/:id" element={<ExcerciseDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
