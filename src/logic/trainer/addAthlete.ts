@@ -1,7 +1,6 @@
 import axios from '../../api/axiosInstance'
 
-const registerTrainer = async (formData: FormData) => {
-    //ver que datos se envían al servidor
+const addAthlete = async (formData: FormData) => {
     try {
         console.log('Datos que se envían al servidor:')
         for (const [key, value] of formData.entries()) {
@@ -12,13 +11,12 @@ const registerTrainer = async (formData: FormData) => {
             }
         }
 
-        const res = await axios.post('/trainer', formData, {
+        const res = await axios.post('athlete', formData, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
         })
-
         return res.data
     } catch (error: any) {
         console.error('Error detallado:', {
@@ -31,4 +29,4 @@ const registerTrainer = async (formData: FormData) => {
     }
 }
 
-export default registerTrainer
+export default addAthlete
