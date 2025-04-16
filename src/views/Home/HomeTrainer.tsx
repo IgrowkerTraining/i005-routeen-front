@@ -3,9 +3,11 @@ import { Button } from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import useAppContext from "../../store/AppContext";
 import { ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HomeTrainer() {
     const { actions: {searchStudents} } = useAppContext()
+    const navigate = useNavigate();
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         searchStudents(e.target.value)
@@ -36,7 +38,7 @@ export default function HomeTrainer() {
             <Button
                 text="Agregar"
                 variant="primary"
-                onClick={() => console.log("Agregar Alumno")}
+                onClick={() => navigate("/add-athlete")}
                 icon={<i className="bi bi-person-fill-add "></i>}
             />
         </main>
