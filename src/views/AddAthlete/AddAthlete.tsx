@@ -15,8 +15,7 @@ export const AddAthlete = () => {
         <div className={styles.container}>
             <div className={styles.header}>
                 <i className={`${styles.arrow} bi bi-arrow-left`}></i>
-                <p className=" text-notblack-400"> <strong>Agregar alumno</strong></p>
-                <div>Menu</div>
+                <p className={`text-notblack-400 ${styles.agregar_alumno}`}> <strong>Agregar alumno</strong></p>
             </div>
             <div className={styles.form}>
                 <h2 className={`${styles.title} text-[30px] text-notblack-400`}>
@@ -57,7 +56,7 @@ export const AddAthlete = () => {
                     <Input
                         id="profession"
                         type="text"
-                        placeholder="Profesión"
+                        placeholder="El alumno quiere..."
                         value={objective}
                         onChange={(e) => setObjective(e.target.value)}
                         label
