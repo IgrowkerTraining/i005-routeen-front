@@ -7,7 +7,7 @@ const authAthlete = async (data: AuthAthleteInput): Promise<AuthAthleteResponse>
             withCredentials: true,
         })
         
-        console.log('Login correcto:', res.data)
+        console.log(':', res.data)
 
         return res.data
       } catch (error: any) {
