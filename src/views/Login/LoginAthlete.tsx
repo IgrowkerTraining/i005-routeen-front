@@ -39,14 +39,15 @@ export default function LoginAthlete() {
 
     return (
         <LoginLayout className="">
-            <form onSubmit={handleLogin} className="flex flex-col items-center gap-3 ">
-                <div className="flex flex-col items-center w-[370px]">
+            <form onSubmit={handleLogin} className="flex flex-col items-center gap-3 w-full ">
+                <div className="flex flex-col items-center w-full">
                     <Input
                         id="otpCode"
                         type="text"
                         placeholder="Ingrese su código OTP"
                         value={otpCode}
                         onChange={(e) => setOtpCode(e.target.value)}
+                        label
                     />
                 </div>
 
