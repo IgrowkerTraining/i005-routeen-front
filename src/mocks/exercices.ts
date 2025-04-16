@@ -1,5 +1,8 @@
-export const routines = [
-    {
+import { Routine } from '../types';
+
+export const routinesMock: Routine[] = [
+    {   
+        id: "1",
         name: "Tren Superior",
         exercises: [
             {
@@ -9,7 +12,7 @@ export const routines = [
                 reps: 12,
                 rest: 60,
                 weight: 50,
-                image: "images/exercices/bench-press.png",
+                image: "/images/exercices/bench-press.png",
             },
             {
                 id: "2",
@@ -18,11 +21,12 @@ export const routines = [
                 reps: 12,
                 rest: 60,
                 weight: 45,
-                image: "images/exercices/dumbell-row.png",
+                image: "/images/exercices/dumbell-row.png",
             }
         ]
     },
     {
+        id: "2",
         name: "Tren Inferior",
         exercises: [
             {
@@ -32,7 +36,7 @@ export const routines = [
                 reps: 10,
                 rest: 60,
                 weight: 70,
-                image: "images/exercices/back-squat.png",
+                image: "/images/exercices/back-squat.png",
             },
             {
                 id: "4",
@@ -41,11 +45,12 @@ export const routines = [
                 reps: 12,
                 rest: 60,
                 weight: 60,
-                image: "images/exercices/hip-thrust.png",
+                image: "/images/exercices/hip-thrust.png",
             }
         ]
     },
     {
+        id: "3",
         name: "Core",
         exercises: [
             {
@@ -55,7 +60,7 @@ export const routines = [
                 reps: 45,
                 rest: 30,
                 weight: 0,
-                image: "images/exercices/plank.png",
+                image: "/images/exercices/plank.png",
             },
             {
                 id: "6",
@@ -64,7 +69,7 @@ export const routines = [
                 reps: 20,
                 rest: 30,
                 weight: 10,
-                image: "images/exercices/crunch.png",
+                image: "/images/exercices/crunch.png",
             }
         ]
     }
