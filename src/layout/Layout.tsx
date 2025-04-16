@@ -1,36 +1,32 @@
 import { Outlet } from 'react-router-dom'
 import { Header } from '../components/Header/Header'
-import { useState, useEffect } from 'react'
+import { useAuth } from '../store/AuthContext'
+import { useEffect, useState } from 'react'
 import getTokenData from '../logic/auth/getTokenData'
 
 export function Layout() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [userRole, setUserRole] = useState<'trainer' | 'athlete' | null>(null)
+  const { user, loading } = useAuth()
   const [userName, setUserName] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
       const tokenData = await getTokenData()
-
-      if (tokenData?.role && tokenData?.name) {
-        setIsLoggedIn(true)
-        setUserRole(tokenData.role)
+      if (tokenData?.name) {
         setUserName(tokenData.name)
       }
     }
 
-    fetchData()
-  }, [])
+    if (user) {
+      fetchData()
+    }
+  }, [user])
 
-  if (isLoggedIn && userRole) {
-    return (
-      <>
-        <Header trainerName={userName} />
+  if (loading) return null // Se puede cambiar por un spinner
 
-        <Outlet />
-      </>
-    )
-  }
-
-  return <Outlet />
+  return (
+    <>
+      {user?.role && <Header trainerName={userName} userRole={user.role} />}
+      <Outlet />
+    </>
+  )
 }
