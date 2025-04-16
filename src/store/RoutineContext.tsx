@@ -1,6 +1,4 @@
 import { createContext, useContext, useState, useCallback, ReactNode } from "react";
-import { Athlete } from "../types";
-
 interface RoutineContextType {
   routine: any; // Define el tipo de rutina según tu modelo de datos
   fetchRoutine: (athleteId: string) => void;
