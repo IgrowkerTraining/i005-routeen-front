@@ -1,0 +1,40 @@
+/* Eliminar flechas del scrollbar */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: #172b4d transparent;
+}
+
+.day.empty {
+  visibility: hidden;
+}
+
+.hover\:bg-primary:hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.shadow-lg {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.bg-white {
+  background-color: #ffffff !important;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

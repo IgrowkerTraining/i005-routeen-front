@@ -1,5 +1,5 @@
 import LoginLayout from "./LoginLayout"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Input from "../../components/Input/Input"
 import { Button } from "../../components/Button/Button"
 import { useState } from "react"
@@ -15,6 +15,12 @@ export default function LoginTrainer() {
     const [password, setPassword] = useState("")
     const [error, setError] = useState("")
 
+
+    const handleGoToSignUp = (e: React.MouseEvent) => {
+        e.preventDefault(); // Prevenir cualquier comportamiento por defecto
+        navigate('/register');
+    };
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
@@ -27,7 +33,7 @@ export default function LoginTrainer() {
         try {
             await authTrainer(data);      // Llama al backend
             login('trainer');
-            navigate("/home"); 
+            navigate("/home");
         } catch (err: any) {
             console.error('Error completo:', {
                 message: err.message,
@@ -41,23 +47,24 @@ export default function LoginTrainer() {
 
     return (
         <LoginLayout className="">
-            <form onSubmit={handleLogin} className="flex flex-col items-center gap-3 ">
-                <div className="flex flex-col items-center w-[370px]">
+            <form onSubmit={handleLogin} className="flex flex-col items-center gap-3 w-full">
+                <div className="flex flex-col items-center w-full gap-4">
                     <Input
                         id="email"
                         type="email"
-                        placeholder="Ingrese el email"
+                        placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        label
                     />
 
                     <Input
                         id="password"
                         type="password"
-                        className="mt-4"
-                        placeholder="Ingrese la contraseña"
+                        placeholder="Contraseña"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        label
                     />
                 </div>
 
@@ -71,11 +78,14 @@ export default function LoginTrainer() {
                         text="Iniciar sesión"
                         variant="primary"
                     />
-                    <Link to="/register" className="text-primary-400 font-[600] underline underline-offset-1">
-                        Registrarse
-                    </Link>
                 </div>
             </form>
+            <button
+                onClick={handleGoToSignUp}
+                className="text-primary-400 font-[600] underline underline-offset-1 ml-1 mt-4"
+            >
+                Registrarse
+            </button>
         </LoginLayout>
     )
 }
