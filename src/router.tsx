@@ -10,6 +10,8 @@ import { AddAthleteSuccess } from './views/AddAthleteSuccess/AddAthleteSuccess'
 import { Login } from './views/Login/'
 import CompleteProfile from "./views/SingUp/CompleteProfile";
 import { AthleteOverview } from './views/athleteOverview/AthleteOverview'
+import { AddNewRoutine } from './views/athleteOverview/AddNewRoutine'
+
 
 
 export function AppRouter() {
@@ -27,6 +29,7 @@ export function AppRouter() {
           <Route path="/add-athlete" element={<AddAthlete />} />
           <Route path="/add-athlete-success" element={<AddAthleteSuccess />} />
           <Route path="/athlete/:id/athlete-overview" element={<AthleteOverview />} />
+          <Route path="/athlete/:id/routine/new" element={<AddNewRoutine />} />
         </Route>
       </Routes>
     </BrowserRouter>
