@@ -39,7 +39,7 @@ export default function HomeTrainer() {
                     <Button
                         text="Agregar"
                         variant="primary"
-                        onClick={() => console.log("Agregar Alumno")}
+                        href={"/add-athlete"}
                         icon={<i className="bi bi-person-fill-add"></i>}
                     />
                 </main>

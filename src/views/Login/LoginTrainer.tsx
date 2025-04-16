@@ -16,7 +16,8 @@ export default function LoginTrainer() {
     const [error, setError] = useState("")
 
 
-    const handleGoToSignUp = () => {
+    const handleGoToSignUp = (e: React.MouseEvent) => {
+        e.preventDefault(); // Prevenir cualquier comportamiento por defecto
         navigate('/register');
     };
 
@@ -77,11 +78,14 @@ export default function LoginTrainer() {
                         text="Iniciar sesión"
                         variant="primary"
                     />
-                    <button onClick={handleGoToSignUp} className="text-primary-400 font-[600] underline underline-offset-1 ml-1">
-                        Registrarse
-                    </button>
                 </div>
             </form>
+            <button
+                onClick={handleGoToSignUp}
+                className="text-primary-400 font-[600] underline underline-offset-1 ml-1 mt-4"
+            >
+                Registrarse
+            </button>
         </LoginLayout>
     )
 }
