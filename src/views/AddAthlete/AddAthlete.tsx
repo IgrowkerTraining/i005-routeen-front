@@ -3,7 +3,8 @@ import Input from "../../components/Input/Input";
 import { useState } from "react";
 import InputCalendar from "../../components/Calendar/InputCalendar";
 import { Button } from "../../components/Button/Button";
-import axios from "axios";
+import addAthlete from "../../logic/trainer/addAthlete";
+import { useNavigate } from "react-router-dom";
 
 export const AddAthlete = () => {
     const [name, setName] = useState("");
@@ -11,22 +12,27 @@ export const AddAthlete = () => {
     const [phone, setPhone] = useState("");
     const [birthday, setBirthday] = useState("");
     const [objective, setObjective] = useState("");
-    const API_URL = import.meta.env.VITE_API_URL
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
         try {
+            let formattedDate = birthday
+            if (birthday && birthday.includes('/')) {
+                const [day, month, year] = birthday.split('/')
+                formattedDate = `${year}-${month}-${day}`
+            }
             const formData = new FormData();
             formData.append("name", name);
             formData.append("email", email);
             formData.append("phone", phone);
-            formData.append("date_birth", birthday);
+            formData.append("date_birth", formattedDate);
             formData.append("goals", objective);
 
-            const response = await axios.post(`${API_URL}api/athlete`, formData);
-            console.log("Athlete created!", response.data);
-            // Podés redirigir o mostrar feedback acá
+            const res = await addAthlete(formData);
+            if (res) {
+                navigate("/add-athlete-success"); 
+            }
         } catch (error: any) {
             console.error("Error creating athlete:", error.response?.data || error.message);
         }
@@ -85,13 +91,8 @@ export const AddAthlete = () => {
                     />
                     <Button
                         text="Siguiente"
-                        href="/add-athlete-success"
+                        submit
                     />
-                    <button
-                        className="bg-primary-400 w-full text-notwhite-400 px-5 py-2.5 rounded-md mt-5 shadow-md shadow-gray-400 "
-                    >
-                        Siguiente
-                    </button>
                 </div>
             </form>
         </div>
