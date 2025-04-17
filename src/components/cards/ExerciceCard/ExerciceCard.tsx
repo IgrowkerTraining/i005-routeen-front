@@ -1,7 +1,12 @@
 import useAppContext from "../../../store/AppContext"
+import { useNavigate } from "react-router-dom"
 export default function ExerciceCard() {
     const { store: { routines } } = useAppContext()
-    
+    const navigate = useNavigate()
+    const onExerciseClick = (id: number) => {
+        console.log(`Clicked on exercise with ID: ${id}`)
+        navigate(`/exercise/${id}`)
+    }
     return (
         <div className="flex flex-col w-full gap-4">
             {routines.map(routine => (
@@ -10,6 +15,8 @@ export default function ExerciceCard() {
                     {routine.exercises.map((exercise) => (
                         <div
                             key={exercise.id}
+                            onClick={() => onExerciseClick(Number(exercise.id))}
+
 
                             className="flex items-center w-full bg-notwhite-400 px-4 shadow-md py-2"
                         >

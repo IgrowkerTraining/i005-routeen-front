@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom"
 import Dropdown from "../../cards/Modal"
 
 export default function AthleteCard() {
-    const { store: { athletes } } = useAppContext()
+    const { store: { athletes }, actions: { searchStudents }
+    } = useAppContext()
     const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [selectedAthleteId, setSelectedAthleteId] = useState<number | null>(null)
@@ -15,8 +16,10 @@ export default function AthleteCard() {
     const handleCardClick = (id: number) => {
         if (ignoreNextCardClick.current) {
             ignoreNextCardClick.current = false
-            return 
+            return
         }
+        searchStudents("")
+
         navigate(`/athlete/${id}/athlete-overview`)
     }
 

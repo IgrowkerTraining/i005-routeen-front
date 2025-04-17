@@ -11,6 +11,7 @@ import { Login } from './views/Login/'
 import CompleteProfile from "./views/SingUp/CompleteProfile";
 import { AthleteOverview } from './views/athleteOverview/AthleteOverview'
 import { AddNewRoutine } from './views/athleteOverview/AddNewRoutine'
+import { RoutineCardDetails } from './components/cards/RoutineCard/RoutineCardDetails'
 
 
 
@@ -30,6 +31,7 @@ export function AppRouter() {
           <Route path="/add-athlete-success" element={<AddAthleteSuccess />} />
           <Route path="/athlete/:id/athlete-overview" element={<AthleteOverview />} />
           <Route path="/athlete/:id/routine/new" element={<AddNewRoutine />} />
+          <Route path="/routine/:id" element={<RoutineCardDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>
