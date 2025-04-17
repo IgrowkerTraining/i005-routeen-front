@@ -18,6 +18,8 @@ export type Routine = {
   id: string
   name: string
   exercises: Exercise[]
+  duration?: number
+  level?: string
 }
 export type ToastType = "success" | "error" | "info"
 

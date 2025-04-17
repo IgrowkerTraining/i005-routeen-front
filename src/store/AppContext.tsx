@@ -49,7 +49,11 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   }, [])
 
   const searchStudents = useCallback((term: string) => {
-    const filteredStudents = athletesMock.filter(athlete =>
+    if (!term) {
+      setAthletes(athletesMock)
+      return;
+    }
+    const filteredStudents = athletes.filter(athlete =>
       athlete.name.toLocaleLowerCase().includes(term.toLocaleLowerCase())
     )
     setAthletes(filteredStudents)
@@ -57,17 +61,19 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const searchRoutines = useCallback((term: string) => {
     const lowerTerm = term.toLowerCase();
+    if (!term) {
+      setRoutines(routinesMock)
+      return;
+    }
     const filteredRoutines = routines.filter(routine =>
-      // Se verifica si el nombre de la rutina incluye el término...
       routine.name.toLowerCase().includes(lowerTerm) ||
-      // ...o si alguno de los ejercicios de la rutina incluye el término en su nombre.
       routine.exercises.some(exercise =>
         exercise.name.toLowerCase().includes(lowerTerm)
       )
     );
     setRoutines(filteredRoutines);
   }, []);
-  
+
 
   const store = { toasts, athletes, routines }
   const actions = { showToast, removeToast, searchStudents, searchRoutines }
