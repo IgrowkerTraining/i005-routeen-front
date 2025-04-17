@@ -13,7 +13,7 @@ export default function HomeTrainer() {
     return (
         <div className="min-h-screen bg-notwhite-400 sm:flex sm:items-center sm:justify-center p-4">
             <div className="w-full sm:max-w-lg sm:bg-notwhite-400 sm:rounded-xl sm:shadow-lg sm:p-8">
-                <main className="flex flex-col px-4 pb-2 gap-6 sm:px-0">
+                <main className="flex flex-col  pb-2 gap-6 sm:px-0">
                     <section className="flex justify-start items-center w-full gap-5">
                         <h2 className="text-[30px] text-notblack-400">
                             Lista de Alumnos
