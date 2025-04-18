@@ -6,10 +6,12 @@ import { useState } from "react"
 import authTrainer from "../../logic/auth/authTrainer"
 import { AuthTrainerInput } from "../../logic/interfaces/auth"
 import { useAuth } from "../../store/AuthContext"
+import useAppContext from "../../store/AppContext"
 
 export default function LoginTrainer() {
     const navigate = useNavigate()
     const { login } = useAuth()
+    const { actions } = useAppContext()
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -33,6 +35,7 @@ export default function LoginTrainer() {
         try {
             await authTrainer(data);      // Llama al backend
             login('trainer');
+            actions.showToast(1)
             navigate("/home");
         } catch (err: any) {
             console.error('Error completo:', {
@@ -41,6 +44,7 @@ export default function LoginTrainer() {
                 data: err.response?.data,
                 config: err.config
             });
+            actions.showToast(2)
             setError("Credenciales inválidas o error de conexión")
         }
     };

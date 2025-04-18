@@ -7,10 +7,11 @@ interface ToastNotifierProps {
 }
 
 const bgColorMap: Record<ToastType, string> = {
-  success: "bg-green-500",
-  error: "bg-red-500",
-  info: "bg-blue-500",
+  success: "bg-[#172b4d]",
+  error: "bg-red-900",
+  info: "bg-[#172b4d]",
 };
+
 
 export const ToastNotifier: FC<ToastNotifierProps> = ({ toasts, removeToast }) => {
   useEffect(() => {
@@ -18,7 +19,7 @@ export const ToastNotifier: FC<ToastNotifierProps> = ({ toasts, removeToast }) =
 
     toasts.forEach((toast) => {
       if (toast.isVisible) {
-        const timer = window.setTimeout(() => removeToast(toast.id), 3000);
+        const timer = window.setTimeout(() => removeToast(toast.id), 2000);
         timers.push(timer);
       }
     });

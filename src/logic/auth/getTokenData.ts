@@ -21,7 +21,7 @@ const getTokenData = async (): Promise<TokenData | null> => {
       return null
     }
 
-    return { role, name , id }
+    return { role, name, id }
   } catch (error: any) {
     console.error('No hay sesión activa')
     return null

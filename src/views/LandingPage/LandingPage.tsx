@@ -2,7 +2,6 @@ import logo from "../../../public/images/logo-clear.png";
 import styles from "./LandingPage.module.css"
 import { useNavigate } from "react-router-dom";
 
-
 export const LandingPage = () => {
     const navigate = useNavigate();
 
@@ -26,13 +25,13 @@ export const LandingPage = () => {
                 <h2 style={{ fontSize: "32px" }} className={styles.ingresar}>Ingresar como</h2>
                 <button
                     onClick={() => handleRoleSelection('trainer')}
-                    className="bg-primary-400 w-full text-notwhite-400 px-5 py-2.5 rounded-md mt-5 shadow-md shadow-gray-400 "
+                    className="bg-primary-400 w-full text-notwhite-400 px-5 py-2.5 rounded-md mt-5 shadow-md shadow-gray-400 cursor-pointer"
                 >
                     Entrenador
                 </button>
                 <button
                     onClick={() => handleRoleSelection('athlete')}
-                    className="bg-primary-400 w-full text-notwhite-400 px-5 py-2.5 rounded-md mt-5 shadow-md shadow-gray-400 "
+                    className="bg-primary-400 w-full text-notwhite-400 px-5 py-2.5 rounded-md mt-5 shadow-md shadow-gray-400 cursor-pointer"
                 >
                     Alumno
                 </button>
