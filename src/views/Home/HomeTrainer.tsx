@@ -2,9 +2,11 @@ import AthleteCard from "../../components/cards/AthleteCard/AthleteCard";
 import { Button } from "../../components/Button/Button";
 import useAppContext from "../../store/AppContext";
 import { ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function HomeTrainer() {
-    const { actions: { searchStudents } } = useAppContext()
+    const { actions: {searchStudents} } = useAppContext()
+    const navigate = useNavigate();
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         searchStudents(e.target.value)

@@ -1,8 +1,23 @@
 import { Button } from "../../components/Button/Button";
 import ExerciceCard from "../../components/cards/ExerciceCard/ExerciceCard";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom"; // Usamos useParams para obtener el ID de la URL
+import { useEffect } from "react";
+import { useRoutineContext } from "../../store/RoutineContext";
 
 export default function HomeAthlete() {
+    // Obtenemos el athleteId desde la URL
+    const { athleteId } = useParams<{ athleteId: string }>();
+
+    // Usamos el contexto para obtener la rutina y la función para cargarla
+    const { fetchRoutine } = useRoutineContext();
+
+    // Ejecutamos el fetch cuando el componente se monta o cuando cambia el athleteId
+    useEffect(() => {
+        if (athleteId) {
+            fetchRoutine(athleteId);
+        }
+    }, [athleteId, fetchRoutine]);
+
     return (
         <div className="min-h-screen bg-notwhite-400 sm:flex sm:items-center sm:justify-center p-4">
             <div className="w-full sm:max-w-lg sm:bg-notwhite-400 sm:rounded-xl sm:shadow-lg sm:p-8">
