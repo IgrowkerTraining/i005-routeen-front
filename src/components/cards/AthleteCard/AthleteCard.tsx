@@ -1,35 +1,41 @@
 import { useMemo, useState, useRef } from "react"
-import useAppContext from "../../../store/AppContext"
 import { useNavigate } from "react-router-dom"
 import Dropdown from "../../cards/Modal"
+import { Athlete } from "../../../types"
 
-export default function AthleteCard() {
-    const { store: { athletes }, actions: { searchStudents }
-    } = useAppContext()
+interface AthleteCardProps {
+    athletes: Athlete[]
+    onClearSearch?: () => void
+}
+
+export default function AthleteCard({ athletes, onClearSearch }: AthleteCardProps) {
     const navigate = useNavigate()
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [selectedAthleteId, setSelectedAthleteId] = useState<number | null>(null)
-
-    const isEmpty = useMemo(() => athletes.length <= 0, [athletes])
+    const [selectedAthleteId, setSelectedAthleteId] = useState<string | null>(null)
     const ignoreNextCardClick = useRef(false)
 
-    const handleCardClick = (id: number) => {
+    const isEmpty = useMemo(() => athletes.length === 0, [athletes])
+
+    const handleCardClick = (id: string) => {
         if (ignoreNextCardClick.current) {
             ignoreNextCardClick.current = false
             return
         }
-        searchStudents("")
 
+        onClearSearch?.()
         navigate(`/athlete/${id}/athlete-overview`)
     }
 
     const handleModalConfirm = (action: string) => {
         if (action === "cancel") {
+            // lógica de baja
         } else if (action === "renew") {
+            // lógica de renovación
         }
     }
+    console.log("Athletes:", athletes)
 
     return (
+
         <div className="flex flex-col w-full gap-4">
             {isEmpty ? (
                 <p className="text-gray-400 font-bold">No se encuentra alumnos...</p>
@@ -41,16 +47,26 @@ export default function AthleteCard() {
                     >
                         <div
                             className="flex-1 flex justify-start gap-4"
-                            onClick={() => handleCardClick(Number(athlete.id))}
+                            onClick={() => handleCardClick(athlete.id)}
                         >
-                            <img
-                                src={athlete.avatar}
-                                alt={athlete.name}
-                                className="w-[55px] h-[55px] rounded-full object-cover"
-                            />
-                            <div className="text-primary-400 font-bold leading-8 text-left">
-                                <p className="text-lg">{athlete.name.split(" ")[0]}</p>
-                                <p className="text-lg">{athlete.name.split(" ")[1]}</p>
+
+                            {athlete.avatar ? (
+                                <img
+                                    src={athlete.avatar}
+                                    alt={athlete.name}
+                                    className="w-[55px] h-[55px] rounded-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-[55px] h-[55px] rounded-full bg-gray-200 flex items-center justify-center">
+                                    <i className="bi bi-person text-gray-400 text-2xl"></i>
+                                </div>
+                            )}
+                            <div className="text-primary-400 flex flex-col justify-center font-bold leading-8 text-left">
+                                {athlete.name.split(" ").map((part, i) => (
+                                    <p key={i} className="text-lg">
+                                        {part}
+                                    </p>
+                                ))}
                             </div>
                         </div>
 
@@ -58,8 +74,9 @@ export default function AthleteCard() {
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation()
-                                    setIsModalOpen((prev) => !prev)
-                                    setSelectedAthleteId(Number(athlete.id))
+                                    setSelectedAthleteId((prev) =>
+                                        prev === athlete.id ? null : athlete.id
+                                    )
                                 }}
                                 className="w-[40px] h-[40px] hover:bg-secondary-400 hover:opacity-50 rounded-full transition duration-300 ease-in-out transform"
                                 aria-label="Opciones"
@@ -68,8 +85,9 @@ export default function AthleteCard() {
                             </button>
 
                             <Dropdown
-                                isOpen={isModalOpen && selectedAthleteId === Number(athlete.id)}
-                                onClose={() => setIsModalOpen(false)}
+                                key={athlete.id}
+                                isOpen={selectedAthleteId === athlete.id}
+                                onClose={() => setSelectedAthleteId(null)}
                                 options={[
                                     {
                                         label: "Dar de baja",
@@ -81,7 +99,6 @@ export default function AthleteCard() {
                                     },
                                 ]}
                                 blockNextClickRef={ignoreNextCardClick}
-
                             />
                         </div>
                     </div>

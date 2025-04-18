@@ -26,7 +26,7 @@ export const Button = ({
     }
     const content = (
         <span
-            className={`rounded-lg px-4 py-2  flex items-center justify-center ${buttonVariants[variant]} ${className}`}
+            className={`rounded-lg px-4 py-2 flex items-center justify-center cursor-pointer ${buttonVariants[variant]} ${className}`}
         >
             {icon && <span className="text-lg mr-2">{icon}</span>}
             {text}

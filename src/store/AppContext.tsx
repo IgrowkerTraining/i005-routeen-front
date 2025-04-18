@@ -11,6 +11,7 @@ interface AppContextType {
     showToast: (id: number) => void;
     removeToast: (id: number) => void;
     searchStudents: (term: string) => void;
+    setAthletes: (athletes: Athlete[]) => void;
   }
 }
 
@@ -55,9 +56,12 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setAthletes(filteredStudents)
   }, [])
 
+  const updateAthletes = useCallback((newAthletes: Athlete[]) => {
+    setAthletes(newAthletes);
+  }, []);
 
   const store = { toasts, athletes }
-  const actions = { showToast, removeToast, searchStudents }
+  const actions = { showToast, removeToast, searchStudents, setAthletes: updateAthletes }
 
   return (
     <AppContext.Provider value={{ store, actions }}>
