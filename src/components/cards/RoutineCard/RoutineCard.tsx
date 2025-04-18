@@ -1,5 +1,5 @@
 import { useState } from "react"
-import useAppContext from "../../../store/AppContext"
+import useRoutinesContextD from "../../../store/RoutinesContextD"
 import { useNavigate } from "react-router-dom"
 
 interface RoutineCardProps {
@@ -12,7 +12,7 @@ export default function RoutineCard({ canEdit = false, canSelect = false, onSele
     const {
         store: { routines },
         actions: { searchRoutines }
-    } = useAppContext()
+    } = useRoutinesContextD()
     const navigate = useNavigate()
 
     const [selectedId, setSelectedId] = useState<number | null>(null)

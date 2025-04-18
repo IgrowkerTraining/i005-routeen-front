@@ -1,19 +1,16 @@
 import { useContext, createContext, useState, ReactNode, useCallback } from "react"
 import { athletesMock } from "../mocks/athletes"
-import { routinesMock } from "../mocks/exercices"
-import { Athlete, Routine, ToastMessage } from "../types"
+import { Athlete, ToastMessage } from "../types"
 
 interface AppContextType {
   store: {
     toasts: ToastMessage[],
     athletes: Athlete[]
-    routines: Routine[]
   }
   actions: {
     showToast: (id: number) => void;
     removeToast: (id: number) => void;
     searchStudents: (term: string) => void;
-    searchRoutines: (term: string) => void;
   }
 }
 
@@ -30,7 +27,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     { id: 3, type: "info", message: "Tu progreso fue actualizado.", isVisible: false },
   ])
   const [athletes, setAthletes] = useState<Athlete[]>(athletesMock)
-  const [routines, setRoutines] = useState<Routine[]>(routinesMock)
 
   const showToast = useCallback((id: number) => {
     setToasts((prev) =>
@@ -59,24 +55,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setAthletes(filteredStudents)
   }, [])
 
-  const searchRoutines = useCallback((term: string) => {
-    const lowerTerm = term.toLowerCase();
-    if (!term) {
-      setRoutines(routinesMock)
-      return;
-    }
-    const filteredRoutines = routines.filter(routine =>
-      routine.name.toLowerCase().includes(lowerTerm) ||
-      routine.exercises.some(exercise =>
-        exercise.name.toLowerCase().includes(lowerTerm)
-      )
-    );
-    setRoutines(filteredRoutines);
-  }, []);
 
-
-  const store = { toasts, athletes, routines }
-  const actions = { showToast, removeToast, searchStudents, searchRoutines }
+  const store = { toasts, athletes }
+  const actions = { showToast, removeToast, searchStudents }
 
   return (
     <AppContext.Provider value={{ store, actions }}>

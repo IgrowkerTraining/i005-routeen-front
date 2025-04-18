@@ -1,4 +1,4 @@
-import useAppContext from "../../store/AppContext";
+import useRoutinesContextD from "../../store/RoutinesContextD";
 import { ChangeEvent, useState } from "react";
 import InputCalendar from "../../components/Calendar/InputCalendar";
 import { useParams, useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ export const AddNewRoutine = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate()
 
-    const { actions: { searchRoutines } } = useAppContext()
+    const { actions: { searchRoutines } } = useRoutinesContextD()
     const [selectedRoutine, setSelectedRoutine] = useState<number | null>(null)
 
 

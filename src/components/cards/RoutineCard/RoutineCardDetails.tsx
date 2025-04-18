@@ -1,9 +1,9 @@
 import { Button } from "../../Button/Button"
 import { useParams } from "react-router-dom"
-import useAppContext from "../../../store/AppContext"
+import useRoutinesContextD from "../../../store/RoutinesContextD"
 export const RoutineCardDetails = () => {
     const { id } = useParams<{ id: string }>()
-    const { store: { routines } } = useAppContext()
+    const { store: { routines } } = useRoutinesContextD()
 
     const routineId = Number(id)
     const routine = routines.find((a) => Number(a.id) === routineId)
