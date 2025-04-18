@@ -41,7 +41,7 @@ export default function AthleteProfile() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 sm:flex sm:items-center sm:justify-center p-4">
+        <div className="min-h-screen bg-notwhite-400 sm:flex sm:items-center sm:justify-center p-4">
             <form
                 onSubmit={handleSubmit}
                 className="w-full sm:max-w-lg sm:bg-notwhite-400 sm:rounded-xl sm:shadow-lg sm:p-10">

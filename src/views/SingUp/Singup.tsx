@@ -47,7 +47,7 @@ export function SignUp() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 sm:flex sm:items-center sm:justify-center p-4">
+        <div className="min-h-screen bg-notwhite-400 sm:flex sm:items-center sm:justify-center p-4">
             <div className="w-full sm:max-w-lg sm:bg-notwhite-400 sm:rounded-xl sm:shadow-lg sm:p-8">
                 <header className="w-full flex items-center justify-between p-4 text-gray-900 sm:p-0 sm:mb-4">
                     <i className="bi bi-arrow-left text-2xl"></i>
