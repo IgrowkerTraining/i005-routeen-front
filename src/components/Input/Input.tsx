@@ -25,7 +25,7 @@ export default function Input({
 }: InputProps) {
   const [isFocused, setIsFocused] = useState(false)
 
-  const isActive = isFocused || (value && value.length > 0)
+  const isActive = isFocused || (value && (typeof value === 'string' ? value.length > 0 : value > 0))
 
   return (
     <div className="relative flex flex-col w-full">

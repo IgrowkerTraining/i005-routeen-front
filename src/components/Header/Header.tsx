@@ -1,30 +1,32 @@
-import { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import {
-  Menu,
-  User,
-  LogOut,
-  Home,
-  Users,
-  Calendar,
-  Bell,
-  Trophy,
-} from 'lucide-react'
+import React, { useState, useRef, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../store/AuthContext'
+import { Menu, User, LogOut, Home, Users, Bell, Trophy } from 'lucide-react'
 
 type HeaderProps = {
   profilePicture?: string
   trainerName?: string
+  userRole: 'trainer' | 'athlete'
 }
 
 export function Header({
   profilePicture = '/images/users/Imagen_perfil-2.png',
   trainerName = 'Entrenador',
+  userRole,
 }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement | null>(null)
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const closeMenu = () => setIsMenuOpen(false)
+
+  const navigate = useNavigate()
+  const { logout } = useAuth()
+  const handleLogout = async (event: React.MouseEvent) => {
+    event.preventDefault()
+    await logout()
+    navigate('/')
+  }
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -87,28 +89,30 @@ export function Header({
             </Link>
             <Link
               to="/notifications"
-              onClick={closeMenu}
               className="flex items-center gap-3 px-4 py-2 text-sm text-primary-400 font-sans hover:bg-accent-400 hover:text-[#121f33] cursor-pointer"
             >
               <Bell className="h-5 w-5" />
               Notificaciones
             </Link>
-            <Link
-              to="/routines"
-              onClick={closeMenu}
-              className="flex items-center gap-3 px-4 py-2 text-sm text-primary-400 font-sans hover:bg-accent-400 hover:text-[#121f33] cursor-pointer"
-            >
-              <Trophy className="h-5 w-5" />
-              Biblioteca de rutinas
-            </Link>
-            <Link
-              to="/logout"
-              onClick={closeMenu}
-              className="flex items-center gap-3 px-4 py-2 text-sm text-primary-400 font-sans hover:bg-accent-400 hover:text-[#121f33] cursor-pointer"
+            {userRole === 'trainer' && (
+              <Link
+                to="/routines"
+                onClick={closeMenu}
+                className="flex items-center gap-3 px-4 py-2 text-sm text-primary-400 font-sans hover:bg-accent-400 hover:text-[#121f33] cursor-pointer"
+              >
+                <Trophy className="h-5 w-5" />
+                Biblioteca de rutinas
+              </Link>
+            )}
+            {/* Espacio antes del botón de cerrar sesión */}
+            <div className="mt-8" />
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-3 w-full text-left px-4 py-2 text-sm text-primary-400 font-sans hover:bg-accent-400 hover:text-[#121f33] cursor-pointer"
             >
               <LogOut className="h-5 w-5" />
               Cerrar sesión
-            </Link>
+            </button>
           </div>
         )}
 
@@ -137,13 +141,6 @@ export function Header({
           </Link>
           <Link
             to="/agenda"
-            className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
-          >
-            <Calendar className="h-5 w-5" />
-            Agenda
-          </Link>
-          <Link
-            to="/notifications"
             className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
           >
             <Bell className="h-5 w-5" />

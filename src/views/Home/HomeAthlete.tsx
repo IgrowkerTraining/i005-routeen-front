@@ -9,7 +9,7 @@ export default function HomeAthlete() {
     const { athleteId } = useParams<{ athleteId: string }>();
 
     // Usamos el contexto para obtener la rutina y la función para cargarla
-    const { routine, fetchRoutine } = useRoutineContext();
+    const { fetchRoutine } = useRoutineContext();
 
     // Ejecutamos el fetch cuando el componente se monta o cuando cambia el athleteId
     useEffect(() => {
