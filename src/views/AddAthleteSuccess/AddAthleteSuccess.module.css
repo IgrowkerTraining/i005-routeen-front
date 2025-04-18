@@ -1,4 +1,4 @@
-.container{
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,14 +6,17 @@
     width: 100%;
     height: 75vh;
 }
-.arrow{
+
+.arrow {
     font-size: 2rem;
     color: #172b4d;
-} 
-.agregar_alumno{
+}
+
+.agregar_alumno {
     margin: 0 auto 0 auto;
 }
-.header{
+
+.header {
     width: 90%;
     display: flex;
     align-items: center;
@@ -21,62 +24,67 @@
     margin-top: 1rem;
     margin-bottom: 2rem;
 }
-.section{
+
+.section {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 90%;
 }
-.title{
+
+.title {
     text-align: center;
     margin-bottom: 2rem;
 }
-.check_icon{
+
+.check_icon {
     font-size: 3rem;
     color: #172b4d;
 }
-.button{
+
+.button {
     margin-top: 60%;
 }
 
 /* MODAL */
-.modal{
+.modal {
     overflow: hidden;
 }
-.title_container{
+
+.title_container {
     background-color: #172b4d;
     color: whitesmoke;
     padding: 1rem;
     display: flex;
     align-items: center;
 }
-.title{
- margin: 0;
+
+.title {
+    margin: 0;
 }
-.data_container{
+
+.data_container {
     display: flex;
     flex-direction: column;
     color: rgba(0, 0, 0, 0.521);
 }
-.edit_container{
+
+.edit_container {
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
-.pen{
-    color: #172b4d;
-    font-size: 1.5rem;
+.phone{
+    text-align: center;
 }
-
-
-
 @media (min-width: 650px) and (max-width: 3000px) {
-    .button{
+    .button {
         margin-top: 2rem;
         width: 400px;
     }
-    .header{
+
+    .header {
         display: none;
     }
-  }
+}
