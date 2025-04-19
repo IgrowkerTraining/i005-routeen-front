@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getAthleteById from "../../../logic/trainer/getAthleteById";
 import getTokenData from "../../../logic/auth/getTokenData";
+import { Athlete } from "../../../types";
 
 export const AthleteInfoTab = () => {
     const { id } = useParams()
-    const [athlete, setAthlete] = useState<any>(null);
+    const [athlete, setAthlete] = useState<Athlete>();
 
     useEffect(() => {
         const fetchAthlete = async () => {

@@ -1,84 +1,68 @@
-import { Button } from "../../components/Button/Button"
-import Input from "../../components/Input/Input"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { PencilIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import getTokenData from "../../logic/auth/getTokenData";
+import getTrainerInfo from "../../logic/trainer/getTrainerInfo";
+import { Trainer, TrainerBasic } from "../../logic/interfaces/trainer";
+import { useNavigate } from "react-router-dom";
 
 export default function TrainerProfile() {
     const navigate = useNavigate()
-    const [name, setName] = useState("")
-    const [birthday, setBirthday] = useState("")
-    const [phone, setPhone] = useState("")
-    const [profession, setProfession] = useState("")
+    const [trainer, setTrainer] = useState<Trainer>();
 
-    const handleContinue = (e: React.FormEvent) => {
-        e.preventDefault()
-        console.log("...")
+    useEffect(() => {
+        const fetchAthlete = async () => {
+          const tokenData = await getTokenData();
+          if (!tokenData) {
+            console.error("No trainer data found");
+            return;
+          }
+    
+          try {
+            const data = await getTrainerInfo(tokenData as TrainerBasic);
+            setTrainer(data);
+          } catch (error) {
+            console.error("Error fetching athlete:", error);
+          }
+        };
+    
+        fetchAthlete();
+      }, []);
 
-        setTimeout(() => {
-            navigate("/home")
-        }, 500)
+      if (!trainer) {
+        return <p className="text-center">Cargando datos del entrenador...</p>;
+      }
 
-    }
     return (
-        <form
-            onSubmit={handleContinue}
-            className="flex h-screen justify-between flex-col px-4 pb-4">
-            <section className="flex  items-center w-full gap-5">
-
-                <h2 className="text-[30px] text-notblack-400 ">
-                    Ingresar datos personales
-                </h2>
-            </section>
-            <div className="flex flex-col justify-center not-odd:w-full gap-4">
-                <Input
-                    id="name"
-                    type="text"
-                    placeholder="Nombre"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <Input
-                    id="birthday"
-                    type="date"
-                    placeholder="Fecha de nacimiento"
-                    value={birthday}
-                    onChange={(e) => setBirthday(e.target.value)}
-                />
-                <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="Teléfono"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                />
-                <Input
-                    id="profession"
-                    type="text"
-                    placeholder="Profesión"
-                    value={profession}
-                    onChange={(e) => setProfession(e.target.value)}
-                />
-            </div>
-            <section className="flex justify-between items-center w-full gap-5 p-3">
-                <i className="bi bi-person-circle text-9xl"></i>
-
-                {/* Añadir funcionalidad subir imagen */}
-
-                <button
-                    onClick={() => console.log("Subir foto perfil")}
-                    className="bg-primary-400 text-notwhite-400 px-5 py-2.5 rounded-md shadow-md shadow-gray-400"
-                >
-                    Subir foto de perfil
-                </button>
-
-            </section>
-            {/* Añadir funcionalidad, siguiente es ir a home? */}
-            <Button
-                text="Siguiente"
-                variant="primary"
-                href="/home"
+        <div className="flex flex-col items-center p-6 space-y-6 min-h-screen relative">
+            <img
+                // src={trainer.avatar}
+                alt="Perfil"
+                className="w-24 h-24 rounded-full object-cover shadow-md"
             />
-        </form>
-    )
+
+            <div className="w-full max-w-sm bg-white border border-gray-300 rounded p-4 shadow-sm">
+                <h2 className="font-bold text-slate-800">Datos personales</h2>
+                <div className="text-gray-700 space-y-2 text-sm">
+                <p><span className="font-semibold">Nombre:</span>&nbsp;{trainer.name}</p>
+                <p><span className="font-semibold">E-mail:</span>&nbsp;{trainer.email}</p>
+                <p><span className="font-semibold">Teléfono:</span>&nbsp;{trainer.phone}</p>
+                <p><span className="font-semibold">Fecha de nacimiento:</span>&nbsp;{trainer.date_birth}</p>
+                </div>
+            </div>
+
+            <div className="h-20"></div>
+
+            <div className="fixed bottom-4 w-full flex justify-center">
+                <div className="w-full max-w-sm px-4">
+                <button 
+                    onClick={() => navigate(`/edit-profile/${trainer._id}`)}
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-slate-800 text-white font-semibold rounded-md shadow hover:bg-slate-700 transition">
+                    <PencilIcon className="w-5 h-5" />
+                    Editar datos
+                </button>
+                </div>
+            </div>
+        </div>
+      );
 }
 
