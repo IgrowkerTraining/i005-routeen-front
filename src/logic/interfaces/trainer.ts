@@ -12,7 +12,7 @@ export interface TrainerBasic {
     id: string;
     name: string;
     role: "trainer";
-  }
+}
   
 
 export interface TrainerId {
