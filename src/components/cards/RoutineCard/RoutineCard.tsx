@@ -32,9 +32,8 @@ export default function RoutineCard({ canEdit = false, canSelect = false, onSele
     return (
         <div className="flex flex-col w-full gap-4">
             {routines.map(routine => (
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4" key={routine.id}>
                     <div
-                        key={routine.id}
                         onClick={() => onRoutineClick(Number(routine.id))}
                         className="flex items-center w-full bg-notwhite-400 px-4 shadow-md py-2 relative cursor-pointer"
                     >

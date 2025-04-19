@@ -1,8 +1,18 @@
 export type Athlete = {
-  id: string
-  name: string
-  avatar: string
-}
+  _id: string;
+  role: "athlete";
+  name: string;
+  email: string;
+  phone: string;
+  date_birth: string;
+  goals: string;
+  weight: string;
+  height: string;
+  gender: "male" | "female";
+  injuries: string;
+  trainer_id: string;
+  avatar: string;
+};
 
 export type Exercise = {
   id: string
