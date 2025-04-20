@@ -17,11 +17,12 @@ export function Header({
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement | null>(null)
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev)
   const closeMenu = () => setIsMenuOpen(false)
 
   const navigate = useNavigate()
   const { logout } = useAuth()
+
   const handleLogout = async (event: React.MouseEvent) => {
     event.preventDefault()
     await logout()
@@ -118,52 +119,70 @@ export function Header({
 
         {/* Navbar escritorio */}
         <nav className="hidden md:flex items-center gap-6 w-full">
-          <Link to="/home" className="flex items-center cursor-pointer">
+          {/* Logo a la izquierda */}
+          <Link to="/home" className="flex-shrink-0">
             <img
               src="/images/logo.png"
               alt="Logo Routeen"
               className="h-16 w-auto object-contain"
             />
           </Link>
-          <Link
-            to="/home"
-            className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
-          >
-            <Home className="h-5 w-5" />
-            Inicio
-          </Link>
-          <Link
-            to="/students"
-            className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
-          >
-            <Users className="h-5 w-5" />
-            Alumnos
-          </Link>
-          <Link
-            to="/agenda"
-            className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
-          >
-            <Bell className="h-5 w-5" />
-            Notificaciones
-          </Link>
-          <Link
-            to="/routines"
-            className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
-          >
-            <Trophy className="h-5 w-5" />
-            Biblioteca de rutinas
-          </Link>
-          <Link
-            to="/profile"
-            className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 ml-auto cursor-pointer"
-          >
-            <img
-              src={profilePicture}
-              alt="Perfil"
-              className="w-9 h-9 rounded-full object-cover border-2 border-accent-400"
-            />
-            {trainerName}
-          </Link>
+
+          {/* Botones centrales distribuidos */}
+          <div className="flex flex-1 justify-evenly">
+            <Link
+              to="/home"
+              className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+            >
+              <Home className="h-5 w-5" />
+              Inicio
+            </Link>
+            <Link
+              to="/students"
+              className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+            >
+              <Users className="h-5 w-5" />
+              Alumnos
+            </Link>
+            <Link
+              to="/agenda"
+              className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+            >
+              <Bell className="h-5 w-5" />
+              Notificaciones
+            </Link>
+            {userRole === 'trainer' && (
+              <Link
+                to="/routines"
+                className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+              >
+                <Trophy className="h-5 w-5" />
+                Biblioteca de rutinas
+              </Link>
+            )}
+          </div>
+
+          {/* Perfil y logout */}
+          <div className="flex items-center gap-4 ml-6">
+            <Link
+              to="/profile"
+              className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+            >
+              <img
+                src={profilePicture}
+                alt="Perfil"
+                className="w-9 h-9 rounded-full object-cover border-2 border-accent-400"
+              />
+              {trainerName}
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+            >
+              <LogOut className="h-5 w-5" />
+              Cerrar sesión
+            </button>
+          </div>
         </nav>
       </div>
     </header>
