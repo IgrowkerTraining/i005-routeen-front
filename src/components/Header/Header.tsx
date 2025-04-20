@@ -137,13 +137,15 @@ export function Header({
               <Home className="h-5 w-5" />
               Inicio
             </Link>
-            <Link
-              to="/students"
-              className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
-            >
-              <Users className="h-5 w-5" />
-              Alumnos
-            </Link>
+            {userRole === 'trainer' && (
+              <Link
+                to="/students"
+                className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+              >
+                <Users className="h-5 w-5" />
+                Alumnos
+              </Link>
+            )}
             <Link
               to="/agenda"
               className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
