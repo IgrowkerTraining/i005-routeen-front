@@ -4,11 +4,12 @@ import {
   useState,
   useEffect,
   ReactNode,
-  useRef,
 } from 'react'
 import getTokenData from '../logic/auth/getTokenData'
 import registerTrainer from '../logic/trainer/registerTrainer'
 import logoutUser from '../logic/auth/logout'
+import { useLocation } from 'react-router-dom'
+
 
 interface User {
   role: 'trainer' | 'athlete'
@@ -17,7 +18,6 @@ interface User {
 interface AuthContextType {
   user: User | null
   loading: boolean
-  login: (role: 'trainer' | 'athlete') => void
   logout: () => void
   register: (data: {
     name: string
@@ -43,9 +43,10 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const location = useLocation()
+
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
-  const hasFetched = useRef(false)
   const [tempRegisterData, setTempRegisterData] = useState<{
     email: string
     password: string
@@ -59,9 +60,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }) => {
     setTempRegisterData(data)
   }
-  const login = (role: 'trainer' | 'athlete') => {
-    setUser({ role })
-  }
 
   const logout = async () => {
     try {
@@ -73,22 +71,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   useEffect(() => {
-    if (hasFetched.current) return
-    hasFetched.current = true
-
-    ;(async () => {
+   
+    (async () => {
       try {
-        const data = await getTokenData()
+        const data = await getTokenData();
         if (data?.role) {
           setUser({ role: data.role })
+        } else {
+          setUser(null) 
         }
       } catch (error) {
-        console.log('No hay sesión activa')
+        setUser(null)
       } finally {
         setLoading(false)
       }
     })()
-  }, [])
+  }, [location.pathname])   
 
   const register = async (data: {
     name: string
@@ -122,7 +120,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       value={{
         user,
         loading,
-        login,
         logout,
         register,
         tempRegisterData,
