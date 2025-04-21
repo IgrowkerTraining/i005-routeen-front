@@ -1,38 +1,60 @@
-import { useState, useEffect, ChangeEvent } from "react"
+import { useState, useEffect, ChangeEvent, FormEvent } from "react"
 import { BookmarkIcon } from "lucide-react"
-import { useParams } from "react-router-dom"
-import { Trainer } from "../../logic/interfaces/trainer"
+import { useNavigate, useParams } from "react-router-dom"
 import getTrainerInfo from "../../logic/trainer/getTrainerInfo"
+import updateTrainer from "../../logic/trainer/updateTrainer"
 
 export default function TrainerProfileEdit() {
+    const navigate = useNavigate()
     const trainerId = useParams().id!
-    const [trainer, setTrainer] = useState<Trainer>();
     const [dataTrainer, setDataTrainer] = useState({
-        name: trainer?.name,
-        email: trainer?.email,
-        phone: trainer?.phone,
-        date: trainer?.date_birth
+        name: '',
+        email: '',
+        phone: '',
+        date_birth: ''
     })
 
     useEffect(() => {
-        const fetchAthlete = async () => {      
+        const fetchAthlete = async () => {
             try {
               const data = await getTrainerInfo({ id: trainerId });
-              setTrainer(data);
+              setDataTrainer({
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                date_birth: data.date_birth,
+              });
             } catch (error) {
               console.error("Error fetching athlete:", error);
             }
           };
       
           fetchAthlete();
-    }, [])
+    }, [trainerId])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setDataTrainer((prev) => ({
             ...prev,
             [e.target.name]: e.target.value
         }))
-        console.log(dataTrainer)
+    }
+
+    const handleSubmit = async (e : FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+
+        const fd = new FormData();
+        fd.append("name", dataTrainer.name);
+        fd.append("email", dataTrainer.email);
+        fd.append("phone", dataTrainer.phone);
+        fd.append("date_birth", dataTrainer.date_birth);
+
+        try {
+            await updateTrainer({ id: trainerId, data: fd })
+            navigate('/profile')
+        } catch (error) {
+            console.log("Error actualizar perfil")
+            console.log(error)
+        }
     }
 
     return (
@@ -60,13 +82,16 @@ export default function TrainerProfileEdit() {
             </button>
           </div>
     
-            <form className="w-full max-w-sm flex flex-col space-y-4">
+            <form
+                onSubmit={handleSubmit} 
+                className="w-full max-w-sm flex flex-col space-y-4"
+            >
                 <input
                     type="text"
                     name="name"
                     placeholder="Nombre"
                     className="border border-gray-300 rounded p-2 shadow-sm"
-                    value={trainer?.name}
+                    value={dataTrainer?.name || ''}
                     onChange={handleChange}
                 />
                 <input
@@ -74,7 +99,7 @@ export default function TrainerProfileEdit() {
                     name="email"
                     placeholder="Ingrese e-mail"
                     className="border border-gray-300 rounded p-2 shadow-sm"
-                    value={trainer?.email}
+                    value={dataTrainer?.email || ''}
                     onChange={handleChange}
                 />
                 <input
@@ -82,7 +107,7 @@ export default function TrainerProfileEdit() {
                     name="phone"
                     placeholder="Teléfono"
                     className="border border-gray-300 rounded p-2 shadow-sm"
-                    value={trainer?.phone}
+                    value={dataTrainer?.phone || ''}
                     onChange={handleChange}
                 />
                 <input
@@ -90,7 +115,7 @@ export default function TrainerProfileEdit() {
                     name="date_birth"
                     placeholder="Fecha de nacimiento"
                     className="border border-gray-300 rounded p-2 shadow-sm"
-                    value={trainer?.date_birth}
+                    value={dataTrainer?.date_birth || ''}
                     onChange={handleChange}
                 />
         
