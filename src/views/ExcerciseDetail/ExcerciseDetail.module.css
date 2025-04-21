@@ -51,7 +51,10 @@ p {
 }
 
 .inputs {
-    width: 4rem;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    text-align: center;
 }
 
 .section_container {
@@ -74,6 +77,8 @@ p {
 .button{
     display: flex;
     margin-top: 5rem;
+    justify-content: center;
+    font-size: 1.5rem;
 }
 .name{
     margin: 0 auto 0 auto;

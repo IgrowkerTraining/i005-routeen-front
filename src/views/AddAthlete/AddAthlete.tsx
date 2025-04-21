@@ -1,3 +1,4 @@
+// pages/AddAthlete/AddAthlete.tsx
 import styles from "./AddAthlete.module.css";
 import Input from "../../components/Input/Input";
 import { useState } from "react";
@@ -6,7 +7,6 @@ import { Button } from "../../components/Button/Button";
 import addAthlete from "../../logic/trainer/addAthlete";
 import { useNavigate } from "react-router-dom";
 import useAppContext from "../../store/AppContext";
-import { ToastNotifier } from "../../components/Notifier/Notifier";
 
 export const AddAthlete = () => {
   const [name, setName] = useState("");
@@ -15,7 +15,7 @@ export const AddAthlete = () => {
   const [birthday, setBirthday] = useState("");
   const [objective, setObjective] = useState("");
   const navigate = useNavigate();
-  const { store, actions } = useAppContext();
+  const { actions } = useAppContext();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,19 +38,43 @@ export const AddAthlete = () => {
         actions.setNewAthleteId(res.newAthlete._id);
         actions.setAthletePhone(phone);
         actions.setAthleteName(name);
-        actions.showToast(4)
+        actions.showToast(4); // éxito
         navigate("/add-athlete-success");
       }
     } catch (error: any) {
-      actions.showToast(2)
-      console.error("Error creating athlete:", error.response?.data || error.message);
+      const errorMsg = error?.response?.data?.message || "";
+      const errorData = error?.response?.data || {};
+
+      if (errorData?.phone === "phone already used") {
+        actions.showToast(6);
+      } else if (errorMsg.includes("email already used")) {
+        actions.showToast(5);
+      } else if (errorMsg.includes("Trainer not found")) {
+        actions.showToast(7);
+      } else if (errorMsg.includes("Invalid date format")) {
+        actions.showToast(9);
+      } else if (errorMsg.includes("Invalid phone format")) {
+        actions.showToast(10);
+      } else if (errorMsg.includes("Invalid email format")) {
+        actions.showToast(11);
+      } else if (errorMsg.includes("Invalid name format")) {
+        actions.showToast(12);
+      } else if (errorMsg.includes("goals: Path `goals` is required")) {
+        actions.showToast(13);
+      } else if (errorMsg.includes("Error creating athlete")) {
+        actions.showToast(8);
+      } else {
+        actions.showToast(2);
+      }
+
+      console.error("Error creating athlete:", errorMsg);
     }
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <i className={`${styles.arrow} bi bi-arrow-left`}></i>
+        <i className={`${styles.arrow} bi bi-arrow-left`} onClick={() => navigate("/home")}></i>
         <p className="text-notblack-400"><strong>Agregar alumno</strong></p>
         <div>Menu</div>
       </div>
