@@ -4,6 +4,8 @@ import { useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import InputCalendar from "../../components/Calendar/InputCalendar"
 import { useAuth } from "../../store/AuthContext"
+import useAppContext from "../../store/AppContext";
+
 
 export default function CompleteProfile() {
     const navigate = useNavigate()
@@ -16,6 +18,8 @@ export default function CompleteProfile() {
     const [image, setImage] = useState<File | null>(null)
     const [imagePreview, setImagePreview] = useState<string | null>(null)
     const [error, setError] = useState("")
+    const { actions } = useAppContext();
+
 
     const handleImageClick = () => fileInputRef.current?.click()
 
@@ -74,6 +78,7 @@ export default function CompleteProfile() {
                 date_birth: formattedDate,
                 file: image
             })
+            actions.showToast(5)
 
             navigate("/login", { state: { rol: "trainer" } })
         } catch (err: any) {

@@ -108,7 +108,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       formData.append('file', data.file)
 
       await registerTrainer(formData)
-      setUser({ role: 'trainer' })
     } catch (err) {
       console.error('Error al registrar:', err)
       throw err

@@ -6,7 +6,6 @@ import { Button } from "../../components/Button/Button";
 import addAthlete from "../../logic/trainer/addAthlete";
 import { useNavigate } from "react-router-dom";
 import useAppContext from "../../store/AppContext";
-import { ToastNotifier } from "../../components/Notifier/Notifier";
 
 export const AddAthlete = () => {
   const [name, setName] = useState("");
@@ -15,7 +14,7 @@ export const AddAthlete = () => {
   const [birthday, setBirthday] = useState("");
   const [objective, setObjective] = useState("");
   const navigate = useNavigate();
-  const { store, actions } = useAppContext();
+  const { actions } = useAppContext();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
