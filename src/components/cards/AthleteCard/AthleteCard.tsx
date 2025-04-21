@@ -32,7 +32,6 @@ export default function AthleteCard({ athletes, onClearSearch }: AthleteCardProp
             // lógica de renovación
         }
     }
-    console.log("Athletes:", athletes)
 
     return (
 
@@ -42,12 +41,12 @@ export default function AthleteCard({ athletes, onClearSearch }: AthleteCardProp
             ) : (
                 athletes.map((athlete) => (
                     <div
-                        key={athlete.id}
+                        key={athlete._id}
                         className="relative flex items-center justify-between bg-notwhite-400 px-4 py-2 shadow-[0px_1px_4px_4px_rgba(0,0,0,0.2)] rounded-[12px] cursor-pointer transition duration-300 ease-in-out hover:bg-gray-100"
                     >
                         <div
                             className="flex-1 flex justify-start gap-4"
-                            onClick={() => handleCardClick(athlete.id)}
+                            onClick={() => handleCardClick(athlete._id)}
                         >
 
                             {athlete.avatar ? (
@@ -75,7 +74,7 @@ export default function AthleteCard({ athletes, onClearSearch }: AthleteCardProp
                                 onClick={(e) => {
                                     e.stopPropagation()
                                     setSelectedAthleteId((prev) =>
-                                        prev === athlete.id ? null : athlete.id
+                                        prev === athlete._id ? null : athlete._id
                                     )
                                 }}
                                 className="w-[40px] h-[40px] hover:bg-secondary-400 hover:opacity-50 rounded-full transition duration-300 ease-in-out transform"
@@ -85,8 +84,8 @@ export default function AthleteCard({ athletes, onClearSearch }: AthleteCardProp
                             </button>
 
                             <Dropdown
-                                key={athlete.id}
-                                isOpen={selectedAthleteId === athlete.id}
+                                key={athlete._id}
+                                isOpen={selectedAthleteId === athlete._id}
                                 onClose={() => setSelectedAthleteId(null)}
                                 options={[
                                     {

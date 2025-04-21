@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { AthleteRoutineTab } from "./tabs/AthleteRoutineTab"
+import { AthleteInfoTab } from "./tabs/AthleteInfoTab"
 import { Athlete } from "../../types"
 import getTokenData from "../../logic/auth/getTokenData"
 import getAthleteById from "../../logic/trainer/getAthleteById"
@@ -84,7 +85,7 @@ export const AthleteOverview = () => {
 
         <div>
           {activeTab === "info" && (
-            <div className="text-notblack-400">Contenido de Información</div>
+            <AthleteInfoTab />
           )}
           {activeTab === "plan" && (
             <AthleteRoutineTab />

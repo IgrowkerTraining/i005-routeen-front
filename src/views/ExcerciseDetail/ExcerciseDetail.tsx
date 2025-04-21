@@ -68,6 +68,7 @@ export const ExcerciseDetail = () => {
             <strong>
               <Input
                 type="text"
+                className={styles.inputs}
                 value={sets}
                 onChange={(e) => setSets(Number(e.target.value))}
               />
@@ -98,12 +99,12 @@ export const ExcerciseDetail = () => {
           </div>
           <Button
             className={styles.button}
-            text="Listo"
+            text="  Listo"
             variant="primary"
             onClick={() =>
               console.log("Agregar Alumno con:", { sets, reps, weight })
             }
-            icon={<i className="bi bi-check-circle-fill"></i>}
+            icon={<i className="bi bi-check-circle-fill" style={{ fontSize: '1.5rem' }}></i>}
           />
         </div>
       </div>

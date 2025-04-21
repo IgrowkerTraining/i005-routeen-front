@@ -1,3 +1,4 @@
+// store/AppContext.tsx
 import { useContext, createContext, useState, ReactNode, useCallback } from "react";
 import { athletesMock } from "../mocks/athletes";
 import { Athlete, ToastMessage } from "../types";
@@ -34,8 +35,19 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     { id: 2, type: "error", message: "Ocurrió un error al cargar los datos.", isVisible: false },
     { id: 3, type: "info", message: "Tu progreso fue actualizado.", isVisible: false },
     { id: 4, type: "info", message: "Alumno agregado correctamente.", isVisible: false },
-
+    { id: 5, type: "error", message: "Ese email ya está en uso.", isVisible: false },
+    { id: 6, type: "error", message: "Ese número de teléfono ya está en uso.", isVisible: false },
+    { id: 7, type: "error", message: "Entrenador no encontrado.", isVisible: false },
+    { id: 8, type: "error", message: "Hubo un problema al validar los datos.", isVisible: false },
+    { id: 9, type: "error", message: "Formato de fecha inválido. Debe ser YYYY-MM-DD.", isVisible: false },
+    { id: 10, type: "error", message: "Formato de teléfono inválido. Debe tener entre 8 y 15 dígitos.", isVisible: false },
+    { id: 11, type: "error", message: "Formato de email inválido. Verificá que esté bien escrito.", isVisible: false },
+    { id: 12, type: "error", message: "Formato de nombre inválido. Usá solo letras, espacios y guiones.", isVisible: false },
+    { id: 13, type: "error", message: "El objetivo del alumno es obligatorio. Por favor completalo.", isVisible: false },
+    { id: 14, type: "info", message: "Usuario registrado correctamente.", isVisible: false },
   ]);
+
+
   const [athletes, setAthletes] = useState<Athlete[]>(athletesMock);
   const [newAthleteId, setNewAthleteIdState] = useState<string | null>(null);
   const [athletePhone, setAthletePhone] = useState<string | null>(null);

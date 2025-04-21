@@ -1,128 +1,106 @@
-import { Button } from "../../components/Button/Button"
-import Input from "../../components/Input/Input"
-import { useState, useRef } from "react"
-//import { useNavigate } from "react-router-dom"
-import InputCalendar from "../../components/Calendar/InputCalendar"
+import { useState, useEffect, ChangeEvent } from "react"
+import { BookmarkIcon } from "lucide-react"
+import { useParams } from "react-router-dom"
+import { Trainer } from "../../logic/interfaces/trainer"
+import getTrainerInfo from "../../logic/trainer/getTrainerInfo"
 
 export default function TrainerProfileEdit() {
-    //const navigate = useNavigate()
-    const fileInputRef = useRef<HTMLInputElement>(null)
+    const trainerId = useParams().id!
+    const [trainer, setTrainer] = useState<Trainer>();
+    const [dataTrainer, setDataTrainer] = useState({
+        name: trainer?.name,
+        email: trainer?.email,
+        phone: trainer?.phone,
+        date: trainer?.date_birth
+    })
 
-    const [name, setName] = useState("")
-    const [birthday, setBirthday] = useState("")
-    const [phone, setPhone] = useState("")
-    const [mail, setMail] = useState("")
-    const [center, setCenter] = useState("")
-    const [image, setImage] = useState<File | null>(null)
-    const [imagePreview, setImagePreview] = useState<string | null>(null)
-    const [error, setError] = useState("")
+    useEffect(() => {
+        const fetchAthlete = async () => {      
+            try {
+              const data = await getTrainerInfo({ id: trainerId });
+              setTrainer(data);
+            } catch (error) {
+              console.error("Error fetching athlete:", error);
+            }
+          };
+      
+          fetchAthlete();
+    }, [])
 
-    const handleImageClick = () => {
-        fileInputRef.current?.click()
-    }
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-        if (!file) return
-
-        setImage(file)
-        const url = URL.createObjectURL(file)
-        setImagePreview(url)
-        setError("")
-    }
-    //TODO : manejar errores
-    const handleImageError = () => {
-        setError("Error al cargar la imagen")
-        setImage(null)
-        setImagePreview(null)
-    }
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-
-        const formData = new FormData()
-        formData.append("name", name)
-        formData.append("birthday", birthday)
-        formData.append("phone", phone)
-        if (image) formData.append("file", image)
-
-        try {
-            // await updateProfile(formData) 
-            // navigate("/home")
-        } catch (error) {
-            console.error("Error al enviar el formulario", error)
-            setError("Error al enviar el formulario")
-            setImage(null)
-            setImagePreview(null)
-        }
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setDataTrainer((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }))
+        console.log(dataTrainer)
     }
 
     return (
-        <div className="min-h-screen bg-notwhite-400 sm:flex sm:items-center sm:justify-center p-4">
-
-            <section className="flex items-center w-full gap-5">
-                <h2 className="text-[40px] text-notblack-400">
-                    Editar perfil
-                </h2>
-            </section>
-            <section className="flex justify-between items-center w-full p-3 mt-4">
-                {imagePreview ? (
+        <div className="flex flex-col items-center p-6 space-y-6 min-h-screen bg-gray-50">
+          
+          <h1 className="text-1xl text-center">Editar perfil</h1>
+    
+          <div className="flex flex-col items-center space-y-4">
+            <div className="w-24 h-24 rounded-full flex items-center justify-center">
+            {false ? (
                     <img
-                        src={imagePreview}
-                        onClick={handleImageClick}
-                        onError={handleImageError}
+                        // src={imagePreview}
+                        // onClick={handleImageClick}
+                        //onError={handleImageError}
                         alt="Imagen de perfil"
                         className="w-33 h-33 rounded-full object-cover cursor-pointer"
                     />
                 ) : (
-                    <i className="bi bi-person-circle text-[132px]"
-                        onClick={handleImageClick}
-                    >
-                    </i>
+                    <i className="bi bi-person-circle text-[132px]" />
                 )}
-                <button
-                    onClick={handleImageClick}
-                    className="bg-primary-400 text-notwhite-400 p-3 rounded-md shadow-md shadow-gray-400"
-                >
-                    Subir foto de perfil
-                </button>
-                {error && (
-                    <p className="text-red-500 text-sm">{error}</p>
-                )}
+            </div>
+    
+            <button className="bg-slate-800 text-white px-4 py-2 rounded shadow hover:bg-slate-700 transition">
+              Subir foto de perfil
+            </button>
+          </div>
+    
+            <form className="w-full max-w-sm flex flex-col space-y-4">
                 <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    onChange={handleImageChange}
-                    className="hidden"
+                    type="text"
+                    name="name"
+                    placeholder="Nombre"
+                    className="border border-gray-300 rounded p-2 shadow-sm"
+                    value={trainer?.name}
+                    onChange={handleChange}
                 />
-            </section>
-            <form
-                onSubmit={handleSubmit}
-                className="w-full sm:max-w-lg sm:bg-notwhite-400 sm:rounded-xl sm:shadow-lg sm:p-8">
-                <div className="flex flex-col justify-start w-full gap-4 mt-4">
-                    <Input id="name" type="text" placeholder="Nombre*" value={name} onChange={(e) => setName(e.target.value)} label showIcon />
-                    <Input id="mail" type="mail" placeholder="E-mail*" value={mail} onChange={(e) => setMail(e.target.value)} label showIcon />
-                    <Input id="phone" type="tel" placeholder="Teléfono*" value={phone} onChange={(e) => setPhone(e.target.value)} label showIcon />
-                    <InputCalendar
-                        id="birthday"
-                        label="Fecha de nacimiento"
-                        onChange={(e) => setBirthday(e.target.value)}
-                        value={birthday}
-                        isRequired
-                    />
-                    <Input id="sport-center" type="text" placeholder="Centro deportivo" value={center} onChange={(e) => setCenter(e.target.value)} label showIcon />
-
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Ingrese e-mail"
+                    className="border border-gray-300 rounded p-2 shadow-sm"
+                    value={trainer?.email}
+                    onChange={handleChange}
+                />
+                <input
+                    type="text"
+                    name="phone"
+                    placeholder="Teléfono"
+                    className="border border-gray-300 rounded p-2 shadow-sm"
+                    value={trainer?.phone}
+                    onChange={handleChange}
+                />
+                <input
+                    type="text"
+                    name="date_birth"
+                    placeholder="Fecha de nacimiento"
+                    className="border border-gray-300 rounded p-2 shadow-sm"
+                    value={trainer?.date_birth}
+                    onChange={handleChange}
+                />
+        
+                <div className="w-full max-w-sm pt-6">
+                    <button className="flex justify-center items-center gap-2 w-full px-6 py-3 bg-slate-800 text-white font-semibold rounded shadow hover:bg-slate-700 transition">
+                        <BookmarkIcon className="w-5 h-5" />
+                        Guardar
+                    </button>
                 </div>
-
-                <Button
-                    text="Siguiente"
-                    variant="primary"
-                    href="/home"
-                    className="mt-4"
-                />
             </form>
         </div>
-    )
+    );
 }
-

@@ -1,10 +1,19 @@
 export interface Trainer {
-    _id: string
-    name: string
-    email: string
-    phone: string
-    date_birth: string
+    _id: string;
+    name: string;
+    email: string;
+    password: string;
+    role: "trainer";
+    phone: string;
+    date_birth: string;
 }
+
+export interface TrainerBasic {
+    id: string;
+    name: string;
+    role: "trainer";
+}
+  
 
 export interface TrainerId {
     trainer_id: string
