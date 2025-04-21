@@ -9,11 +9,7 @@ type HeaderProps = {
   userRole: 'trainer' | 'athlete'
 }
 
-export function Header({
-  profilePicture = '/images/users/Imagen_perfil-2.png',
-  trainerName = 'Entrenador',
-  userRole,
-}: HeaderProps) {
+export function Header({ profilePicture, trainerName, userRole }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement | null>(null)
 
@@ -48,13 +44,13 @@ export function Header({
   }, [isMenuOpen])
 
   return (
-    <header className="w-full shadow-md py-3 px-4 bg-notwhite-400">
+    <header className="w-full shadow-md py-3 px-4 bg-notwhite-400 fixed top-0 z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Vista móvil */}
         <div className="flex w-full items-center justify-between md:hidden">
-          {/* Perfil (link al perfil del usuario) */}
+          {/* Perfil */}
           <Link
-            to="/profile"
+            to="/"
             className="flex items-center gap-2 cursor-pointer"
             onClick={closeMenu}
           >
@@ -118,71 +114,71 @@ export function Header({
         )}
 
         {/* Navbar escritorio */}
-        <nav className="hidden md:flex items-center gap-6 w-full">
+        <nav className="hidden md:flex items-center w-full gap-4 overflow-x-auto">
           {/* Logo a la izquierda */}
           <Link to="/home" className="flex-shrink-0">
             <img
               src="/images/logo.png"
               alt="Logo Routeen"
-              className="h-16 w-auto object-contain"
+              className="h-14 w-auto object-contain"
             />
           </Link>
 
-          {/* Botones centrales distribuidos */}
-          <div className="flex flex-1 justify-evenly">
+          {/* Botones centrales */}
+          <div className="flex flex-1 justify-evenly items-center gap-4 min-w-0">
             <Link
               to="/home"
-              className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+              className="flex items-center gap-1.5 text-primary-400 font-sans hover:text-accent-400 whitespace-nowrap"
             >
-              <Home className="h-5 w-5" />
+              <Home className="h-5 w-5 md:h-4 md:w-4 min-w-[16px] flex-shrink-0" />
               Inicio
             </Link>
             {userRole === 'trainer' && (
               <Link
                 to="/students"
-                className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+                className="flex items-center gap-1.5 text-primary-400 font-sans hover:text-accent-400 whitespace-nowrap"
               >
-                <Users className="h-5 w-5" />
+                <Users className="h-5 w-5 md:h-4 md:w-4 min-w-[16px] flex-shrink-0" />
                 Alumnos
               </Link>
             )}
             <Link
               to="/agenda"
-              className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+              className="flex items-center gap-1.5 text-primary-400 font-sans hover:text-accent-400 whitespace-nowrap"
             >
-              <Bell className="h-5 w-5" />
+              <Bell className="h-5 w-5 md:h-4 md:w-4 min-w-[16px] flex-shrink-0" />
               Notificaciones
             </Link>
             {userRole === 'trainer' && (
               <Link
                 to="/routines"
-                className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+                className="flex items-center gap-1.5 text-primary-400 font-sans hover:text-accent-400 whitespace-nowrap"
               >
-                <Trophy className="h-5 w-5" />
+                <Trophy className="h-5 w-5 md:h-4 md:w-4 min-w-[16px] flex-shrink-0" />
                 Biblioteca de rutinas
               </Link>
             )}
           </div>
 
           {/* Perfil y logout */}
-          <div className="flex items-center gap-4 ml-6">
+          <div className="flex items-center gap-3 ml-4 flex-shrink-0">
             <Link
               to="/profile"
-              className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+              className="flex items-center gap-1.5 text-primary-400 font-sans hover:text-accent-400 whitespace-nowrap"
             >
               <img
                 src={profilePicture}
                 alt="Perfil"
                 className="w-9 h-9 rounded-full object-cover border-2 border-accent-400"
               />
-              {trainerName}
+              <span className="hidden lg:inline">{trainerName}</span>
             </Link>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 text-primary-400 font-sans hover:text-accent-400 cursor-pointer"
+              className="flex items-center gap-1.5 text-primary-400 font-sans hover:text-accent-400 whitespace-nowrap"
             >
-              <LogOut className="h-5 w-5" />
-              Cerrar sesión
+              <LogOut className="h-5 w-5 md:h-4 md:w-4 min-w-[16px] flex-shrink-0" />
+              <span className="hidden sm:inline">Cerrar sesión</span>
             </button>
           </div>
         </nav>
