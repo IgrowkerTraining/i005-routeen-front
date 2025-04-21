@@ -38,7 +38,7 @@ export const AddAthlete = () => {
         actions.setNewAthleteId(res.newAthlete._id);
         actions.setAthletePhone(phone);
         actions.setAthleteName(name);
-        actions.showToast(4); // éxito
+        actions.showToast(4); 
         navigate("/add-athlete-success");
       }
     } catch (error: any) {
