@@ -34,6 +34,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     { id: 2, type: "error", message: "Ocurrió un error al cargar los datos.", isVisible: false },
     { id: 3, type: "info", message: "Tu progreso fue actualizado.", isVisible: false },
     { id: 4, type: "info", message: "Alumno agregado correctamente.", isVisible: false },
+    { id: 5, type: "info", message: "Usuario registrado correctamente.", isVisible: false },
 
   ]);
   const [athletes, setAthletes] = useState<Athlete[]>(athletesMock);
