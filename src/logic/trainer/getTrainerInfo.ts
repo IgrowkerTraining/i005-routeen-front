@@ -1,9 +1,8 @@
 import axios from '../../api/axiosInstance'
-import { TrainerId } from '../interfaces/trainer'
 
-const getTrainerInfo = async (data: TrainerId) => {
-    const { trainer_id } = data
-    const res = await axios.get(`/trainer/${trainer_id}`, {
+const getTrainerInfo = async (data: { id: string }) => {
+    const { id } = data
+    const res = await axios.get(`/trainer/${id}`, {
         withCredentials: true,
     })
     return res.data

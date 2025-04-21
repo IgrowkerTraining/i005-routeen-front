@@ -44,6 +44,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     { id: 11, type: "error", message: "Formato de email inválido. Verificá que esté bien escrito.", isVisible: false },
     { id: 12, type: "error", message: "Formato de nombre inválido. Usá solo letras, espacios y guiones.", isVisible: false },
     { id: 13, type: "error", message: "El objetivo del alumno es obligatorio. Por favor completalo.", isVisible: false },
+    { id: 14, type: "info", message: "Usuario registrado correctamente.", isVisible: false },
   ]);
 
 
