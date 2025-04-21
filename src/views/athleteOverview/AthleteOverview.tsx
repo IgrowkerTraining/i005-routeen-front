@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useParams } from "react-router-dom"
 import useAppContext from "../../store/AppContext"
 import { AthleteRoutineTab } from "./tabs/AthleteRoutineTab"
+import { AthleteInfoTab } from "./tabs/AthleteInfoTab"
 
 export const AthleteOverview = () => {
   const [activeTab, setActiveTab] = useState<"info" | "plan" | "progress">("plan")
@@ -9,7 +10,7 @@ export const AthleteOverview = () => {
   const { store: { athletes } } = useAppContext()
 
   const athleteId = Number(id)
-  const athlete = athletes.find((a) => Number(a.id) === athleteId)
+  const athlete = athletes.find((a) => Number(a._id) === athleteId)
 
   const tabTitles: Record<"info" | "plan" | "progress", string> = {
     info: "Información",
@@ -45,7 +46,7 @@ export const AthleteOverview = () => {
 
         <div>
           {activeTab === "info" && (
-            <div className="text-notblack-400">Contenido de Información</div>
+            <AthleteInfoTab />
           )}
           {activeTab === "plan" && (
             <AthleteRoutineTab />

@@ -94,7 +94,6 @@ export default function HomeTrainer() {
 
           <AthleteCard athletes={filteredAthletes} onClearSearch={() => setSearch("")} />
 
-
           <Button
             text="Agregar"
             variant="primary"
