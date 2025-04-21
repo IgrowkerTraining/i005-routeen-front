@@ -3,6 +3,7 @@ import styles from "./AddAthleteSuccess.module.css";
 import getTokenData from "../../logic/auth/getTokenData";
 import useAppContext from "../../store/AppContext";
 import getOTP from "../../logic/trainer/getOTP";
+import { useNavigate } from "react-router-dom";
 
 interface TrainerData {
     role: "trainer" | "athlete";
@@ -16,8 +17,9 @@ export const AddAthleteSuccess = () => {
     const [OTPcode, setOTPcode] = useState<string | null>(null);
     const { store } = useAppContext();
     const { athletePhone } = store;
-    const [phone, setPhone] = useState<string>(athletePhone || "");
-    const hasFetchedOTP = useRef(false); // 👈
+    const [phone] = useState<string>(athletePhone || "");
+    const hasFetchedOTP = useRef(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchTokenData = async () => {
@@ -73,13 +75,14 @@ export const AddAthleteSuccess = () => {
         const message = `Hola, ${store.athleteName}! Tu código *ROUTEEN* es *${OTPcode}*`;
         const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
         window.open(url, "_blank");
+        navigate("/home")
     };
 
     return (
         <>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <i className={`${styles.arrow} bi bi-arrow-left`}></i>
+                    <i className={`${styles.arrow} bi bi-arrow-left`} onClick={() => navigate("/add-athlete")}></i>
                     <p className={`text-notblack-400 ${styles.agregar_alumno}`}>
                         <strong>Agregar alumno</strong>
                     </p>
