@@ -19,6 +19,7 @@ interface AppContextType {
     setNewAthleteId: (id: string) => void;
     setAthletePhone: (phone: string) => void;
     setAthleteName: (name: string) => void;
+    setAthletes: (athletes: Athlete[]) => void;
   };
 }
 
@@ -68,10 +69,18 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   }, []);
 
   const searchStudents = useCallback((term: string) => {
-    const filteredStudents = athletesMock.filter(athlete =>
-      athlete.name.toLowerCase().includes(term.toLowerCase())
-    );
-    setAthletes(filteredStudents);
+    if (!term) {
+      setAthletes(athletesMock)
+      return;
+    }
+    const filteredStudents = athletes.filter(athlete =>
+      athlete.name.toLocaleLowerCase().includes(term.toLocaleLowerCase())
+    )
+    setAthletes(filteredStudents)
+  }, [])
+
+  const updateAthletes = useCallback((newAthletes: Athlete[]) => {
+    setAthletes(newAthletes);
   }, []);
 
   const setNewAthleteId = useCallback((id: string) => {
@@ -83,7 +92,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   }, []);
 
   const store = { toasts, athletes, newAthleteId, athletePhone, athleteName };
-  const actions = { showToast, removeToast, searchStudents, setNewAthleteId, setAthletePhone, setAthleteName };
+  const actions = { showToast, removeToast, searchStudents, setNewAthleteId, setAthletePhone, setAthleteName,setAthletes: updateAthletes };
 
   return (
     <AppContext.Provider value={{ store, actions }}>

@@ -58,7 +58,7 @@ export default function TrainerProfileEdit() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 sm:flex sm:items-center sm:justify-center p-4">
+        <div className="min-h-screen bg-notwhite-400 sm:flex sm:items-center sm:justify-center p-4">
 
             <section className="flex items-center w-full gap-5">
                 <h2 className="text-[40px] text-notblack-400">

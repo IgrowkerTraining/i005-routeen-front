@@ -2,8 +2,8 @@ import axios from '../../api/axiosInstance'
 
 interface TokenData {
   role: 'trainer' | 'athlete'
+  id: string
   name: string
-  id: number
 }
 
 const getTokenData = async (): Promise<TokenData | null> => {

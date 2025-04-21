@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import {  Route, Routes } from 'react-router-dom'
 import { Loading } from './views/Loading/Loading'
 import { Layout } from './layout/Layout'
 import { LandingPage } from './views/LandingPage/LandingPage'
@@ -10,12 +10,13 @@ import { AddAthleteSuccess } from './views/AddAthleteSuccess/AddAthleteSuccess'
 import { Login } from './views/Login/'
 import CompleteProfile from "./views/SingUp/CompleteProfile";
 import { ExcerciseDetail } from "./views/ExcerciseDetail/ExcerciseDetail";
-
-
+import { AthleteOverview } from './views/athleteOverview/AthleteOverview'
+import { AddNewRoutine } from './views/athleteOverview/AddNewRoutine'
+import { RoutineCardDetails } from './components/cards/RoutineCard/RoutineCardDetails'
 
 export function AppRouter() {
+
   return (
-    <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Loading />} index />
@@ -28,8 +29,10 @@ export function AppRouter() {
           <Route path="/add-athlete" element={<AddAthlete />} />
           <Route path="/add-athlete-success" element={<AddAthleteSuccess />} />
           <Route path="/excercise-detail/:id" element={<ExcerciseDetail />} />
+          <Route path="/athlete/:id/athlete-overview" element={<AthleteOverview />} />
+          <Route path="/athlete/:id/routine/new" element={<AddNewRoutine />} />
+          <Route path="/routine/:id" element={<RoutineCardDetails />} />
         </Route>
       </Routes>
-    </BrowserRouter>
   )
 }

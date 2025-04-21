@@ -1,21 +1,18 @@
 import { useAuth } from '../../store/AuthContext';
 import HomeAthlete from "./HomeAthlete"
 import HomeTrainer from "./HomeTrainer"
-import { Navigate } from 'react-router-dom';
+import { Loading } from '../Loading/Loading';
 
 export default function Home() {
-    const { user, loading } = useAuth();
-    if (loading) {
-        console.log("Loading...")
-        return null
-    }
-    if (!user) return <Navigate to="/welcome" replace />;
+    const { user, loading } = useAuth()
+    if (loading) return <Loading />
 
+    if (!user) return null
 
     return (
         <div>
-            {user.role === "trainer" ? <HomeTrainer /> : <HomeAthlete />}
+            {user?.role === 'trainer' ? <HomeTrainer /> : <HomeAthlete />}
         </div>
-    );
+    )
 }
 

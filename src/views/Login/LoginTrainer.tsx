@@ -5,12 +5,10 @@ import { Button } from "../../components/Button/Button"
 import { useState } from "react"
 import authTrainer from "../../logic/auth/authTrainer"
 import { AuthTrainerInput } from "../../logic/interfaces/auth"
-import { useAuth } from "../../store/AuthContext"
 import useAppContext from "../../store/AppContext"
 
 export default function LoginTrainer() {
     const navigate = useNavigate()
-    const { login } = useAuth()
     const { actions } = useAppContext()
 
     const [email, setEmail] = useState("")
@@ -19,13 +17,13 @@ export default function LoginTrainer() {
 
 
     const handleGoToSignUp = (e: React.MouseEvent) => {
-        e.preventDefault(); // Prevenir cualquier comportamiento por defecto
-        navigate('/register');
+        e.preventDefault()
+        navigate('/register')
     };
 
     const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError("");
+        e.preventDefault()
+        setError("")
 
         const data: AuthTrainerInput = {
             email,
@@ -33,10 +31,9 @@ export default function LoginTrainer() {
         };
 
         try {
-            await authTrainer(data);      // Llama al backend
-            login('trainer');
+            await authTrainer(data)
+            navigate('/home')
             actions.showToast(1)
-            navigate("/home");
         } catch (err: any) {
             console.error('Error completo:', {
                 message: err.message,

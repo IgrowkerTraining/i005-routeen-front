@@ -5,16 +5,19 @@ import './index.css'
 import { AppRouter } from './router.tsx'
 import { AuthProvider } from './store/AuthContext.tsx'
 import { RoutineProvider } from './store/RoutineContext.tsx'
+import { BrowserRouter } from 'react-router-dom'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <BrowserRouter>
     <AppProvider>
       <RoutineProvider>
       <AuthProvider>
-        <AppRouter />
+          <AppRouter />
       </AuthProvider>
       </RoutineProvider>
-    </AppProvider>
+      </AppProvider>
+    </BrowserRouter>
   </React.StrictMode>
 )
