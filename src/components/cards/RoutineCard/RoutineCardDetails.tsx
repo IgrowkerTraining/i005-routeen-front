@@ -1,41 +1,71 @@
 import { Button } from "../../Button/Button"
 import { useParams } from "react-router-dom"
-import useRoutinesContextD from "../../../store/RoutinesContextD"
+import { useState, useEffect } from "react"
+import getRoutineById from "../../../logic/routines-exercices/getRoutineById"
+
+import getExercisesByRoutineId from "../../../logic/routines-exercices/getExercisesByRoutineId"
+import { RoutineExercise } from "../../../logic/interfaces/exercice"
+import { Routine } from "../../../logic/interfaces/trainer"
+
 export const RoutineCardDetails = () => {
     const { id } = useParams<{ id: string }>()
-    const { store: { routines } } = useRoutinesContextD()
+    const [routine, setRoutine] = useState<Routine | null>(null)
 
-    const routineId = Number(id)
-    const routine = routines.find((a) => Number(a.id) === routineId)
+    const [exercises, setExercises] = useState<RoutineExercise[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchRoutineDetails = async () => {
+            try {
+                if (id) {
+                    const routineData = await getRoutineById(id)
+
+                    const exerciseData = await getExercisesByRoutineId(id)
+                    setRoutine(routineData)
+                    setExercises(exerciseData)
+                }
+            } catch (error) {
+                console.error("Error loading routine:", error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchRoutineDetails()
+    }, [id])
+
+    if (loading) return <div className="text-center p-4">Cargando rutina...</div>
+
+    if (!routine) return <div className="text-center p-4 text-red-500">Rutina no encontrada</div>
     return (
         <div className="min-h-screen bg-notwhite-400 sm:flex sm:items-center sm:justify-center p-4">
             <div className="w-full sm:max-w-lg sm:bg-notwhite-400 sm:rounded-xl sm:shadow-lg sm:p-8">
                 <main className="flex flex-col gap-4">
                     <section className="flex flex-col justify-start items-center w-full gap-2 mb-4">
                         <h2 className="text-center font-semibold text-3xl text-notblack-400">
-                            {routine ? `${routine.name}` : "Rutina no encontrado"}
+                            {routine.name}
                         </h2>
                         <p>
-                            60 min - Avanzado
+                        {routine.duration} min - {routine.difficulty}
                         </p>
                     </section>
-                    {routine?.exercises.map((exercise) => (
+                    {exercises.map((exercise, exerciceId) => (
                         <div
-                            key={exercise.id}
+                            key={exerciceId}
 
 
                             className="flex items-center w-full bg-notwhite-400 px-4 shadow-md py-2 "
                         >
                             <div className="flex items-center justify-between w-full">
                                 <div className="text-primary-400 font-bold leading-tight">
-                                    <p className="text-lg">{exercise.name}</p>
+                                    <p className="text-lg">{exercise.exercise_id.name}</p>
                                     <p className="text-sm text-gray-600">
-                                        {exercise.sets} series x {exercise.reps} reps
+                                        {exercise.series} series x {exercise.reps} reps - {exercise.weight_kg}kg
                                     </p>
                                 </div>
                                 <img
-                                    src={exercise.image}
-                                    alt={exercise.name}
+                                    src={exercise.exercise_id.img_url}
+                                    alt={exercise.exercise_id.name}
                                     className="w-[65px] h-[65px] rounded-full object-cover"
                                 />
                             </div>
