@@ -1,40 +1,40 @@
 import { Button } from "../../Button/Button"
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
-import getRoutineById from "../../../logic/routines-exercices/getRoutineById";
+import getRoutineById from "../../../logic/routines-exercices/getRoutineById"
 
 import getExercisesByRoutineId from "../../../logic/routines-exercices/getExercisesByRoutineId"
 import { RoutineExercise } from "../../../logic/interfaces/exercice"
-import { Routine } from "../../../logic/interfaces/trainer";
+import { Routine } from "../../../logic/interfaces/trainer"
 
 export const RoutineCardDetails = () => {
     const { id } = useParams<{ id: string }>()
-    const [routine, setRoutine] = useState<Routine | null>(null);
+    const [routine, setRoutine] = useState<Routine | null>(null)
 
-    const [exercises, setExercises] = useState<RoutineExercise[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [exercises, setExercises] = useState<RoutineExercise[]>([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchRoutineDetails = async () => {
             try {
                 if (id) {
-                    const routineData = await getRoutineById(id);
+                    const routineData = await getRoutineById(id)
 
-                    const exerciseData = await getExercisesByRoutineId(id);
-                    setRoutine(routineData);
-                    setExercises(exerciseData);
+                    const exerciseData = await getExercisesByRoutineId(id)
+                    setRoutine(routineData)
+                    setExercises(exerciseData)
                 }
             } catch (error) {
-                console.error("Error loading routine:", error);
+                console.error("Error loading routine:", error)
             } finally {
-                setLoading(false);
+                setLoading(false)
             }
-        };
+        }
 
-        fetchRoutineDetails();
-    }, [id]);
+        fetchRoutineDetails()
+    }, [id])
 
-    if (loading) return <div className="text-center p-4">Cargando rutina...</div>;
+    if (loading) return <div className="text-center p-4">Cargando rutina...</div>
 
     if (!routine) return <div className="text-center p-4 text-red-500">Rutina no encontrada</div>
     return (
@@ -46,7 +46,7 @@ export const RoutineCardDetails = () => {
                             {routine.name}
                         </h2>
                         <p>
-                            60 min - Avanzado
+                        {routine.duration} min - {routine.difficulty}
                         </p>
                     </section>
                     {exercises.map((exercise, exerciceId) => (

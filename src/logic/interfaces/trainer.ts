@@ -31,6 +31,7 @@ export interface RegisterTrainerInput {
     phone: string
     date_birth: string
 }
+
 export interface RoutineAssigned {
     routine_id: Routine
     athlete_id: string
@@ -45,5 +46,7 @@ export interface Routine{
     name: string;
     description: string;
     trainer_id: string;
+    difficulty: string;
+    duration: string;
     id: string;
 }

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import {  useState, useRef } from "react"
+import { useState, useRef } from "react"
 import { RoutineAssigned } from "../../../logic/interfaces/trainer";
 import Dropdown from "../Modal"
 interface RoutineAssignedCardProps {
@@ -14,15 +14,12 @@ export default function RoutineAssignedCard({
     const [selectedRoutineId, setSelectedRoutineId] = useState<string | null>(null)
     const ignoreNextCardClick = useRef(false)
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const { routine_id } = routine;
-
 
     const handleModalConfirm = (action: string) => {
         if (action === "edit") {
-            // lógica de baja
         } else if (action === "renew") {
-            // lógica de renovación
         }
     }
 
@@ -36,16 +33,16 @@ export default function RoutineAssignedCard({
 
     return (
         <div
-            onClick={() => handleCardClick(routine.id)}
+            onClick={() => handleCardClick(routine_id._id)}
 
             className="flex items-center w-full bg-notwhite-400 px-4 shadow-md py-2 relative cursor-pointer min-h-[80px]"
         >
             <div className="flex items-center justify-between w-full">
-                <div className="flex-1 text-primary-400 font-bold leading-tight break-words">
-                    <p className="text-lg">{routine_id.name}</p>
-                    <p className="text-sm text-gray-600">{routine_id.description}</p>
+                <div className="flex-1 text-primary-400 leading-tight break-words">
+                    <p className="text-lg font-bold ">{routine_id.name}</p>
+                    <p className="text-sm font-bold  text-gray-600">{routine_id.description}</p>
                     <p className="text-xs text-gray-400 mt-1">
-                        Asignada para: {routine.assignment_date}
+                        Asignada para: {new Date(routine.assignment_date).toLocaleDateString("es-ES")}
                     </p>
                 </div>
 
@@ -78,8 +75,6 @@ export default function RoutineAssignedCard({
                             blockNextClickRef={ignoreNextCardClick}
                         />
                     </div>
-
-
                 )}
             </div>
         </div>
