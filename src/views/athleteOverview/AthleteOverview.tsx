@@ -1,16 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import useAppContext from "../../store/AppContext"
 import { AthleteRoutineTab } from "./tabs/AthleteRoutineTab"
 import { AthleteInfoTab } from "./tabs/AthleteInfoTab"
+import getTokenData from "../../logic/auth/getTokenData"
+import getAthleteById from "../../logic/trainer/getAthleteById"
 
 export const AthleteOverview = () => {
   const [activeTab, setActiveTab] = useState<"info" | "plan" | "progress">("plan")
   const { id } = useParams<{ id: string }>()
-  const { store: { athletes } } = useAppContext()
-
-  const athleteId = Number(id)
-  const athlete = athletes.find((a) => Number(a._id) === athleteId)
+  const [nameAthlete, setNameAthlete] = useState('')
 
   const tabTitles: Record<"info" | "plan" | "progress", string> = {
     info: "Información",
@@ -18,12 +16,36 @@ export const AthleteOverview = () => {
     progress: "Progreso",
   }
 
+  useEffect(() => {
+    const fetchAthlete = async () => {
+      if (!id) return;
+
+      const tokenData = await getTokenData();
+      if (!tokenData) {
+        console.error("No trainer data found");
+        return;
+      }
+
+      try {
+        const data = await getAthleteById({
+          trainer_id: tokenData.id,
+          athlete_id: id,
+        });
+        setNameAthlete(data.name);
+      } catch (error) {
+        console.error("Error fetching athlete:", error);
+      }
+    };
+
+    fetchAthlete();
+  }, [id]);
+
   return (
     <div className="min-h-screen bg-notwhite-400 sm:flex sm:items-center sm:justify-center p-4">
       <div className="w-full sm:max-w-lg sm:bg-notwhite-400 sm:rounded-xl sm:shadow-lg sm:p-8">
         <div className="mb-4">
           <h3 className="text-center font-semibold text-lg text-notblack-400">
-            {athlete ? `${tabTitles[activeTab]} de ${athlete.name}` : "Atleta no encontrado"}
+            {nameAthlete ? `${tabTitles[activeTab]} de ${nameAthlete}` : "Atleta no encontrado"}
           </h3>
         </div>
 
