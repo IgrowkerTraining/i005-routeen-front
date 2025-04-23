@@ -6,6 +6,7 @@ interface RoutineCardProps {
     selectedId?: string | null;
     canSelect?: boolean;
     onSelectionChange?: (id: string | null) => void;
+    athleteId?: string
 }
 
 export default function RoutineCard({
@@ -13,6 +14,7 @@ export default function RoutineCard({
     selectedId,
     canSelect = false,
     onSelectionChange,
+    athleteId
 }: RoutineCardProps) {
     const navigate = useNavigate()
 
@@ -23,8 +25,14 @@ export default function RoutineCard({
     }
 
     const handleRoutineClick = () => {
-        navigate(`/routine/${routine._id}`)
-    };
+        console.log("Athlete ID desde props:", athleteId)
+    
+        if (athleteId) {
+            navigate(`/routine/${routine._id}`, { state: { athlete_id: athleteId } })
+        } else {
+            navigate(`/routine/${routine._id}`)
+        }
+    }
 
     return (
         <div

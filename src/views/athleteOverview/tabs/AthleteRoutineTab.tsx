@@ -38,9 +38,6 @@ export const AthleteRoutineTab = () => {
       new Date(r.assignment_date) > new Date()
     );
     
-    const pastRoutines = routines.filter((r) =>
-      new Date(r.assignment_date) < new Date()
-    );
     
 
     return (
@@ -64,17 +61,6 @@ export const AthleteRoutineTab = () => {
             ) : (
                 <p className="text-center text-gray-500 font-medium">
                     No hay rutinas programadas
-                </p>
-            )}
-
-            <div className="text-primary-400 font-[600] underline">Rutinas pasadas</div>
-            {pastRoutines.length > 0 ? (
-                pastRoutines.map((routine) => (
-                    <RoutineAssignedCard routine={routine} canEdit />
-                ))
-            ) : (
-                <p className="text-center text-gray-500 font-medium">
-                    No hay rutinas anteriores
                 </p>
             )}
 

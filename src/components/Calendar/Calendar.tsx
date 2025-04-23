@@ -6,9 +6,10 @@ interface propCalendar {
   selectedDate: (modal: boolean, date?: string) => void
   maxDate?: string
   value?: string
+  allowPastDates?: boolean
 }
 
-export default function Calendar({ selectedDate, maxDate, value }: propCalendar) {
+export default function Calendar({ selectedDate, maxDate, value, allowPastDates }: propCalendar) {
   const [currentDate, setCurrentDate] = useState<Date>(value ? new Date(value.split('/').reverse().join('-')) : new Date())
   const [showMonthSelector, setShowMonthSelector] = useState<boolean>(false)
   const [showYearSelector, setShowYearSelector] = useState<boolean>(false)
@@ -37,7 +38,13 @@ export default function Calendar({ selectedDate, maxDate, value }: propCalendar)
   }
 
   const isDateDisabled = (date: Date) => {
-    return date > maxDateTime
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    date.setHours(0, 0, 0, 0); // importante: comparar fechas a medianoche
+  
+    if (allowPastDates === false && date < today) return true;
+    if (allowPastDates === true && date > today) return true;
+    return false;
   }
 
   const selectMonth = (monthIndex: number) => {

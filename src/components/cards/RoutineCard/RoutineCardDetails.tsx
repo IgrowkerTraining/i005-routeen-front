@@ -6,6 +6,8 @@ import getRoutineById from "../../../logic/routines-exercices/getRoutineById"
 import getExercisesByRoutineId from "../../../logic/routines-exercices/getExercisesByRoutineId"
 import { RoutineExercise } from "../../../logic/interfaces/exercice"
 import { Routine } from "../../../logic/interfaces/trainer"
+import { useNavigate, useLocation } from "react-router-dom"
+
 
 export const RoutineCardDetails = () => {
     const { id } = useParams<{ id: string }>()
@@ -13,7 +15,19 @@ export const RoutineCardDetails = () => {
 
     const [exercises, setExercises] = useState<RoutineExercise[]>([])
     const [loading, setLoading] = useState(true)
+    const navigate = useNavigate()
+    const location = useLocation();
+    const athlete_id = location.state?.athlete_id
 
+    const handleAddRoutine = () => {
+        if (!routine || !routine._id || !athlete_id) {
+            console.error("Faltan datos: rutina o atleta no definidos.");
+            return;
+        }
+        navigate(`/athlete/${athlete_id}/routine/new`, {
+            state: { selectedRoutineId: routine._id },
+        });
+    }
     useEffect(() => {
         const fetchRoutineDetails = async () => {
             try {
@@ -23,6 +37,7 @@ export const RoutineCardDetails = () => {
                     const exerciseData = await getExercisesByRoutineId(id)
                     setRoutine(routineData)
                     setExercises(exerciseData)
+                    
                 }
             } catch (error) {
                 console.error("Error loading routine:", error)
@@ -46,7 +61,7 @@ export const RoutineCardDetails = () => {
                             {routine.name}
                         </h2>
                         <p>
-                        {routine.duration} min - {routine.difficulty}
+                            {routine.duration} min - {routine.difficulty}
                         </p>
                     </section>
                     {exercises.map((exercise, exerciceId) => (
@@ -74,7 +89,7 @@ export const RoutineCardDetails = () => {
                     <Button
                         text="Agregar nueva rutina"
                         variant="primary"
-                        href={`/athlete/${id}/routine/new`}
+                        onClick={handleAddRoutine}
                         icon={<i className="bi bi-plus text-2xl"></i>}
                     />
                 </main>
