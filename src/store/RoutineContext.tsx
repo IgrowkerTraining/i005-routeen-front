@@ -13,7 +13,7 @@ interface RoutineContextType {
   exercises: RoutineExercise[];
   setExercises: (exs: RoutineExercise[]) => void;
   routineId: string | null; // Nuevo estado para almacenar el routineId
-  setRoutineId: (id: string | null) => void; // Función para actualizar el routineId
+  setRoutineId: (id: string | null) => void; /// Función para actualizar el routineId
 }
 
 const RoutineContext = createContext<RoutineContextType | undefined>(undefined);
