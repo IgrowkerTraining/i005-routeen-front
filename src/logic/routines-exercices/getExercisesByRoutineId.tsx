@@ -6,7 +6,7 @@ const getExercisesByRoutineId = async (routineId: string) => {
     withCredentials: true,
   })
 
-  return res.data.data
+  return res.data
 }
 
 export default getExercisesByRoutineId;
