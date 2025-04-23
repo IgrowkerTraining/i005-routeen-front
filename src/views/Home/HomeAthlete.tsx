@@ -1,52 +1,75 @@
-import { Button } from "../../components/Button/Button";
-import ExerciceCard from "../../components/cards/ExerciceCard/ExerciceCard";
-import { Link, useParams } from "react-router-dom"; // Usamos useParams para obtener el ID de la URL
-import { useEffect } from "react";
-import { useRoutineContext } from "../../store/RoutineContext";
+import { useEffect, useState } from 'react'
+import { useRoutineContext } from '../../store/RoutineContext'
+import getTokenData from '../../logic/auth/getTokenData'
+import Progress from '../../components/Progress/Progress'
+import ExerciceCard from '../../components/cards/ExerciceCard/ExerciceCard'
+import { Button } from '../../components/Button/Button'
 
 export default function HomeAthlete() {
-    // Obtenemos el athleteId desde la URL
-    const { athleteId } = useParams<{ athleteId: string }>();
+  const { fetchRoutine } = useRoutineContext()
+  const [athleteId, setAthleteId] = useState<string | null>(null)
+  const [activeView, setActiveView] = useState<'plan' | 'progress'>('plan')
 
-    // Usamos el contexto para obtener la rutina y la función para cargarla
-    const { fetchRoutine } = useRoutineContext();
+  useEffect(() => {
+    const fetchData = async () => {
+      const tokenData = await getTokenData()
+      if (tokenData?.role === 'athlete') {
+        setAthleteId(tokenData.id)
+        fetchRoutine(tokenData.id)
+      }
+    }
 
-    // Ejecutamos el fetch cuando el componente se monta o cuando cambia el athleteId
-    useEffect(() => {
-        if (athleteId) {
-            fetchRoutine(athleteId);
-        }
-    }, [athleteId, fetchRoutine]);
+    fetchData()
+  }, [fetchRoutine])
 
-    return (
-        <>
+  return (
+    <>
+      <section className="flex justify-start items-center w-full gap-5">
+        <h2 className="text-[30px] text-notblack-400 pb-2">
+          Te damos la bienvenida
+        </h2>
+      </section>
 
-            <section className="flex justify-start items-center w-full gap-5">
-                <h2 className="text-[30px] text-notblack-400">
-                    Te damos la bienvenida
-                </h2>
-            </section>
+      <div className="flex justify-start items-center gap-5 w-full mt-2">
+        <button
+          onClick={() => setActiveView('plan')}
+          className={`font-[600] underline underline-offset-2 ${
+            activeView === 'plan'
+              ? 'text-primary-400'
+              : 'text-secondary-400 hover:text-primary-400'
+          }`}
+        >
+          Plan de hoy
+        </button>
+        <button
+          onClick={() => setActiveView('progress')}
+          className={`font-[600] underline underline-offset-2 ${
+            activeView === 'progress'
+              ? 'text-primary-400'
+              : 'text-secondary-400 hover:text-primary-400'
+          }`}
+        >
+          Progreso
+        </button>
+      </div>
 
-            <div className="flex justify-start items-center gap-5 w-full">
-                <Link to="/routine"
-                    className="text-primary-400 font-[600] underline underline-offset-2"
-                >
-                    Plan de hoy
-                </Link>
-                <Link to="/progress"
-                    className="text-primary-400 font-[600] underline underline-offset-2"
-                >
-                    Progreso
-                </Link>
-            </div>
+      <div className="mt-4 w-full">
+        {activeView === 'plan' && (
+          <>
             <ExerciceCard />
             <Button
-                text="Agregar"
-                variant="primary"
-                onClick={() => console.log("Agregar Alumno")}
-                icon={<i className="bi bi-person-fill-add"></i>}
+              text="Finalizar entrenamiento"
+              variant="primary"
+              onClick={() => console.log('Finalizar entrenamiento')}
+              icon={<i className="bi bi-person-fill-add"></i>}
             />
+          </>
+        )}
 
-        </>
-    )
+        {activeView === 'progress' && athleteId && (
+          <Progress athleteId={athleteId} />
+        )}
+      </div>
+    </>
+  )
 }
