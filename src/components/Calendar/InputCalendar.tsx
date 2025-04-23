@@ -11,6 +11,7 @@ interface InputCalendarProps {
   error?: string
   value?: string
   maxDate?: string
+  allowPastDates?: boolean
 }
 
 export default function InputCalendar({
@@ -22,6 +23,7 @@ export default function InputCalendar({
   error,
   value,
   maxDate = new Date().toISOString().split('T')[0],
+  allowPastDates = true
 }: InputCalendarProps) {
   const [toggleCalendar, setToggleCalendar] = useState<boolean>(false)
   const [currentDate, setCurrentDate] = useState(value || "")
@@ -80,6 +82,7 @@ export default function InputCalendar({
           selectedDate={handleValueCalendar}
           maxDate={maxDate}
           value={currentDate}
+          allowPastDates={allowPastDates}
         />
       )}
     </div>
