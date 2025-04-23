@@ -15,7 +15,7 @@ const editTrainerInfo = async (data: TrainerData) => {
   const res = await axios.patch(`/trainer/${id}`, updateFields, {
     withCredentials: true,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
     },
   })
 

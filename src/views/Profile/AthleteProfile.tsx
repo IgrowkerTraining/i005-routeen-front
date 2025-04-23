@@ -6,6 +6,7 @@ import { z } from 'zod'
 import editAthleteInfo from '../../logic/athlete/editAthleteInfo'
 import getAthleteInfo from '../../logic/athlete/getAthleteInfo'
 import getTokenData from '../../logic/auth/getTokenData'
+import reverseDate from '../../utils/reverseDate'
 
 const schema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio'),
@@ -63,6 +64,8 @@ export default function AthleteProfile() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    const reversedDateFormat = reverseDate(birthday)
+
     const formValues = {
       name,
       birthday,
@@ -100,7 +103,7 @@ export default function AthleteProfile() {
         name,
         email: mail,
         phone,
-        date_birth: birthday,
+        date_birth: reversedDateFormat,
         goal,
         gender,
         hight,

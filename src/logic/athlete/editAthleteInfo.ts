@@ -19,7 +19,7 @@ const editAthleteInfo = async (data: AthleteData) => {
   const res = await axios.patch(`/athlete/${id}`, updateFields, {
     withCredentials: true,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
     },
   })
 
