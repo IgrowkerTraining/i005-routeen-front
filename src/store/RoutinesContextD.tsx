@@ -1,14 +1,16 @@
-import { useContext, createContext, useState, ReactNode, useCallback } from "react"
+import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { RoutineAssigned } from "../logic/interfaces/trainer";
+import getRoutinesByAthleteId from "../logic/trainer/getRoutinesByAthleteId";
 
-import { routinesMock } from "../mocks/routines"
-import {  Routine  } from "../types"
 
 interface RoutinesContextDType {
   store: {
-    routines: Routine[]
+    routines: RoutineAssigned[] | null
   }
   actions: {
-    searchRoutines: (term: string) => void;
+    //searchRoutines: (term: string) => void;
+    fetchRoutines: (athleteId: string) => Promise<void>;
+
   }
 }
 
@@ -19,26 +21,39 @@ interface RoutinesProviderProps {
 }
 
 export const RoutinesDProvider: React.FC<RoutinesProviderProps> = ({ children }) => {
-  const [routines, setRoutines] = useState<Routine[]>(routinesMock)
+  const [routines, setRoutines] = useState<RoutineAssigned[] | null>(null);
 
-  const searchRoutines = useCallback((term: string) => {
-    const lowerTerm = term.toLowerCase();
-    if (!term) {
-      setRoutines(routinesMock)
-      return;
+  const fetchRoutines = useCallback(async (athleteId: string) => {
+    try {
+      const res = await getRoutinesByAthleteId(athleteId);
+      const formatted = res.routinesAssigned.map((routine) => ({
+        ...routine,
+        id: routine.routine_id,
+      }));
+      setRoutines(formatted);
+    } catch (error) {
+      console.error("Error fetching routines:", error);
     }
-    const filteredRoutines = routines.filter(routine =>
-      routine.name.toLowerCase().includes(lowerTerm) ||
-      routine.exercises.some(exercise =>
-        exercise.name.toLowerCase().includes(lowerTerm)
-      )
-    );
-    setRoutines(filteredRoutines);
   }, []);
 
+  /*  const searchRoutines = useCallback((term: string) => {
+     const lowerTerm = term.toLowerCase();
+     if (!term) {
+       setRoutines(routinesMock)
+       return;
+     }
+     const filteredRoutines = routines.filter(routine =>
+       routine.name.toLowerCase().includes(lowerTerm) ||
+       routine.exercises.some(exercise =>
+         exercise.name.toLowerCase().includes(lowerTerm)
+       )
+     );
+     setRoutines(filteredRoutines);
+   }, []); */
 
-  const store = {routines }
-  const actions = {  searchRoutines }
+
+  const store = { routines }
+  const actions = { fetchRoutines };
 
   return (
     <RoutinesContextD.Provider value={{ store, actions }}>

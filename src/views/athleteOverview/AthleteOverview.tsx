@@ -1,21 +1,60 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import useAppContext from "../../store/AppContext"
 import { AthleteRoutineTab } from "./tabs/AthleteRoutineTab"
 import { AthleteInfoTab } from "./tabs/AthleteInfoTab"
+import { Athlete } from "../../types"
+import getTokenData from "../../logic/auth/getTokenData"
+import getAthleteById from "../../logic/trainer/getAthleteById"
 
 export const AthleteOverview = () => {
   const [activeTab, setActiveTab] = useState<"info" | "plan" | "progress">("plan")
+  const [athlete, setAthlete] = useState<Athlete | null>(null)
+  const [loading, setLoading] = useState(true)
   const { id } = useParams<{ id: string }>()
-  const { store: { athletes } } = useAppContext()
 
-  const athleteId = Number(id)
-  const athlete = athletes.find((a) => Number(a._id) === athleteId)
+  useEffect(() => {
+    if (!id) return
+  
+    const fetchAthlete = async () => {
+      try {
+        setLoading(true)
+        const tokenData = await getTokenData()
+  
+        if (tokenData?.role === "trainer") {
+          const athleteData = await getAthleteById({ 
+            trainer_id: tokenData.id, 
+            athlete_id: id
+          })
+  
+          const formattedAthlete = {
+            ...athleteData,
+            id: athleteData._id,
+          }
+  
+          setAthlete(formattedAthlete)
+        } else {
+          console.error("El usuario no es entrenador o no tiene sesión activa")
+        }
+      } catch (error) {
+        console.error("Error al obtener el atleta:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+  
+    fetchAthlete()
+  }, [id])
+  
+
 
   const tabTitles: Record<"info" | "plan" | "progress", string> = {
     info: "Información",
     plan: "Rutina",
     progress: "Progreso",
+  }
+
+  if (loading) {
+    return <div className="text-center p-4">Cargando...</div>
   }
 
   return (
