@@ -21,6 +21,7 @@ export default function TrainerProfileEdit() {
     phone: '',
     date_birth: '',
     profile_picture_url: '',
+    file: null as File | null,
   })
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
@@ -36,6 +37,7 @@ export default function TrainerProfileEdit() {
           phone: data.phone || '',
           date_birth: data.date_birth || '',
           profile_picture_url: data.profile_picture_url || '',
+          file: formData.file,
         })
       } catch (error) {
         console.error('Error fetching trainer info:', error)
@@ -79,6 +81,7 @@ export default function TrainerProfileEdit() {
         email: formData.email,
         phone: formData.phone,
         date_birth: formData.date_birth,
+        file: formData.file
       })
 
       console.log('Datos actualizados correctamente:', response)
@@ -86,6 +89,21 @@ export default function TrainerProfileEdit() {
     } catch (error) {
       console.error('Error al actualizar los datos:', error)
       // Aquí podrías setear errores generales o mostrar un mensaje al usuario
+    }
+  }
+
+  const changeProfilePicture = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if(file) {
+      setFormData(prev => ({ ...prev, file }))
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setFormData(prev => ({
+         ...prev,
+         profile_picture_url: reader.result as string 
+        }))
+      }
+      reader.readAsDataURL(file)
     }
   }
 
@@ -104,9 +122,19 @@ export default function TrainerProfileEdit() {
           )}
         </div>
 
-        <button className="bg-slate-800 text-white px-4 py-2 rounded shadow hover:bg-slate-700 transition">
+        <input 
+          type="file" 
+          accept='image/*'
+          id='profile-update'
+          className='hidden'
+          onChange={changeProfilePicture}
+        />
+        <label 
+          htmlFor='profile-update'
+          className="bg-slate-800 text-white px-4 py-2 rounded shadow hover:bg-slate-700 transition"
+        >
           Subir foto de perfil
-        </button>
+        </label>
       </div>
 
       <form
