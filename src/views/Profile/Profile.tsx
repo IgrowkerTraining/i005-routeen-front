@@ -2,6 +2,7 @@ import AthleteProfile from "./AthleteProfile"
 import { useAuth } from "../../store/AuthContext"
 import { Navigate } from "react-router-dom"
 import TrainerProfile from "./TrainerProfile";
+import ViewProfileAthlete from "./ViewProfileAthlete";
 
 export default function Profile() {
 
@@ -14,7 +15,7 @@ export default function Profile() {
 
     return (
         <>
-            {user.role === "trainer" ? <TrainerProfile /> : <AthleteProfile />}
+            {user.role === "trainer" ? <TrainerProfile /> : <ViewProfileAthlete />}
         </>
     )
 }
