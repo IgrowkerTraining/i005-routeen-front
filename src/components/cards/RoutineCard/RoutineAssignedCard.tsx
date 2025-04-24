@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useRef } from "react"
+import { useState, useRef } from "react";
 import { RoutineAssigned } from "../../../logic/interfaces/trainer";
-import Dropdown from "../Modal"
+import { Routine } from "../../../logic/interfaces/trainer";
+import { useAuth } from "../../../store/AuthContext";
+
+import Dropdown from "../Modal";
+
 interface RoutineAssignedCardProps {
     routine: RoutineAssigned;
     canEdit?: boolean;
@@ -11,36 +15,42 @@ export default function RoutineAssignedCard({
     routine,
     canEdit = false
 }: RoutineAssignedCardProps) {
-    const [selectedRoutineId, setSelectedRoutineId] = useState<string | null>(null)
-    const ignoreNextCardClick = useRef(false)
+    const [selectedRoutineId, setSelectedRoutineId] = useState<string | null>(null);
+    const ignoreNextCardClick = useRef(false);
 
-    const navigate = useNavigate()
-    const { routine_id } = routine;
+    const { user } = useAuth();
+    const navigate = useNavigate();
+    const { routine_id, _id } = routine;
 
     const handleModalConfirm = (action: string) => {
         if (action === "edit") {
+            // Acción para editar
         } else if (action === "renew") {
+            // Acción para renovar
         }
-    }
+    };
 
-    const handleCardClick = (id: string) => {
+    const handleCardClick = (routineId: string) => {
         if (ignoreNextCardClick.current) {
-            ignoreNextCardClick.current = false
-            return
+            ignoreNextCardClick.current = false;
+            return;
         }
-        navigate(`/routine/${id}`)
-    }
+        navigate(`/routine/${routineId}`);
+    };
 
     return (
         <div
-            onClick={() => handleCardClick(routine_id._id)}
-
+        onClick={() =>
+            user?.role === "trainer"
+                ? handleCardClick(routine_id._id)  
+                : handleCardClick(routine._id)     
+        }
             className="flex items-center w-full bg-notwhite-400 px-4 shadow-md py-2 relative cursor-pointer min-h-[80px]"
         >
             <div className="flex items-center justify-between w-full">
                 <div className="flex-1 text-primary-400 leading-tight break-words">
                     <p className="text-lg font-bold ">{routine_id.name}</p>
-                    <p className="text-sm font-bold  text-gray-600">{routine_id.description}</p>
+                    <p className="text-sm font-bold text-gray-600">{routine_id.description}</p>
                     <p className="text-xs text-gray-400 mt-1">
                         Asignada para: {new Date(routine.assignment_date).toLocaleDateString("es-ES")}
                     </p>
@@ -54,7 +64,7 @@ export default function RoutineAssignedCard({
                             console.log("Edit button clicked for routine:", routine_id._id);
                             setSelectedRoutineId((prev) =>
                                 prev === routine.id ? null : routine.id
-                            )
+                            );
                         }}
                     >
                         <i className="bi bi-pencil text-lg"></i>
