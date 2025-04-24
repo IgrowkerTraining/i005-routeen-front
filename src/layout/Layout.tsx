@@ -25,7 +25,7 @@ export function Layout() {
       } else if (tokenData?.role === 'athlete') {
         setUserName(tokenData.name)
         const athleteInfo = await getAthleteInfo({ id: tokenData.id })
-        setUserPicture(athleteInfo.profile_picture)
+        setUserPicture(athleteInfo.profile_picture_url)
       }
     }
 
