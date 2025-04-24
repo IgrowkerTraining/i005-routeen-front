@@ -1,5 +1,5 @@
 import { Button } from "../../Button/Button";
-import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import getRoutineAssigned from "../../../logic/routines-exercices/getRoutineAssigned";
 import getExercisesAssigned from "../../../logic/routines-exercices/getExcercisesAssigned";
@@ -7,6 +7,7 @@ import { RoutineExercise } from "../../../logic/interfaces/exercice";
 import { Routine } from "../../../logic/interfaces/trainer";
 import { useRoutineContext } from "../../../store/RoutineContext";
 import styles from "./RoutineCardDetails.module.css";
+import SendExerciseDone from "../../../logic/routines-exercices/sendExcerciseDone"; 
 
 export const AthleteRoutineCardDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,6 +46,23 @@ export const AthleteRoutineCardDetails = () => {
     fetchRoutineDetails();
   }, [id, userId, setExercisesFromContext, setRoutineId]);
 
+  const handleDoneRoutine = async () => {
+    navigate("/congratulations");
+    // if (!routine || !id) {
+    //   console.error("Faltan datos necesarios para registrar la rutina.");
+    //   return;
+    // }
+
+    // try {
+    //   const response = await SendExerciseDone(id, routine);  
+    //   if (response) {
+    //     navigate("/congratulations");
+    //   }
+    // } catch (error) {
+    //   console.error("Error al finalizar rutina:", error);
+    // }
+  };
+
   if (loading) return <div className="text-center p-4">Cargando rutina...</div>;
   if (!routine) return <div className="text-center p-4 text-red-500">Rutina no encontrada</div>;
 
@@ -70,6 +88,7 @@ export const AthleteRoutineCardDetails = () => {
               </div>
             </div>
           ))}
+          <Button text="Finalizar entrenamiento" variant="primary" onClick={handleDoneRoutine} icon={<i className="bi bi-check-circle-fill text-2xl"></i>} />
         </main>
       </div>
     </div>

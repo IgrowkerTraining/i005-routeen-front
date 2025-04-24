@@ -6,6 +6,7 @@ import Input from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import axios from "../../api/axiosInstance";
 import useAppContext from "../../store/AppContext";
+import { useNavigate } from "react-router-dom";
 
 export const ExcerciseDetail = () => {
   const { id } = useParams();
@@ -18,6 +19,7 @@ export const ExcerciseDetail = () => {
   const [weight, setWeight] = useState<number>(0);
 
   const [exercise, setExercise] = useState<any>(null);
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -40,7 +42,6 @@ export const ExcerciseDetail = () => {
           series,
           reps,
           weight_kg: weight,
-
         },
         {
           withCredentials: true,
@@ -48,6 +49,8 @@ export const ExcerciseDetail = () => {
       );
   
       console.log("Ejercicio actualizado:", res.data);
+  
+      navigate(-1);
     } catch (error) {
       console.error("Error al actualizar el ejercicio:", error);
     }

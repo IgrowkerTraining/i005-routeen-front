@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { RoutineAssigned } from "../../../logic/interfaces/trainer";
-import { Routine } from "../../../logic/interfaces/trainer";
 import { useAuth } from "../../../store/AuthContext";
 
 import Dropdown from "../Modal";
@@ -20,7 +19,7 @@ export default function RoutineAssignedCard({
 
     const { user } = useAuth();
     const navigate = useNavigate();
-    const { routine_id, _id } = routine;
+    const { routine_id } = routine;
 
     const handleModalConfirm = (action: string) => {
         if (action === "edit") {
