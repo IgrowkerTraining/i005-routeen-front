@@ -94,9 +94,11 @@ export const RoutineCardDetails = () => {
                             {routine.duration} min - {routine.difficulty}
                         </p>
                     </section>
-                    {exercises?.map((exercise) => (
+
+
+                    {exercises?.map((exercise, exerciceId) => (
                         <div
-                            key={exercise._id}
+                            key={exerciceId}
                             onClick={() => {
                                 user?.role === "athlete" ? navigate(`/excercise-detail/${exercise._id}`) : "";
                             }}
@@ -118,8 +120,10 @@ export const RoutineCardDetails = () => {
                                 />
                             </div>
                         </div>
-                    ))}
-                    {athlete_id && (
+                    ))
+                    }
+
+                    {athlete_id && user?.role === "trainer" && (
                         <Button
                             text="Agregar nueva rutina"
                             variant="primary"
@@ -127,17 +131,7 @@ export const RoutineCardDetails = () => {
                             icon={<i className="bi bi-plus text-2xl"></i>}
                         />
                     )}
-                    {
-                        user?.role === "trainer" ?
-                            <Button
-                                text="Agregar nueva rutina"
-                                variant="primary"
-                                onClick={handleAddRoutine}
-                                icon={<i className="bi bi-plus text-2xl"></i>}
-                            />
-                            :
-                            null
-                    }
+
                 </main>
             </div>
         </div>
