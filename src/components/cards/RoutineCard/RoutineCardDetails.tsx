@@ -30,7 +30,8 @@ export const RoutineCardDetails = () => {
             return;
         }
         navigate(`/athlete/${athlete_id}/routine/new`, {
-            state: { selectedRoutineId: routine._id },
+            replace: true,
+            state: { selectedRoutineId: routine._id }
         });
     };
 
@@ -75,13 +76,13 @@ export const RoutineCardDetails = () => {
         <div className="min-h-screen bg-notwhite-400  p-4 flex flex-col items-center">
             {
                 user?.role === "athlete" ?
-            <Link
-                to={"/home"}
-                className={styles.arrow}
-            >
-                <i className="bi bi-arrow-left text-3xl text-primary-400 cursor-pointer hover:text-primary-500"></i>
-            </Link> :
-            null
+                    <Link
+                        to={"/home"}
+                        className={styles.arrow}
+                    >
+                        <i className="bi bi-arrow-left text-3xl text-primary-400 cursor-pointer hover:text-primary-500"></i>
+                    </Link> :
+                    null
             }
             <div className="w-full sm:max-w-lg sm:bg-notwhite-400 sm:rounded-xl sm:shadow-lg sm:p-8">
                 <main className="flex flex-col gap-4">
@@ -118,16 +119,24 @@ export const RoutineCardDetails = () => {
                             </div>
                         </div>
                     ))}
-                    {
-                        user?.role === "trainer" ?
+                    {athlete_id && (
                         <Button
                             text="Agregar nueva rutina"
                             variant="primary"
                             onClick={handleAddRoutine}
                             icon={<i className="bi bi-plus text-2xl"></i>}
-                        /> 
-                        :
-                        null
+                        />
+                    )}
+                    {
+                        user?.role === "trainer" ?
+                            <Button
+                                text="Agregar nueva rutina"
+                                variant="primary"
+                                onClick={handleAddRoutine}
+                                icon={<i className="bi bi-plus text-2xl"></i>}
+                            />
+                            :
+                            null
                     }
                 </main>
             </div>

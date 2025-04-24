@@ -43,7 +43,7 @@ export default function HomeAthlete() {
   )
 
   return (
-    <main className="px-4 py-6 w-full">
+    <main className="px-4 py-6 w-full ">
       <h2 className="text-[30px] text-notblack-400 mb-4">Te damos la bienvenida</h2>
 
       <div className="flex justify-between items-center gap-5 border-b border-gray-300 mb-6">
@@ -65,7 +65,7 @@ export default function HomeAthlete() {
         <section className="flex flex-col gap-4">
           {routinesToday.length > 0 ? (
             routinesToday.map((routine) => (
-              <RoutineAssignedCard key={routine.id} routine={routine} />
+              <RoutineAssignedCard key={routine._id} routine={routine} />
             ))
           ) : (
             <p className="text-center text-gray-500 font-medium">
@@ -81,7 +81,7 @@ export default function HomeAthlete() {
         </section>
       )}
 
-      <div className="mt-auto flex justify-center">
+      <div className="mt-6 flex justify-center">
         <button className="bg-primary-400 text-white rounded-full py-2 px-4 shadow-md hover:bg-primary-500 transition-all">
           <i className="bi bi-check2-circle mr-2 text-lg"></i>
           Finalizar entrenamiento

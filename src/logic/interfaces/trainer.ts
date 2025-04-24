@@ -37,7 +37,7 @@ export interface RoutineAssigned {
     athlete_id: string
     description: string
     assignment_date: string
-    id: string
+    _id: string
     name: string;
 }
     
