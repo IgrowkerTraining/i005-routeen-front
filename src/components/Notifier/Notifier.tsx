@@ -30,7 +30,7 @@ export const ToastNotifier: FC<ToastNotifierProps> = ({ toasts, removeToast }) =
   }, [toasts, removeToast]);
 
   return (
-    <div className="fixed top-0 left-1/2 transform -translate-x-1/2 p-3 space-y-3 z-50">
+    <div className="fixed top-0 left-1/2 transform -translate-x-1/2 p-3 space-y-3 z-100">
       {toasts
         .filter((toast) => toast.isVisible)
         .map((toast) => (

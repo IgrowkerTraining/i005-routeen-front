@@ -1,52 +1,92 @@
-import { Button } from "../../components/Button/Button";
-import ExerciceCard from "../../components/cards/ExerciceCard/ExerciceCard";
-import { Link, useParams } from "react-router-dom"; // Usamos useParams para obtener el ID de la URL
-import { useEffect } from "react";
-import { useRoutineContext } from "../../store/RoutineContext";
+import { useEffect, useState } from 'react'
+import { useRoutineContext } from '../../store/RoutineContext'
+import getTokenData from '../../logic/auth/getTokenData'
+import RoutineAssignedCard from '../../components/cards/RoutineCard/RoutineAssignedCard'
+import { RoutineAssigned } from '../../logic/interfaces/trainer'
+import Progress from '../../components/Progress/Progress'
+import getRoutinesByAthleteId from '../../logic/trainer/getRoutinesByAthleteId'
 
 export default function HomeAthlete() {
-    // Obtenemos el athleteId desde la URL
-    const { athleteId } = useParams<{ athleteId: string }>();
+  const { fetchRoutine } = useRoutineContext()
+  const [athleteId, setAthleteId] = useState<string>("")
+  const [activeTab, setActiveTab] = useState<'plan' | 'progress'>('plan')
+  const [routines, setRoutines] = useState<RoutineAssigned[]>([])
 
-    // Usamos el contexto para obtener la rutina y la función para cargarla
-    const { fetchRoutine } = useRoutineContext();
+  useEffect(() => {
+    const fetchData = async () => {
+      const tokenData = await getTokenData()
+      if (tokenData?.role === 'athlete') {
+        setAthleteId(tokenData.id)
+        fetchRoutine(tokenData.id)
+      }
+    }
+    fetchData()
+  }, [fetchRoutine])
 
-    // Ejecutamos el fetch cuando el componente se monta o cuando cambia el athleteId
-    useEffect(() => {
-        if (athleteId) {
-            fetchRoutine(athleteId);
-        }
-    }, [athleteId, fetchRoutine]);
+  useEffect(() => {
+    const fetchRoutines = async () => {
+      if (!athleteId) return
+      try {
+        const res = await getRoutinesByAthleteId(athleteId)
+        setRoutines(res.routinesAssigned)
+      } catch (err) {
+        console.error("Error al obtener rutinas:", err)
+      }
+    }
+    fetchRoutines()
+  }, [athleteId])
 
-    return (
-        <>
+  const today = new Date().toDateString()
 
-            <section className="flex justify-start items-center w-full gap-5">
-                <h2 className="text-[30px] text-notblack-400">
-                    Te damos la bienvenida
-                </h2>
-            </section>
+  const routinesToday = routines.filter((r) =>
+    new Date(r.assignment_date).toDateString() === today
+  )
 
-            <div className="flex justify-start items-center gap-5 w-full">
-                <Link to="/routine"
-                    className="text-primary-400 font-[600] underline underline-offset-2"
-                >
-                    Plan de hoy
-                </Link>
-                <Link to="/progress"
-                    className="text-primary-400 font-[600] underline underline-offset-2"
-                >
-                    Progreso
-                </Link>
-            </div>
-            <ExerciceCard />
-            <Button
-                text="Agregar"
-                variant="primary"
-                onClick={() => console.log("Agregar Alumno")}
-                icon={<i className="bi bi-person-fill-add"></i>}
-            />
+  return (
+    <main className="px-4 py-6 w-full ">
+      <h2 className="text-[30px] text-notblack-400 mb-4">Te damos la bienvenida</h2>
 
-        </>
-    )
+      <div className="flex justify-between items-center gap-5 border-b border-gray-300 mb-6">
+        <button
+          className={`font-semibold pb-2 ${activeTab === 'plan' ? 'border-b-4 border-primary-400 text-primary-400' : 'text-secondary-400 hover:text-primary-400'}`}
+          onClick={() => setActiveTab('plan')}
+        >
+          Plan de hoy
+        </button>
+        <button
+          className={`font-semibold pb-2 ${activeTab === 'progress' ? 'border-b-4 border-primary-400 text-primary-400' : 'text-secondary-400 hover:text-primary-400'}`}
+          onClick={() => setActiveTab('progress')}
+        >
+          Progreso
+        </button>
+      </div>
+
+      {activeTab === 'plan' && (
+        <section className="flex flex-col gap-4">
+          {routinesToday.length > 0 ? (
+            routinesToday.map((routine) => (
+              <RoutineAssignedCard key={routine._id} routine={routine} />
+            ))
+          ) : (
+            <p className="text-center text-gray-500 font-medium">
+              No tienes rutinas asignadas para hoy
+            </p>
+          )}
+        </section>
+      )}
+
+      {activeTab === 'progress' && (
+        <section>
+          <Progress athleteId={athleteId} />
+        </section>
+      )}
+
+      <div className="mt-6 flex justify-center">
+        <button className="bg-primary-400 text-white rounded-full py-2 px-4 shadow-md hover:bg-primary-500 transition-all">
+          <i className="bi bi-check2-circle mr-2 text-lg"></i>
+          Finalizar entrenamiento
+        </button>
+      </div>
+    </main>
+  )
 }
