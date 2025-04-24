@@ -39,8 +39,6 @@ export function AppRouter() {
         <Route path="/routine/:id" element={<RoutineCardDetails />} />
         <Route path="/library" element={<RoutineLibrary />} />
         <Route path="/library/create" element={<CreateRoutineForm />} />
-        
-
         <Route path="/library/create/:id" element={<RoutineOverview />} />
         <Route path="/library/create/:id/add" element={<AddExerciseToRoutine />} />
         

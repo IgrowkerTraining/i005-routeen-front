@@ -45,11 +45,14 @@ export const RoutineLibrary = () => {
         setSearchTerm(e.target.value.toLowerCase())
     }
 
-    const filteredRoutines = routines.filter((routine) =>
-        routine.name?.toLowerCase().includes(searchTerm)
-    )
+    const filteredRoutines = routines
+        .filter((routine) =>
+            routine.name?.toLowerCase().includes(searchTerm)
+        )
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) // Orden descendente
 
-   
+
+
     if (loading) {
         return <div className="text-center p-4">Cargando...</div>
     }
@@ -73,7 +76,7 @@ export const RoutineLibrary = () => {
 
                     <div className="flex flex-col pb-2 gap-6 sm:px-0">
 
-                    {filteredRoutines.slice(0, 5).map((routine) => (
+                        {filteredRoutines.slice(0, 5).map((routine) => (
                             <RoutineCard
                                 key={routine._id}
                                 routine={routine}
@@ -89,7 +92,7 @@ export const RoutineLibrary = () => {
                         variant="primary"
                         onClick={() => navigate("/library/create")}
                     />
-                    
+
                 </main>
             </div>
         </div>
