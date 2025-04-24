@@ -4,10 +4,17 @@ import RoutineAssignedCard from "../../../components/cards/RoutineCard/RoutineAs
 import getRoutinesByAthleteId from "../../../logic/trainer/getRoutinesByAthleteId"
 import { useEffect, useState } from "react"
 import { RoutineAssigned } from "../../../logic/interfaces/trainer"
+import { useBlockBackNavigation } from "../../../store/useBlockNavigation"
 
 export const AthleteRoutineTab = () => {
+    useBlockBackNavigation()
     const { id: athlete_id } = useParams<{ id: string }>()
     const [routines, setRoutines] = useState<RoutineAssigned[]>([])
+
+    const handleDeleteRoutine = (deletedId: string) => {
+        setRoutines((prev) => prev.filter((r) => r._id !== deletedId));
+    };
+
 
     useEffect(() => {
         const fetchRoutines = async () => {
@@ -31,22 +38,26 @@ export const AthleteRoutineTab = () => {
     const today = new Date().toDateString();
 
     const routinesToday = routines.filter((r) =>
-      new Date(r.assignment_date).toDateString() === today
+        new Date(r.assignment_date).toDateString() === today
     );
-    
+
     const futureRoutines = routines.filter((r) =>
-      new Date(r.assignment_date) > new Date()
+        new Date(r.assignment_date) > new Date()
     );
-    
-    
+
+
 
     return (
         <main className="flex flex-col pb-2 gap-6 sm:px-0">
             <div className="text-primary-400 font-[600] underline">Rutina de hoy</div>
             {routinesToday.length > 0 ? (
                 routinesToday.map((routine) => (
-                    <RoutineAssignedCard routine={routine} canEdit />
-                ))
+                    <RoutineAssignedCard
+                        routine={routine}
+                        canEdit
+                        onDeleted={() => handleDeleteRoutine(routine._id)}
+
+                    />))
             ) : (
                 <p className="text-center text-gray-500 font-medium">
                     No hay rutina asignada para hoy
@@ -56,8 +67,12 @@ export const AthleteRoutineTab = () => {
             <div className="text-primary-400 font-[600] underline">Futuras rutinas</div>
             {futureRoutines.length > 0 ? (
                 futureRoutines.map((routine) => (
-                    <RoutineAssignedCard routine={routine} canEdit />
-                ))
+                    <RoutineAssignedCard
+                        routine={routine}
+                        canEdit
+                        onDeleted={() => handleDeleteRoutine(routine._id)}
+
+                    />))
             ) : (
                 <p className="text-center text-gray-500 font-medium">
                     No hay rutinas programadas

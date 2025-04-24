@@ -1,80 +1,75 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useRef } from "react"
+import { useState, useRef } from "react";
 import { RoutineAssigned } from "../../../logic/interfaces/trainer";
-import Dropdown from "../Modal"
+import deleteAssignedRoutine from "../../../logic/routines-exercices/deleteAssignedRoutine";
+import EditAssignedRoutineDropdown from "./EditAssignedRoutineDropdown";
+
 interface RoutineAssignedCardProps {
     routine: RoutineAssigned;
     canEdit?: boolean;
+    onDeleted?: () => void;
 }
 
 export default function RoutineAssignedCard({
     routine,
-    canEdit = false
+    canEdit = false,
+    onDeleted,
 }: RoutineAssignedCardProps) {
-    const [selectedRoutineId, setSelectedRoutineId] = useState<string | null>(null)
-    const ignoreNextCardClick = useRef(false)
+    const [selectedRoutineId, setSelectedRoutineId] = useState<string | null>(null);
+    const ignoreNextCardClick = useRef(false);
 
-    const navigate = useNavigate()
-    const { routine_id } = routine;
+    const navigate = useNavigate();
+    const { routine_id, _id } = routine;
 
-    const handleModalConfirm = (action: string) => {
-        if (action === "edit") {
-        } else if (action === "renew") {
+    const handleModalConfirm = async (action: string) => {
+        if (action === "delete") {
+            try {
+                console.log("Eliminando rutina asignada...");
+                await deleteAssignedRoutine(_id);
+                console.log("Rutina asignada eliminada");
+                setSelectedRoutineId(null);
+                if (onDeleted) onDeleted();
+            } catch (err) {
+                console.error("Error eliminando rutina:", err);
+            }
+        } else if (action === "replace") {
+            // lógica futura
+        } else if (action === "change-date") {
+            // lógica futura
         }
-    }
+    };
 
     const handleCardClick = (id: string) => {
         if (ignoreNextCardClick.current) {
-            ignoreNextCardClick.current = false
-            return
+            ignoreNextCardClick.current = false;
+            return;
         }
-        navigate(`/routine/${id}`)
-    }
+        navigate(`/routine/${id}`);
+    };
 
     return (
         <div
             onClick={() => handleCardClick(routine_id._id)}
-
             className="flex items-center w-full bg-notwhite-400 px-4 shadow-md py-2 relative cursor-pointer min-h-[80px]"
         >
             <div className="flex items-center justify-between w-full">
                 <div className="flex-1 text-primary-400 leading-tight break-words">
-                    <p className="text-lg font-bold ">{routine_id.name}</p>
-                    <p className="text-sm font-bold  text-gray-600">{routine_id.description}</p>
+                    <p className="text-lg font-bold">{routine_id.name}</p>
+                    <p className="text-sm font-bold text-gray-600">{routine_id.description}</p>
                     <p className="text-xs text-gray-400 mt-1">
                         Asignada para: {new Date(routine.assignment_date).toLocaleDateString("es-ES")}
                     </p>
                 </div>
 
                 {canEdit && (
-                    <div
-                        className="w-[40px] h-[40px] rounded-full bg-gray-100 flex items-center justify-center text-primary-400 hover:bg-primary-400 hover:text-white transition-colors cursor-pointer ml-4"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            console.log("Edit button clicked for routine:", routine_id._id);
-                            setSelectedRoutineId((prev) =>
-                                prev === routine.id ? null : routine.id
-                            )
-                        }}
-                    >
-                        <i className="bi bi-pencil text-lg"></i>
-                        <Dropdown
-                            key={routine.id}
-                            isOpen={selectedRoutineId === routine.id}
-                            onClose={() => setSelectedRoutineId(null)}
-                            options={[
-                                {
-                                    label: "Dar de baja",
-                                    action: () => handleModalConfirm("cancel"),
-                                },
-                                {
-                                    label: "Renovar membresía",
-                                    action: () => handleModalConfirm("renew"),
-                                },
-                            ]}
-                            blockNextClickRef={ignoreNextCardClick}
-                        />
-                    </div>
+                    <EditAssignedRoutineDropdown
+                        routineId={_id}
+                        selectedRoutineId={selectedRoutineId}
+                        setSelectedRoutineId={setSelectedRoutineId}
+                        onAction={handleModalConfirm}
+                        blockNextClickRef={ignoreNextCardClick}
+                        routineName={routine_id.name}
+                    />
                 )}
             </div>
         </div>

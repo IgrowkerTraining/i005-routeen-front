@@ -35,7 +35,6 @@ export default function CompleteProfile() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
-        // Validaciones básicas, validar con zod
         if (!name.trim()) {
             setError("El nombre es requerido")
             return
@@ -62,7 +61,6 @@ export default function CompleteProfile() {
         }
 
         try {
-            // Convertir formato de fecha de DD/MM/AAAA a AAAA-MM-DD
             let formattedDate = birthday
             if (birthday && birthday.includes('/')) {
                 const [day, month, year] = birthday.split('/')
@@ -78,7 +76,7 @@ export default function CompleteProfile() {
                 date_birth: formattedDate,
                 file: image
             })
-            actions.showToast(5)
+            actions.showToast(14)
 
             navigate("/login", { state: { rol: "trainer" } })
         } catch (err: any) {
@@ -88,7 +86,6 @@ export default function CompleteProfile() {
                 status: err.response?.status,
                 config: err.config
             })
-            // Mostrar mensaje de error más específico si está disponible
             const errorMessage = err.response?.data || "Error al enviar el formulario"
             setError(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage))
         }

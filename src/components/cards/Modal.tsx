@@ -20,13 +20,12 @@ const Dropdown: React.FC<DropdownProps> = ({ isOpen, onClose, options, title = '
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-                e.stopPropagation(); // ← IMPORTANTE: evita que el click llegue al card
+                e.stopPropagation()
                 onClose();
             }
             if (blockNextClickRef) {
                 blockNextClickRef.current = true; // ← señalamos que el siguiente clic debe ignorarse
             }
-            onClose();
         };
 
         if (isOpen) {
