@@ -45,6 +45,7 @@ export default function RoutineAssignedCard({
             ignoreNextCardClick.current = false;
             return;
         }
+        console.log(id)
         navigate(`/routine/${id}`);
     };
 
@@ -52,7 +53,7 @@ export default function RoutineAssignedCard({
         <div
             onClick={() =>
                 user?.role === "trainer"
-                    ? handleCardClick(routine_id._id)
+                    ? handleCardClick(routine_id._id) 
                     : handleCardClick(routine._id)
             }
             className="flex items-center w-full bg-notwhite-400 px-4 shadow-md py-2 relative cursor-pointer min-h-[80px]"

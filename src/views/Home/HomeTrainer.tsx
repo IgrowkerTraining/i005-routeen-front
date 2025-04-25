@@ -38,26 +38,6 @@ export default function HomeTrainer() {
     fetchAthletes()
   }, [])
 
-  /*  useEffect(() => {
-     const fetchAthletes = async () => {
-       try {
-         const tokenData = await getTokenData()
- 
-         if (tokenData?.role === "trainer") {
-           const res = await getAthletes({ trainer_id: tokenData.id })
-           setAthletes(res)
-           setFilteredAthletes(res)
-         } else {
-           console.error("El usuario no es entrenador o no tiene sesión activa")
-         }
-       } catch (err) {
-         console.error("Error al obtener atletas:", err)
-       }
-     }
- 
-     fetchAthletes()
-   }, []) */
-
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setSearch(value)

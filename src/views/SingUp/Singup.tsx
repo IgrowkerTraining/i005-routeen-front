@@ -16,7 +16,12 @@ export function SignUp() {
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-    };
+    }
+
+    const validatePassword = (password: string) => {
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return passwordRegex.test(password);
+    }
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -27,9 +32,8 @@ export function SignUp() {
             return;
         }
 
-        if (password.length < 8) {
-            setError("La contraseña debe tener al menos 8 caracteres");
-            return;
+        if (!validatePassword(password)) {
+            return setError("La contraseña debe tener al menos 8 caracteres, una letra, un número y un carácter especial.");
         }
 
         if (password !== passwordRepeat) {
@@ -38,11 +42,11 @@ export function SignUp() {
         }
 
         try {
-            saveRegisterCredentials({ email, password, repeat_password: passwordRepeat })
-            navigate("/complete-profile")
-        } catch (err) {
-            console.error("Error en el registro:", err)
-            setError("Error al registrar el usuario")
+            await saveRegisterCredentials({ email, password, repeat_password: passwordRepeat });
+            navigate("/complete-profile");
+        } catch (err: any) {
+            console.error("Error en el guardado de registro:", err);
+            setError("Ocurrió un error al guardar los datos. Por favor, intenta de nuevo.");
         }
     }
 
@@ -54,8 +58,8 @@ export function SignUp() {
                     <h2 className="font-semibold flex-1 text-center text-md">Crear cuenta</h2>
                 </header>
 
-                <main className="p-6 sm:p-0">
-                    <p className="mb-4 text-gray-700">
+                <main className="sm:p-0">
+                    <p className="mb-4 text-gray-700 pb-3">
                         Antes de comenzar completa la información de tu cuenta:
                     </p>
                     <form className="flex flex-col gap-4 items-center w-full" onSubmit={handleRegister}>
@@ -83,17 +87,15 @@ export function SignUp() {
                             onChange={(e) => setPasswordRepeat(e.target.value)}
                             label
                         />
-
                         {error && (
-                            <p className="text-red-500 text-sm">{error}</p>
+                            <div className="flex items-center gap-2 p-3 mb-2 text-red-700 bg-red-100 border border-red-300 rounded-lg text-sm w-full transition-all duration-300 animate-fade-in">
+                                <i className="bi bi-exclamation-circle-fill text-lg"></i>
+                                <span>{error}</span>
+                            </div>
                         )}
 
-                        <div className="flex justify-center w-full">
-                            <Button
-                                submit
-                                text="Siguiente"
-                                variant="primary"
-                            />
+                        <div className="flex flex-col gap-4 w-full">
+                            <Button submit text="Siguiente" variant="primary" />
                         </div>
                     </form>
                 </main>

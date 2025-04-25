@@ -3,8 +3,7 @@ import axios from "../../api/axiosInstance";
 const SendExerciseDone = async (athleteId: string, routineId: string) => {
 
   try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_API_URL}athlete/${athleteId}/routineAssigned/${routineId}/exerciseHistory`,
+    const res = await axios.post(`athlete/${athleteId}/routineAssigned/${routineId}/exerciseHistory`,
       { withCredentials: true }
     );
 

@@ -6,7 +6,6 @@ import { AppRouter } from './router.tsx'
 import { AuthProvider } from './store/AuthContext.tsx'
 import { RoutineProvider } from './store/RoutineContext.tsx'
 import { BrowserRouter } from 'react-router-dom'
-import { RoutinesDProvider } from './store/RoutinesContextD.tsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -14,11 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <AppProvider>
         <RoutineProvider>
-          <RoutinesDProvider>
             <AuthProvider>
               <AppRouter />
             </AuthProvider>
-          </RoutinesDProvider>
         </RoutineProvider>
       </AppProvider>
     </BrowserRouter>
