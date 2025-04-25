@@ -41,7 +41,7 @@ export function AppRouter() {
         <Route path="/library/create" element={<CreateRoutineForm />} />
         <Route path="/library/create/:id" element={<RoutineOverview />} />
         <Route path="/library/create/:id/add" element={<AddExerciseToRoutine />} />
-        
+ 
 
       </Route>
     </Routes>
