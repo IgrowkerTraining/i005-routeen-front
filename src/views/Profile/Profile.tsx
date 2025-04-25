@@ -1,4 +1,3 @@
-import AthleteProfile from "./AthleteProfile"
 import { useAuth } from "../../store/AuthContext"
 import { Navigate } from "react-router-dom"
 import TrainerProfile from "./TrainerProfile";
