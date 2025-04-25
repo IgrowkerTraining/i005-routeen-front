@@ -1,5 +1,4 @@
 import { useContext, createContext, useState, ReactNode, useCallback } from "react";
-import { athletesMock } from "../mocks/athletes";
 import { Athlete, ToastMessage } from "../types";
 import { ToastNotifier } from "../components/Notifier/Notifier";
 
@@ -15,7 +14,6 @@ interface AppContextType {
   actions: {
     showToast: (id: number) => void;
     removeToast: (id: number) => void;
-    searchStudents: (term: string) => void;
     setNewAthleteId: (id: string) => void;
     setAthletePhone: (phone: string) => void;
     setAthleteName: (name: string) => void;
@@ -48,7 +46,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     { id: 14, type: "info", message: "Usuario registrado correctamente.", isVisible: false },
   ]);
 
-  const [athletes, setAthletes] = useState<Athlete[]>(athletesMock);
+  const [athletes, setAthletes] = useState<Athlete[]>([])
   const [newAthleteId, setNewAthleteIdState] = useState<string | null>(null);
   const [athletePhone, setAthletePhone] = useState<string | null>(null);
   const [athleteName, setAthleteNameState] = useState<string | null>(null);
@@ -70,16 +68,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     );
   }, []);
 
-  const searchStudents = useCallback((term: string) => {
-    if (!term) {
-      setAthletes(athletesMock);
-      return;
-    }
-    const filteredStudents = athletes.filter(athlete =>
-      athlete.name.toLowerCase().includes(term.toLowerCase())
-    );
-    setAthletes(filteredStudents);
-  }, [athletes]);
+ 
 
   const updateAthletes = useCallback((newAthletes: Athlete[]) => {
     setAthletes(newAthletes);
@@ -101,7 +90,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const actions = {
     showToast,
     removeToast,
-    searchStudents,
     setNewAthleteId,
     setAthletePhone,
     setAthleteName,

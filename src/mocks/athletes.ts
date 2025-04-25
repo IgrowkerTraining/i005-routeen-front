@@ -1,4 +1,4 @@
-import { Athlete } from "../types";
+/* import { Athlete } from "../types";
 
 export const athletesMock: Athlete[] = [
     {
@@ -41,4 +41,4 @@ export const athletesMock: Athlete[] = [
         name: "Ethan Foster",
         avatar:"/images/users/Imagen_perfil-8.png",
     }
-]
+] */
