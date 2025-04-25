@@ -51,7 +51,7 @@ export interface Routine {
   difficulty: string;
   duration: string;
   id: string;
-  reatedAt: string;
+  createdAt: string;
   routine_id: {
     _id: string,
     name: string,

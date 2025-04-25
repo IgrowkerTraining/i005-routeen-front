@@ -88,7 +88,7 @@ export const AddExerciseToRoutine = () => {
             <i className="bi bi-arrow-left text-2xl text-notblack-400" />
           </button>
           <h2 className="text-lg font-bold text-notblack-400">
-            {routine?.name || "[Nombre de la rutina]"}
+            {routine?.name}
           </h2>
         </div>
       </div>

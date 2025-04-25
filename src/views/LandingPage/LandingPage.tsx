@@ -16,7 +16,7 @@ export const LandingPage = () => {
     const handleRoleSelection = (rol: 'trainer' | 'athlete') => {
 
         navigate('/login', { state: { rol }, replace: true })
-    }
+    };
 
     return (
         <div className={styles.landing_container}>

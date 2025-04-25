@@ -73,8 +73,12 @@ export default function LoginTrainer() {
           />
         </div>
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-
+        {error && (
+          <div className="flex items-center gap-2 p-3 mb-2 text-red-700 bg-red-100 border border-red-300 rounded-lg text-sm w-full transition-all duration-300 animate-fade-in">
+            <i className="bi bi-exclamation-circle-fill text-lg"></i>
+            <span>{error}</span>
+          </div>
+        )}
         <div className="flex flex-col gap-4 w-full">
           <Button submit text="Iniciar sesión" variant="primary" />
         </div>

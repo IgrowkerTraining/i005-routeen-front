@@ -85,9 +85,21 @@ export default function CompleteProfile() {
                 response: err.response?.data,
                 status: err.response?.status,
                 config: err.config
-            })
-            const errorMessage = err.response?.data || "Error al enviar el formulario"
-            setError(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage))
+            });
+
+            let errorMessage = "Error al enviar el formulario";
+
+            if (err.response?.data) {
+                if (typeof err.response.data === "string") {
+                    errorMessage = err.response.data;
+                } else if (err.response.data.error) {
+                    errorMessage = err.response.data.error;
+                } else if (err.response.data.message) {
+                    errorMessage = err.response.data.message;
+                }
+            }
+
+            setError(errorMessage);
         }
     }
 
@@ -139,9 +151,16 @@ export default function CompleteProfile() {
                     />
                 </section>
 
-                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {error && (
+                    <div className="flex items-center gap-2 p-3 mb-2 text-red-700 bg-red-100 border border-red-300 rounded-lg text-sm w-full transition-all duration-300 animate-fade-in">
+                        <i className="bi bi-exclamation-circle-fill text-lg"></i>
+                        <span>{error}</span>
+                    </div>
+                )}
 
+                <div className="flex flex-col gap-4 w-full">
                 <Button submit text="Siguiente" variant="primary" className="mt-4" />
+                </div>
             </form>
         </div>
     )
