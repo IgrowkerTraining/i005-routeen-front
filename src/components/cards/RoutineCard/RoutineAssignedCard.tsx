@@ -1,10 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { RoutineAssigned } from "../../../logic/interfaces/trainer";
-import { useAuth } from "../../../store/AuthContext";
 import deleteAssignedRoutine from "../../../logic/routines-exercices/deleteAssignedRoutine";
 import EditAssignedRoutineDropdown from "./EditAssignedRoutineDropdown";
-
 
 interface RoutineAssignedCardProps {
     routine: RoutineAssigned;
@@ -20,7 +18,6 @@ export default function RoutineAssignedCard({
     const [selectedRoutineId, setSelectedRoutineId] = useState<string | null>(null);
     const ignoreNextCardClick = useRef(false);
 
-    const { user } = useAuth();
     const navigate = useNavigate();
     const { routine_id, _id } = routine;
 
@@ -36,28 +33,23 @@ export default function RoutineAssignedCard({
                 console.error("Error eliminando rutina:", err);
             }
         } else if (action === "replace") {
+            // lógica futura
         } else if (action === "change-date") {
+            // lógica futura
         }
     };
 
-    const handleCardClick = (routineId: string) => {
+    const handleCardClick = (id: string) => {
         if (ignoreNextCardClick.current) {
             ignoreNextCardClick.current = false;
             return;
         }
-      
- const targetId =
-      user?.role === "trainer" ? routine_id._id : _id;
-    navigate(`/routine/${targetId}`);
-  }
+        navigate(`/routine/${id}`);
+    };
 
     return (
         <div
-        onClick={() =>
-            user?.role === "trainer"
-                ? handleCardClick(routine_id._id)  
-                : handleCardClick(routine._id)     
-        }
+            onClick={() => handleCardClick(routine_id._id)}
             className="flex items-center w-full bg-notwhite-400 px-4 shadow-md py-2 relative cursor-pointer min-h-[80px]"
         >
             <div className="flex items-center justify-between w-full">
