@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import getExerciseHistory from '../../logic/athlete/getExerciseHistory'
 
 type ExerciseEntry = {
   id: string
@@ -18,60 +19,21 @@ export default function Progress({ athleteId }: Props) {
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    //TODO hacer una solicitud a la base de datos
     const fetchProgress = async () => {
-      const mockData: ExerciseEntry[] = [
-        {
-          id: '1',
-          name: 'Press Banca',
-          date: '2025-04-10',
-          sets: 3,
-          reps: 10,
-          weight: 80,
-        },
-        {
-          id: '4',
-          name: 'Press Banca',
-          date: '2025-04-17',
-          sets: 3,
-          reps: 10,
-          weight: 100,
-        },
-        {
-          id: '2',
-          name: 'Sentadilla',
-          date: '2025-04-08',
-          sets: 4,
-          reps: 8,
-          weight: 100,
-        },
-        {
-          id: '5',
-          name: 'Sentadilla',
-          date: '2025-04-02',
-          sets: 4,
-          reps: 8,
-          weight: 90,
-        },
-        {
-          id: '3',
-          name: 'Peso Muerto',
-          date: '2025-04-07',
-          sets: 3,
-          reps: 6,
-          weight: 120,
-        },
-        {
-          id: '6',
-          name: 'Peso Muerto',
-          date: '2025-04-01',
-          sets: 3,
-          reps: 6,
-          weight: 110,
-        },
-      ]
-
-      setEntries(mockData)
+      try {
+        const data = await getExerciseHistory(athleteId)
+        const enriched: ExerciseEntry[] = data.history.map((entry: any) => ({
+          id: entry._id,
+          name: entry.exercise_id.name,
+          date: entry.date,
+          sets: entry.series,
+          reps: entry.reps,
+          weight: entry.weight_kg,
+        }))
+        setEntries(enriched)
+      } catch (error) {
+        console.error('Error fetching exercise history:', error)
+      }
     }
 
     fetchProgress()
