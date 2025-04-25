@@ -1,119 +1,114 @@
-import {  ChevronDown} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import "./Calendar.css";
 
 interface propCalendar {
-  selectedDate: (modal: boolean, date?: string) => void
-  maxDate?: string
-  value?: string
-  allowPastDates?: boolean
+  selectedDate: (modal: boolean, date?: string) => void;
+  maxDate?: string;
+  value?: string;
+  allowPastDates?: boolean;
 }
 
-export default function Calendar({ selectedDate, maxDate, value, allowPastDates }: propCalendar) {
-  const [currentDate, setCurrentDate] = useState<Date>(value ? new Date(value.split('/').reverse().join('-')) : new Date())
-  const [showMonthSelector, setShowMonthSelector] = useState<boolean>(false)
-  const [showYearSelector, setShowYearSelector] = useState<boolean>(false)
+export default function Calendar({ selectedDate, maxDate, value, allowPastDates = true }: propCalendar) {
+  const [currentDate, setCurrentDate] = useState<Date>(value ? new Date(value.split("/").reverse().join("-")) : new Date());
+  const [showMonthSelector, setShowMonthSelector] = useState(false);
+  const [showYearSelector, setShowYearSelector] = useState(false);
 
-  const maxDateTime = maxDate ? new Date(maxDate) : new Date()
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const maxDateTime = maxDate ? new Date(maxDate) : null;
 
   useEffect(() => {
     if (value) {
-      const [day, month, year] = value.split('/')
-      setCurrentDate(new Date(`${year}-${month}-${day}`))
+      const [day, month, year] = value.split("/");
+      setCurrentDate(new Date(`${year}-${month}-${day}`));
     }
-  }, [value])
+  }, [value]);
 
-  const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ]
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   const generateYears = () => {
-    const currentYear = maxDateTime.getFullYear()
-    const years = []
-    for (let year = 1970; year <= currentYear; year++) {
-      years.push(year)
+    const currentYear = new Date().getFullYear();
+    const limitYear = maxDateTime ? maxDateTime.getFullYear() : currentYear + 10;
+    const years = [];
+    for (let year = 1970; year <= limitYear; year++) {
+      years.push(year);
     }
-    return years.reverse()
-  }
+    return years;
+  };
 
   const isDateDisabled = (date: Date) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    date.setHours(0, 0, 0, 0); // importante: comparar fechas a medianoche
-  
-    if (allowPastDates === false && date < today) return true;
-    if (allowPastDates === true && date > today) return true;
+    date.setHours(0, 0, 0, 0);
+    if (!allowPastDates && date < today) return true;
+    if (allowPastDates && maxDateTime && date > maxDateTime) return true;
     return false;
-  }
+  };
 
   const selectMonth = (monthIndex: number) => {
-    const newDate = new Date(currentDate)
-    newDate.setMonth(monthIndex)
-    if (newDate > maxDateTime) return
-    setCurrentDate(newDate)
-    setShowMonthSelector(false)
-  }
+    const newDate = new Date(currentDate);
+    newDate.setMonth(monthIndex);
+    setCurrentDate(newDate);
+    setShowMonthSelector(false);
+  };
 
   const selectYear = (year: number) => {
-    const newDate = new Date(currentDate)
-    newDate.setFullYear(year)
-    if (newDate > maxDateTime) return
-    setCurrentDate(newDate)
-    setShowYearSelector(false)
-  }
+    const newDate = new Date(currentDate);
+    newDate.setFullYear(year);
+    setCurrentDate(newDate);
+    setShowYearSelector(false);
+  };
 
   const formatDate = (date: Date) => {
-    const day = String(date.getDate()).padStart(2, "0")
-    const month = String(date.getMonth() + 1).padStart(2, "0")
-    const year = date.getFullYear()
-    return `${day}/${month}/${year}`
-  }
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
 
   const generateDays = () => {
-    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
-    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay()
-    const days = []
-    const offset = firstDayOfMonth === 0 ? 0 : firstDayOfMonth
+    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+    const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+    const offset = firstDayOfMonth === 0 ? 0 : firstDayOfMonth;
+    const days = [];
 
     for (let i = 0; i < offset; i++) {
-      days.push(<div key={`empty-${i}`} className="day empty"></div>)
+      days.push(<div key={`empty-${i}`} className="day empty"></div>);
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
-      const currentDateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-      const isDisabled = isDateDisabled(currentDateToCheck)
-      const isToday = new Date().toDateString() === currentDateToCheck.toDateString()
-      const isSelected = value && formatDate(currentDateToCheck) === value
+      const currentDateToCheck = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+      const isDisabled = isDateDisabled(currentDateToCheck);
+      const isToday = today.toDateString() === currentDateToCheck.toDateString();
+      const isSelected = value && formatDate(currentDateToCheck) === value;
 
       days.push(
         <div
           key={day}
           onClick={() => {
             if (!isDisabled) {
-              const selected = new Date(currentDate.getFullYear(), currentDate.getMonth(), day)
-              selectedDate(false, formatDate(selected))
+              selectedDate(false, formatDate(currentDateToCheck));
             }
           }}
           className={`grid place-items-center h-10 w-10 cursor-pointer rounded-full text-sm
-            ${isDisabled ? 'opacity-50 cursor-not-allowed text-gray-400' : 'hover:bg-primary hover:text-notblack-400'}
-            ${isToday ? 'bg-primary font-bold' : ''}
-            ${isSelected ? 'bg-gray-400 font-bold rounded-full text-accent-400' : ''}`}
+            ${isDisabled ? "opacity-50 cursor-not-allowed text-gray-400" : "hover:bg-primary hover:text-notblack-400"}
+            ${isToday ? "bg-primary font-bold" : ""}
+            ${isSelected ? "bg-gray-400 font-bold rounded-full text-accent-400" : ""}`}
         >
           {day}
         </div>
-      )
+      );
     }
 
-    const totalCells = Math.ceil((daysInMonth + offset) / 7) * 7
-    const emptyCells = totalCells - days.length
+    const totalCells = Math.ceil((daysInMonth + offset) / 7) * 7;
+    const emptyCells = totalCells - days.length;
 
     for (let i = 0; i < emptyCells; i++) {
-      days.push(<div key={`empty-end-${i}`} className="day empty"></div>)
+      days.push(<div key={`empty-end-${i}`} className="day empty"></div>);
     }
 
-    return days
-  }
+    return days;
+  };
 
   return (
     <article className="bg-white rounded-lg shadow-lg p-4 absolute top-full mt-1 z-50 w-[320px]">
@@ -122,8 +117,8 @@ export default function Calendar({ selectedDate, maxDate, value, allowPastDates 
           <div className="relative">
             <button
               onClick={() => {
-                setShowMonthSelector(!showMonthSelector)
-                setShowYearSelector(false)
+                setShowMonthSelector(!showMonthSelector);
+                setShowYearSelector(false);
               }}
               className="text-gray-700 font-medium hover:text-primary flex items-center gap-1"
             >
@@ -137,7 +132,7 @@ export default function Calendar({ selectedDate, maxDate, value, allowPastDates 
                     key={`month-${month}`}
                     onClick={() => selectMonth(index)}
                     className={`p-2 hover:bg-primary hover:font-bold hover:text-primary-400 rounded text-sm
-                      ${currentDate.getMonth() === index ? 'bg-primary text-primary-400 font-bold' : ''}`}
+                      ${currentDate.getMonth() === index ? "bg-primary text-primary-400 font-bold" : ""}`}
                   >
                     {month}
                   </button>
@@ -148,8 +143,8 @@ export default function Calendar({ selectedDate, maxDate, value, allowPastDates 
           <div className="relative">
             <button
               onClick={() => {
-                setShowYearSelector(!showYearSelector)
-                setShowMonthSelector(false)
+                setShowYearSelector(!showYearSelector);
+                setShowMonthSelector(false);
               }}
               className="text-gray-700 font-medium hover:text-primary flex items-center gap-1"
             >
@@ -163,7 +158,7 @@ export default function Calendar({ selectedDate, maxDate, value, allowPastDates 
                     key={`year-${year}`}
                     onClick={() => selectYear(year)}
                     className={`p-2 hover:bg-primary hover:font-bold hover:text-primary-400 rounded text-sm w-full text-left
-                      ${currentDate.getFullYear() === year ? 'bg-primary font-bold text-primary-400' : ''}`}
+                      ${currentDate.getFullYear() === year ? "bg-primary font-bold text-primary-400" : ""}`}
                   >
                     {year}
                   </button>
@@ -201,5 +196,5 @@ export default function Calendar({ selectedDate, maxDate, value, allowPastDates 
         </button>
       </footer>
     </article>
-  )
+  );
 }

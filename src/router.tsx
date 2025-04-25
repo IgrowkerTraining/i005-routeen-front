@@ -15,6 +15,7 @@ import { AddNewRoutine } from './views/athleteOverview/AddNewRoutine'
 import { RoutineCardDetails } from './components/cards/RoutineCard/RoutineCardDetails'
 import TrainerProfileEdit from './views/Profile/TrainerProfileEdit'
 import { Congratulations } from './components/cards/RoutineCard/Congratulations'
+import AthleteProfile from './views/Profile/AthleteProfile'
 
 export function AppRouter() {
 
@@ -25,6 +26,7 @@ export function AppRouter() {
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/edit-athlete" element={<AthleteProfile />} />
           <Route path="/edit-profile/:id" element={<TrainerProfileEdit />} />
           <Route path="/welcome" element={<LandingPage />} index />
           <Route path="/complete-profile" element={<CompleteProfile />} />
