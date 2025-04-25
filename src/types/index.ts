@@ -11,7 +11,7 @@ export type Athlete = {
   gender: "male" | "female";
   injuries: string;
   trainer_id: string;
-  avatar: string;
+  profile_picture: string;
 };
 
 export type Exercise = {

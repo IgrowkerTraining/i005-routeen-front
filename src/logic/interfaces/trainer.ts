@@ -15,6 +15,7 @@ export interface TrainerBasic {
   role: 'trainer'
 }
 
+
 export interface TrainerId {
   trainer_id: string
 }
@@ -39,6 +40,7 @@ export interface RoutineAssigned {
   assignment_date: string
   _id: string
   name: string;
+  id: string;
 }
 
 export interface Routine {
@@ -49,5 +51,26 @@ export interface Routine {
   difficulty: string;
   duration: string;
   id: string;
-  createdAt: string;
+  reatedAt: string;
+  routine_id: {
+    _id: string,
+    name: string,
+    description: string,
+    difficulty: string,
+    duration: string
+  }
 }
+
+
+
+
+
+/* export interface Routine {
+  _id: string;
+  name: string;
+  description: string;
+  trainer_id: string;
+  difficulty: string;
+  duration: string;
+  id: string;
+  createdAt: string; */

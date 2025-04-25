@@ -5,9 +5,11 @@ import RoutineAssignedCard from '../../components/cards/RoutineCard/RoutineAssig
 import { RoutineAssigned } from '../../logic/interfaces/trainer'
 import Progress from '../../components/Progress/Progress'
 import getRoutinesByAthleteId from '../../logic/trainer/getRoutinesByAthleteId'
+import useAppContext from '../../store/AppContext'
 
 export default function HomeAthlete() {
   const { fetchRoutine } = useRoutineContext()
+  const { actions, store } = useAppContext()
   const [athleteId, setAthleteId] = useState<string>("")
   const [activeTab, setActiveTab] = useState<'plan' | 'progress'>('plan')
   const [routines, setRoutines] = useState<RoutineAssigned[]>([])
@@ -17,11 +19,12 @@ export default function HomeAthlete() {
       const tokenData = await getTokenData()
       if (tokenData?.role === 'athlete') {
         setAthleteId(tokenData.id)
+        localStorage.setItem("user_id", tokenData.id)
         fetchRoutine(tokenData.id)
       }
     }
     fetchData()
-  }, [fetchRoutine])
+  }, [fetchRoutine, actions])
 
   useEffect(() => {
     const fetchRoutines = async () => {
@@ -65,7 +68,7 @@ export default function HomeAthlete() {
         <section className="flex flex-col gap-4">
           {routinesToday.length > 0 ? (
             routinesToday.map((routine) => (
-              <RoutineAssignedCard key={routine._id} routine={routine} />
+              <RoutineAssignedCard key={routine.id} routine={routine} />
             ))
           ) : (
             <p className="text-center text-gray-500 font-medium">
