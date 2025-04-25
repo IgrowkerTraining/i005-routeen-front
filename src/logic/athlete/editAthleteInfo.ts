@@ -6,7 +6,7 @@ type AthleteData = {
   email: string
   phone: string
   date_birth: string
-  goal?: string
+  goals?: string
   gender?: string
   height?: string
   weight?: string

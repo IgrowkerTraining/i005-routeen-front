@@ -29,7 +29,7 @@ export default function ViewProfileAthlete() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 space-y-6">
       <img
-        src={athleta?.profile_picture}
+        src={athleta?.profile_picture_url}
         alt="Foto de perfil"
         className="w-28 h-28 rounded-full object-cover shadow-md"
       />

@@ -1,5 +1,5 @@
 import { useEffect, useState, ChangeEvent, FormEvent } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { BookmarkIcon } from 'lucide-react'
 import { z } from 'zod'
 import { Trainer } from '../../logic/interfaces/trainer'
@@ -14,6 +14,7 @@ const trainerSchema = z.object({
 })
 
 export default function TrainerProfileEdit() {
+  const navigate = useNavigate()
   const { id: trainerId } = useParams()
   const [formData, setFormData] = useState({
     name: '',
@@ -75,7 +76,7 @@ export default function TrainerProfileEdit() {
     try {
       if (!trainerId) throw new Error('ID de entrenador no disponible')
 
-      const response = await editTrainerInfo({
+      await editTrainerInfo({
         id: trainerId,
         name: formData.name,
         email: formData.email,
@@ -84,7 +85,7 @@ export default function TrainerProfileEdit() {
         file: formData.file
       })
 
-      console.log('Datos actualizados correctamente:', response)
+      navigate('/profile')
       // Puedes navegar o mostrar notificación aquí si quieres
     } catch (error) {
       console.error('Error al actualizar los datos:', error)

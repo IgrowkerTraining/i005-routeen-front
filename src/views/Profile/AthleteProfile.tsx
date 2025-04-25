@@ -6,26 +6,46 @@ import { z } from 'zod'
 import editAthleteInfo from '../../logic/athlete/editAthleteInfo'
 import getAthleteInfo from '../../logic/athlete/getAthleteInfo'
 import getTokenData from '../../logic/auth/getTokenData'
+import { useNavigate } from 'react-router-dom'
 
 const schema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio'),
   birthday: z.string().min(1, 'La fecha de nacimiento es obligatoria'),
   phone: z.string().min(6, 'Teléfono inválido'),
   mail: z.string().email('Email inválido'),
-  goal: z.string().optional(),
+  goals: z.string().optional(),
   gender: z.string().optional(),
-  height: z.string().regex(/^\d+$/, 'Altura debe ser un número'),
-  weight: z.string().regex(/^\d+$/, 'Peso debe ser un número'),
+  height: z.string()
+    .min(1, 'La altura es obligatoria')
+    .transform((val) => parseInt(val, 10))
+    .refine((val) => val >= 55 && val <= 250, {
+      message: 'La altura debe estar entre 55 y 250 cm',
+    }),
+  weight: z.string().min(1, 'La altura es obligatoria')
+    .transform((val) => parseInt(val, 10))
+    .refine((val) => val >= 40 && val <= 300, {
+      message: 'El peso debe estar entre 40 y 300 kg',
+    }),
   injuries: z.string().optional(),
 })
 
+const formatDateToISO = (dateStr: string) => {
+  const parts = dateStr.split('/')
+  if (parts.length === 3) {
+    const [day, month, year] = parts
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+  }
+  return dateStr
+}
+
 export default function AthleteProfile() {
+  const navigate = useNavigate()
   const [athleteId, setAthleteId] = useState<string | null>(null)
   const [name, setName] = useState('')
   const [dateBirth, setDateBirth] = useState('')
   const [phone, setPhone] = useState('')
   const [mail, setMail] = useState('')
-  const [goal, setGoal] = useState('')
+  const [goals, setGoals] = useState('')
   const [gender, setGender] = useState('')
   const [height, setHeight] = useState('')
   const [weight, setWeight] = useState('')
@@ -48,7 +68,7 @@ export default function AthleteProfile() {
           setMail(data.email || '')
           setDateBirth(data.date_birth || '')
           setPhone(data.phone.replace(/^whatsapp:/, '').trim() || '')
-          setGoal(data.goals || '')
+          setGoals(data.goals || '')
           setGender(data.gender || '')
           setHeight(data.height || '')
           setWeight(data.weight || '')
@@ -68,10 +88,10 @@ export default function AthleteProfile() {
 
     const formValues = {
       name,
-      birthday: dateBirth,
+      birthday: formatDateToISO(dateBirth),
       phone,
       mail,
-      goal,
+      goals,
       gender,
       height,
       weight,
@@ -104,8 +124,8 @@ export default function AthleteProfile() {
         name,
         email: mail,
         phone,
-        date_birth: dateBirth,
-        goal,
+        date_birth: formatDateToISO(dateBirth),
+        goals,
         gender,
         height,
         weight,
@@ -113,6 +133,7 @@ export default function AthleteProfile() {
         file
       })
       setSuccessMessage('Perfil actualizado correctamente ✅')
+      navigate('/profile')
     } catch (error) {
       console.error('Error al actualizar el perfil:', error)
     }
@@ -166,9 +187,7 @@ export default function AthleteProfile() {
           </label>
         </div>
 
-        {successMessage && (
-          <p className="text-green-600 font-medium mb-4">{successMessage}</p>
-        )}
+        {successMessage && <p className="text-green-600 font-medium mb-4">{successMessage}</p>}
 
         <div className="flex flex-col w-full gap-4 mt-4">
           <h2 className="text-notblack-400 font-bold">Datos personales</h2>
@@ -204,9 +223,7 @@ export default function AthleteProfile() {
             label
             showIcon
           />
-          {errors.phone && (
-            <p className="text-red-500 text-sm">{errors.phone}</p>
-          )}
+          {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
 
           <InputCalendar
             id="birthday"
@@ -215,19 +232,18 @@ export default function AthleteProfile() {
             value={dateBirth}
             isRequired
           />
-          {errors.birthday && (
-            <p className="text-red-500 text-sm">{errors.birthday}</p>
-          )}
+          {errors.birthday && <p className="text-red-500 text-sm">{errors.birthday}</p>}
 
           <Input
-            id="goal"
+            id="goals"
             type="text"
             placeholder="Objetivo"
-            value={goal}
-            onChange={(e) => setGoal(e.target.value)}
+            value={goals}
+            onChange={(e) => setGoals(e.target.value)}
             label
             showIcon
           />
+          {errors.goals && <p className="text-red-500 text-sm">{errors.goals}</p>}
 
           <h2 className="text-notblack-400 font-bold">Datos clínicos</h2>
 
@@ -242,17 +258,16 @@ export default function AthleteProfile() {
           />
 
           <Input
-            id="hight"
+            id="height"
             type="number"
             placeholder="Altura (cm)"
             value={height}
             onChange={(e) => setHeight(e.target.value)}
             label
             showIcon
+            required
           />
-          {errors.hight && (
-            <p className="text-red-500 text-sm">{errors.hight}</p>
-          )}
+          {errors.height && <p className="text-red-500 text-sm">{errors.height}</p>}
 
           <Input
             id="weight"
@@ -263,9 +278,7 @@ export default function AthleteProfile() {
             label
             showIcon
           />
-          {errors.weight && (
-            <p className="text-red-500 text-sm">{errors.weight}</p>
-          )}
+          {errors.weight && <p className="text-red-500 text-sm">{errors.weight}</p>}
 
           <Input
             id="injuries"
