@@ -85,10 +85,10 @@ export default function HomeAthlete() {
       )}
 
       <div className="mt-auto flex justify-center">
-        <button className="bg-primary-400 text-white rounded-full py-2 px-4 shadow-md hover:bg-primary-500 transition-all">
+        {/* <button className="bg-primary-400 text-white rounded-full py-2 px-4 shadow-md hover:bg-primary-500 transition-all">
           <i className="bi bi-check2-circle mr-2 text-lg"></i>
           Finalizar entrenamiento
-        </button>
+        </button> */}
       </div>
     </main>
   )
