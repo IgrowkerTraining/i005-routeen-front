@@ -8,15 +8,27 @@ type AthleteData = {
   date_birth: string
   goal?: string
   gender?: string
-  hight?: string
+  height?: string
   weight?: string
   injuries?: string
+  file?: File | null
 }
 
 const editAthleteInfo = async (data: AthleteData) => {
-  const { id, ...updateFields } = data
+  const { id, file, ...updateFields } = data
+  
+  const formData = new FormData()
+  Object.entries(updateFields).forEach(([key, value]) => {
+    if (value != null) {
+      formData.append(key, value)
+    }
+  })
 
-  const res = await axios.patch(`/athlete/${id}`, updateFields, {
+  if (file) {
+    formData.append('file', file)
+  }
+
+  const res = await axios.patch(`/athlete/${id}`, formData, {
     withCredentials: true,
     headers: {
       'Content-Type': 'multipart/form-data',

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ChangeEvent } from 'react'
 import { Button } from '../../components/Button/Button'
 import Input from '../../components/Input/Input'
 import InputCalendar from '../../components/Calendar/InputCalendar'
@@ -6,7 +6,6 @@ import { z } from 'zod'
 import editAthleteInfo from '../../logic/athlete/editAthleteInfo'
 import getAthleteInfo from '../../logic/athlete/getAthleteInfo'
 import getTokenData from '../../logic/auth/getTokenData'
-import reverseDate from '../../utils/reverseDate'
 
 const schema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio'),
@@ -15,7 +14,7 @@ const schema = z.object({
   mail: z.string().email('Email inválido'),
   goal: z.string().optional(),
   gender: z.string().optional(),
-  hight: z.string().regex(/^\d+$/, 'Altura debe ser un número'),
+  height: z.string().regex(/^\d+$/, 'Altura debe ser un número'),
   weight: z.string().regex(/^\d+$/, 'Peso debe ser un número'),
   injuries: z.string().optional(),
 })
@@ -23,14 +22,16 @@ const schema = z.object({
 export default function AthleteProfile() {
   const [athleteId, setAthleteId] = useState<string | null>(null)
   const [name, setName] = useState('')
-  const [birthday, setBirthday] = useState('')
+  const [dateBirth, setDateBirth] = useState('')
   const [phone, setPhone] = useState('')
   const [mail, setMail] = useState('')
   const [goal, setGoal] = useState('')
   const [gender, setGender] = useState('')
-  const [hight, setHight] = useState('')
+  const [height, setHeight] = useState('')
   const [weight, setWeight] = useState('')
   const [injuries, setInjuries] = useState('')
+  const [profilePicture, setProfilePicture] = useState('')
+  const [file, setFile] = useState(null as File | null)
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const [successMessage, setSuccessMessage] = useState('')
 
@@ -45,13 +46,14 @@ export default function AthleteProfile() {
           const data = await getAthleteInfo({ id })
           setName(data.name || '')
           setMail(data.email || '')
-          setPhone(data.phone || '')
-          setBirthday(data.date_birth || '')
-          setGoal(data.goal || '')
+          setDateBirth(data.date_birth || '')
+          setPhone(data.phone.replace(/^whatsapp:/, '').trim() || '')
+          setGoal(data.goals || '')
           setGender(data.gender || '')
-          setHight(data.hight || '')
+          setHeight(data.height || '')
           setWeight(data.weight || '')
           setInjuries(data.injuries || '')
+          setProfilePicture(data.profile_picture_url || '')
         } catch (error) {
           console.error('Error al obtener datos del atleta:', error)
         }
@@ -64,18 +66,17 @@ export default function AthleteProfile() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const reversedDateFormat = reverseDate(birthday)
-
     const formValues = {
       name,
-      birthday,
+      birthday: dateBirth,
       phone,
       mail,
       goal,
       gender,
-      hight,
+      height,
       weight,
       injuries,
+      file
     }
 
     const result = schema.safeParse(formValues)
@@ -103,16 +104,29 @@ export default function AthleteProfile() {
         name,
         email: mail,
         phone,
-        date_birth: reversedDateFormat,
+        date_birth: dateBirth,
         goal,
         gender,
-        hight,
+        height,
         weight,
         injuries,
+        file
       })
       setSuccessMessage('Perfil actualizado correctamente ✅')
     } catch (error) {
       console.error('Error al actualizar el perfil:', error)
+    }
+  }
+
+  const changeProfilePicture = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setFile(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setProfilePicture(reader.result as string)
+      }
+      reader.readAsDataURL(file)
     }
   }
 
@@ -122,11 +136,35 @@ export default function AthleteProfile() {
         onSubmit={handleSubmit}
         className="w-full sm:max-w-lg sm:bg-notwhite-400 sm:rounded-xl sm:shadow-lg sm:p-10"
       >
-        <section className="flex items-center w-full gap-5">
-          <h2 className="text-[40px] text-notblack-400">
-            Ingresar datos personales
-          </h2>
-        </section>
+        <div className="flex justify-center mb-6">
+          <div className="w-32 h-32 rounded-full overflow-hidden shadow-lg">
+            {profilePicture ? (
+              <img
+                src={profilePicture}
+                alt="Imagen de perfil"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <i className="bi bi-person-circle text-[132px] text-gray-400" />
+            )}
+          </div>
+        </div>
+
+        <input 
+          type="file" 
+          accept="image/*"
+          id="profile-update"
+          className="hidden"
+          onChange={changeProfilePicture}
+        />
+        <div className="flex justify-center mb-8">
+          <label
+            htmlFor="profile-update"
+            className="inline-flex items-center bg-slate-800 text-white px-5 py-2 rounded-md shadow-lg cursor-pointer hover:bg-slate-700 transition duration-300"
+          >
+            Subir foto de perfil
+          </label>
+        </div>
 
         {successMessage && (
           <p className="text-green-600 font-medium mb-4">{successMessage}</p>
@@ -173,8 +211,8 @@ export default function AthleteProfile() {
           <InputCalendar
             id="birthday"
             label="Fecha de nacimiento"
-            onChange={(e) => setBirthday(e.target.value)}
-            value={birthday}
+            onChange={(e) => setDateBirth(e.target.value)}
+            value={dateBirth}
             isRequired
           />
           {errors.birthday && (
@@ -207,8 +245,8 @@ export default function AthleteProfile() {
             id="hight"
             type="number"
             placeholder="Altura (cm)"
-            value={hight}
-            onChange={(e) => setHight(e.target.value)}
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
             label
             showIcon
           />
@@ -240,13 +278,15 @@ export default function AthleteProfile() {
           />
         </div>
 
-        <Button
-          submit
-          text="Guardar"
-          variant="primary"
-          className="mt-4"
-          icon={<i className="bi bi-bookmarks-fill"></i>}
-        />
+        <div className="flex justify-center mt-6">
+          <Button
+            submit
+            text="Guardar"
+            variant="primary"
+            className="px-6 py-2 text-white hover:bg-slate-700 rounded-md shadow-md"
+            icon={<i className="bi bi-bookmarks-fill"></i>}
+          />
+        </div>
       </form>
     </div>
   )
