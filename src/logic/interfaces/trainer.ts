@@ -34,28 +34,43 @@ export interface RegisterTrainerInput {
 }
 
 export interface RoutineAssigned {
-    routine_id: Routine
-    athlete_id: string
-    description: string
-    assignment_date: string
-    id: string
-    name: string;
-    _id: string
+  routine_id: Routine
+  athlete_id: string
+  description: string
+  assignment_date: string
+  _id: string
+  name: string;
+  id: string;
 }
 
 export interface Routine {
-    _id: string;
-    name: string;
-    description: string;
-    trainer_id: string;
-    difficulty: string;
-    duration: string;
-    id: string;
-    routine_id: {
-        _id: string,
-        name: string,
-        description: string,
-        difficulty: string,
-        duration: string
-    }
+  _id: string;
+  name: string;
+  description: string;
+  trainer_id: string;
+  difficulty: string;
+  duration: string;
+  id: string;
+  reatedAt: string;
+  routine_id: {
+    _id: string,
+    name: string,
+    description: string,
+    difficulty: string,
+    duration: string
+  }
 }
+
+
+
+
+
+/* export interface Routine {
+  _id: string;
+  name: string;
+  description: string;
+  trainer_id: string;
+  difficulty: string;
+  duration: string;
+  id: string;
+  createdAt: string; */

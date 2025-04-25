@@ -1,5 +1,5 @@
 import { CalendarDays } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "./Calendar";
 
 interface InputCalendarProps {
@@ -28,6 +28,12 @@ export default function InputCalendar({
   const [toggleCalendar, setToggleCalendar] = useState<boolean>(false)
   const [currentDate, setCurrentDate] = useState(value || "")
   const [isFocused, setIsFocused] = useState(false)
+
+  useEffect(() => {
+    if (value !== currentDate) {
+      setCurrentDate(value || "");
+    }
+  }, [value])
 
   const isActive = isFocused || (currentDate && currentDate.length > 0)
 

@@ -6,6 +6,7 @@ import getExercisesByRoutineId from "../../../logic/routines-exercices/getExerci
 import { RoutineExercise } from "../../../logic/interfaces/exercice";
 import { Routine } from "../../../logic/interfaces/trainer";
 import { useRoutineContext } from "../../../store/RoutineContext";
+import { useAuth } from "../../../store/AuthContext";
 
 
 export const TrainerRoutineCardDetails = () => {
@@ -13,6 +14,8 @@ export const TrainerRoutineCardDetails = () => {
   const [routine, setRoutine] = useState<Routine | null>(null);
   const [exercises, setExercises] = useState<RoutineExercise[]>([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+  
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,10 +29,17 @@ export const TrainerRoutineCardDetails = () => {
       return;
     }
     navigate(`/athlete/${athlete_id}/routine/new`, {
-      state: { selectedRoutineId: routine._id },
-    });
+      replace: true,
+      state: { selectedRoutineId: routine._id }
+  });
   };
-
+  +useEffect(() => {
+    if (exercises.length > 0) {
+        console.log("Exercises cargados:", exercises);
+    } else {
+        console.log("Aún no hay ejercicios cargados.");
+    }
+}, [exercises]);  
   useEffect(() => {
     if (id) {
       setRoutineId(id);
@@ -76,7 +86,14 @@ export const TrainerRoutineCardDetails = () => {
               </div>
             </div>
           ))}
-          <Button text="Agregar nueva rutina" variant="primary" onClick={handleAddRoutine} icon={<i className="bi bi-plus text-2xl"></i>} />
+          {athlete_id && user?.role === "trainer" && (
+            <Button
+              text="Agregar nueva rutina"
+              variant="primary"
+              onClick={handleAddRoutine}
+              icon={<i className="bi bi-plus text-2xl"></i>}
+            />
+          )}
         </main>
       </div>
     </div>
