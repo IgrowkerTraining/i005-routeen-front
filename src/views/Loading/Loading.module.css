@@ -1,0 +1,19 @@
+.welcome_container{
+    background-color: #f6fffc;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo_container{
+    width: 270px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    width: 100%;
+}
