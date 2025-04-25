@@ -47,20 +47,14 @@ export const AthleteRoutineCardDetails = () => {
   }, [id, userId, setExercisesFromContext, setRoutineId]);
 
   const handleDoneRoutine = async () => {
-    navigate("/congratulations");
-    // if (!routine || !id) {
-    //   console.error("Faltan datos necesarios para registrar la rutina.");
-    //   return;
-    // }
-
-    // try {
-    //   const response = await SendExerciseDone(id, routine);  
-    //   if (response) {
-    //     navigate("/congratulations");
-    //   }
-    // } catch (error) {
-    //   console.error("Error al finalizar rutina:", error);
-    // }
+    try {
+      const response = await SendExerciseDone(userId!, id!);  
+      if (response) {
+        navigate("/congratulations");
+      }
+    } catch (error) {
+      console.error("Error al finalizar rutina:", error);
+    }
   };
 
   if (loading) return <div className="text-center p-4">Cargando rutina...</div>;

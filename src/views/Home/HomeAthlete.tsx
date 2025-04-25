@@ -88,7 +88,7 @@ export default function HomeAthlete() {
         <button className="bg-primary-400 text-white rounded-full py-2 px-4 shadow-md hover:bg-primary-500 transition-all">
           <i className="bi bi-check2-circle mr-2 text-lg"></i>
           Finalizar entrenamiento
-        </button>
+        </button> 
       </div>
     </main>
   )
