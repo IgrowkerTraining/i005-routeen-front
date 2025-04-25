@@ -68,7 +68,7 @@ export default function HomeAthlete() {
         <section className="flex flex-col gap-4">
           {routinesToday.length > 0 ? (
             routinesToday.map((routine) => (
-              <RoutineAssignedCard key={routine._id} routine={routine} />
+              <RoutineAssignedCard key={routine.id} routine={routine} />
             ))
           ) : (
             <p className="text-center text-gray-500 font-medium">

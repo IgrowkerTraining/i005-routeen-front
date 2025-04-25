@@ -93,7 +93,7 @@ export function Header({ profilePicture, trainerName, userRole }: HeaderProps) {
             </Link>
             {userRole === 'trainer' && (
               <Link
-                to="/routines"
+                to="/library"
                 onClick={closeMenu}
                 className="flex items-center gap-3 px-4 py-2 text-sm text-primary-400 font-sans hover:bg-accent-400 hover:text-[#121f33] cursor-pointer"
               >
@@ -151,7 +151,7 @@ export function Header({ profilePicture, trainerName, userRole }: HeaderProps) {
             </Link>
             {userRole === 'trainer' && (
               <Link
-                to="/routines"
+                to="/library"
                 className="flex items-center gap-1.5 text-primary-400 font-sans hover:text-accent-400 whitespace-nowrap"
               >
                 <Trophy className="h-5 w-5 md:h-4 md:w-4 min-w-[16px] flex-shrink-0" />

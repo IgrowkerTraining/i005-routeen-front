@@ -49,9 +49,9 @@ export default function AthleteCard({ athletes, onClearSearch }: AthleteCardProp
                             onClick={() => handleCardClick(athlete._id)}
                         >
 
-                            {athlete.avatar ? (
+                            {athlete.profile_picture ? (
                                 <img
-                                    src={athlete.avatar}
+                                    src={athlete.profile_picture}
                                     alt={athlete.name}
                                     className="w-[55px] h-[55px] rounded-full object-cover"
                                 />
